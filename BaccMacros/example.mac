@@ -1,0 +1,90 @@
+################################################################################
+# example macro for the Bacc package
+#
+# Change log:
+# 18 March 2009 - Initial submission (Kareem)
+# 8 April 2009 - Added 1_0Detector and detectorSystem commands to the list
+#				 (Kareem)
+# 27-May-2009 - Modified this macro to be more inclusive of all possible
+#				commands, including event generation (Kareem)
+# 26-Jun-2009 - Added more event generators (Nick)
+# 28-Jul-2009 - Added lines for the output directory and turning scintillation
+#				and Cerenkov production off (Kareem)
+# 14-Sep-2009 - Added an example line for controlling the optical photon record
+#				level (Kareem)
+# 4-Jan-2010 - Added SingleDecay for single nucleus decays.(Nick)
+################################################################################
+
+/run/verbose 0
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+/process/verbose 0
+
+#	This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+#	Next are the Bacc-specific commands
+
+#	Set the output directory
+/Bacc/io/outputDir ./
+
+#	Select the kind of detector to use
+/Bacc/detector/select SimpleDetector
+#/Bacc/detector/select complexExample
+#/Bacc/detector/select emptyCryostat
+
+#	Set the muon veto (a.k.a. the water shield) on or off
+#/Bacc/detector/muonVeto on
+
+#	Update geometry
+/Bacc/detector/update
+
+#	Select the record levels of the volumes. The default record level is 0.
+
+#	These next commands demonstrate how you can set the record level of 
+#	all components with the same base name in one command, but then set the
+#	record level of individual components on a finer scale.
+#/Bacc/detector/recordLevel Top_PMT_Window 1
+#/Bacc/detector/recordLevel Top_PMT_Window_2 2
+
+#/Bacc/detector/recordLevel Bottom_PMT_Window 1
+#/Bacc/detector/recordLevel Bottom_PMT_Window_3 3
+
+/Bacc/detector/recordLevel LiquidXeTarget 2
+#/Bacc/detector/recordLevel PMTHolder 2
+#/Bacc/detector/recordLevel BottomPMTHolder 3
+
+#/Bacc/detector/recordLevelOptPhot LiquidXenon 2
+#/Bacc/detector/recordLevelOptPhot PMT_Window 2
+
+#	Set the event generation.
+
+#	This can be used in place of the regular the event generators. Be sure you
+#	know what you're doing if you're going to use commands like these.
+/gps/particle gamma
+/gps/energy 10 MeV
+/gps/position 0 0 0 cm
+/gps/ang/type iso
+
+#	This next set of commands sets the activity of the various components. As
+#	with the record level commands, you can set activities of many components
+#	with a single command, and then you can fine-tune the activity of individual
+#	components
+#/Bacc/source/set PMT_Window Th232 10 Bq
+#/Bacc/source/set Top_PMT_Window_3 AmBe 100 Bq
+#/Bacc/source/set BottomPMTHolder Th232 1 Bq
+#/Bacc/source/set PMT_Window U238 5 Bq
+#/Bacc/source/set PMT_Window Rn222 10 Bq
+# SingleDecay_A_Z for any single nucleus decay (K40, Cs137, Ba133, Co57 are below)
+#/Bacc/source/set PMT_Window SingleDecay_40_19 50 Bq
+#/Bacc/source/set PMT_Window SingleDecay_137_55 5 Bq
+#/Bacc/source/set PMT_Window SingleDecay_133_56 5 Bq
+#/Bacc/source/set PMT_Window SingleDecay_57_27 5 Bq
+
+#	Use this line to turn on or off optical photons
+/Bacc/physicsList/useOpticalProcesses false
+
+#	Use this line instead of "/run/beamOn", as there is internal bookkeeping
+#	that needs to occur before the run is started.
+/Bacc/beamOn 10000

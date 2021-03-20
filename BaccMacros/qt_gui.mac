@@ -1,0 +1,69 @@
+#
+# This file permits to customize, with commands,
+# the menu bar of the G4UIXm, G4UIQt, G4UIWin32 sessions.
+# It has no effect with G4UIterminal.
+#
+#
+# Add icons of general interest
+# This file permits to customize, with commands,
+# the icon menu bar of the G4UIQt sessions not yet implemented other UI drivers (geant4-09-05-ref-09)
+# It has no effect with G4UIterminal.
+
+# open/save icons
+/gui/addIcon "Open macro file" open /control/execute
+/gui/addIcon "Save viewer state" save /vis/viewer/save
+
+# Cursors style icons 
+/gui/addIcon "Move" move 
+/gui/addIcon "Pick" pick 
+/gui/addIcon "Zoom out" zoom_out 
+/gui/addIcon "Zoom in" zoom_in 
+/gui/addIcon "Rotate" rotate 
+
+# Surface Style icons
+# Surface Style icons
+/gui/addIcon "Hidden line removal" hidden_line_removal 
+/gui/addIcon "Hidden line and hidden surface removal" hidden_line_and_surface_removal 
+/gui/addIcon "Surfaces" solid 
+/gui/addIcon "Wireframe" wireframe 
+
+# Perspective/Ortho icons
+/gui/addIcon "Perspective" perspective 
+/gui/addIcon "Orthographic" ortho 
+#
+# File menu :
+/gui/addMenu file File
+/gui/addButton file Quit exit
+#
+# Run menu :
+/gui/addMenu run Run
+/gui/addButton run "beamOn 1" "/Bacc/beamOn 1"
+#/gui/addButton run run1 "/control/execute run1.mac"
+#
+# GPS menu :
+/gui/addMenu gps GPS
+/gui/addButton gps "e-"      "/gps/particle e-"
+/gui/addButton gps "gamma"      "/gps/particle gamma"
+/gui/addButton gps "proton"  "/gps/particle proton"
+/gui/addButton gps "neutron" "/gps/particle neutron"
+/gui/addButton gps "geantino"  "/gps/particle geantino"
+/gui/addButton gps "1 eV"  "/gps/energy 1 eV"
+/gui/addButton gps "1 keV"  "/gps/energy 1 keV"
+/gui/addButton gps "1 MeV"  "/gps/energy 1 MeV"
+/gui/addButton gps "iso"  "/gps/ang/type iso"
+/gui/addButton gps "pos 0"  "/gps/position 0 0 0"
+#
+# Physics menu :
+/gui/addMenu physics Physics 
+/gui/addButton physics "Optical On"  "/Bacc/physicsList/useOpticalProcesses 1"
+/gui/addButton physics "Optical Off"  "/Bacc/physicsList/useOpticalProcesses 0"
+#/gui/addButton physics ""  "/Bacc/physicsList/"
+#
+# Viewer menu :
+/gui/addMenu viewer Viewer
+/gui/addButton viewer "Set style surface" "/vis/viewer/set/style surface"
+/gui/addButton viewer "Set style wireframe" "/vis/viewer/set/style wireframe"
+/gui/addButton viewer "Refresh viewer" "/vis/viewer/refresh"
+/gui/addButton viewer "Update viewer (interaction or end-of-file)" "/vis/viewer/update"
+/gui/addButton viewer "Flush viewer (= refresh + update)" "/vis/viewer/flush"
+/gui/addButton viewer "Update scene" "/vis/scene/notifyHandlers"

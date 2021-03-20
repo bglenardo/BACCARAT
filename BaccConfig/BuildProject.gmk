@@ -1,0 +1,24 @@
+################################################################################
+# BuildProject.gmk
+# This configuration file Builds new project directories and set up skeleton
+# folders and files to be implemented into BACCARAT
+#
+# Change log:
+# 17 March 2016 - Let users easily build projects (Jingke)
+#
+################################################################################
+
+ALLFILES := $(shell cd BaccConfig/DummyDetector && find . -type f)
+DUMMYFILES := $(shell cd BaccConfig/DummyDetector && find . -type f -name "Dummy*")
+
+# sed in mac requires -i to be followed by something, ideally -i ''
+# sed in linux doesn't like -i '', so give it -i.bak and then delete them
+
+project:
+	@if [[ -z "$(NAME)" ]] ; then echo "usage: make project NAME=\"MyProj\""; \
+	elif [[ -d "$(NAME)" ]] ; then echo "Folder $(NAME) already exists!"; \
+	else cp -R BaccConfig/DummyDetector $(NAME); cd $(NAME); \
+	sed -i.bak -e 's/DuMmYkEy/$(NAME)/g' $(ALLFILES); \
+	find . -type f -name "*.bak" -delete; \
+	for fl in $(DUMMYFILES); do mv $${fl} $${fl/Dummy/$(NAME)}; done; \
+	echo "BACCARAT: The project $(NAME) has been built!"; fi

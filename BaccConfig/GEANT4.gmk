@@ -1,0 +1,50 @@
+################################################################################
+# GEANT4.gmk
+# Compilation support for Bacc. This file incorporates the appropriate header
+# and library switches for compilation and linking.
+#
+# Change log:
+# 18 March 2009 - Initial submission (Kareem)
+# 3 April 2009 - Added the LDFLAGS line at the end for proper linking,
+#                incorporating all the necessary libraries (Kareem)
+# 13-Aug-09 - Added the $G4INSTAL/include directory to CPPFLAGS to account for
+#			  various GEANT4 installation choices (Kareem)
+# 09-Nov-09 - Separated the G4INCLUDE directory-finding to make the compilation
+#			  compatible with both Geant4.9.4 and Geant4.9.5 (Kareem)
+#
+################################################################################
+
+# This first line gets a list of all directories in G4INSTALL/source that have
+# the word "include" in them, and prepends each with a -I. This is a way to
+# create the list of GEANT4 include directories "on the fly".
+#if [ -d $(G4INSTALL)/source ] ; then
+ifeq ($(findstring h,$(shell ls $(G4INCLUDE))),h)
+CPPFLAGS += -I$(G4INCLUDE)
+else
+CPPFLAGS += -I$(G4INCLUDE) $(addprefix -I, \
+		    $(shell find $(G4INSTALL)/source -type d | grep include))
+endif
+CPPFLAGS += -std=c++11
+
+# This next line looks in the GEANT4 library directory $G4LIB/$G4SYSTEM for all
+# files that follow the pattern lib*.a. It then replaces the initial "lib" with
+# "-l", and strips off the final ".a". This is a way to create the list of
+# GEANT4 libraries to reference "on the fly". I apologize for the sed commands
+# being so obscure. That's sed for you.
+EXTRALIBS += $(shell cd $(G4LIB)/$(G4SYSTEM); \
+		ls lib*.a 2>/dev/null | sed s/^lib/-l/ | sed 's/\(.*\)\..*/\1/' )
+
+# This next line does the same as the previous line, but for shared, rather than
+# static, libraries. This is to ensure compatiblity with any GEANT4
+# installation. If there are both shared and static libraries, this command will
+# double-reference the libraries, but that should be fine.
+EXTRALIBS += $(shell cd $(G4LIB)/$(G4SYSTEM); \
+		ls lib*.so 2>/dev/null | sed s/^lib/-l/ | sed 's/\(.*\)\..*/\1/' )
+ifeq ($(OSTYPE),"darwin")
+EXTRALIBS += $(shell cd $(G4LIB)/$(G4SYSTEM); \
+		ls lib*.dylib 2>/dev/null | sed s/^lib/-l/ | sed 's/\(.*\)\..*/\1/' )
+endif
+
+# This next line is to ensure that all required libraries are referenced during
+# linking.
+LDFLAGS += $(EXTRALIBS)

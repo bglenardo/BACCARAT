@@ -1,0 +1,238 @@
+In file included from BaccRootConverterEvent_dict.cc:12:0:
+BaccRootConverterEvent_dict.cc:75:149: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::volumeInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                     ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:75:116: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::volumeInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                    ^
+BaccRootConverterEvent_dict.cc:75:149: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::volumeInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                     ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:75:116: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::volumeInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                    ^
+BaccRootConverterEvent_dict.cc:120:158: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::primaryParticleInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                              ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:120:125: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::primaryParticleInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                             ^
+BaccRootConverterEvent_dict.cc:120:158: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::primaryParticleInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                              ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:120:125: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::primaryParticleInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                             ^
+BaccRootConverterEvent_dict.cc:165:147: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::stepInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                   ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:165:114: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::stepInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                  ^
+BaccRootConverterEvent_dict.cc:165:147: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::stepInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                   ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:165:114: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::stepInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                  ^
+BaccRootConverterEvent_dict.cc:210:148: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::trackInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                    ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:210:115: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::trackInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                   ^
+BaccRootConverterEvent_dict.cc:210:148: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::trackInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                    ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:210:115: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::trackInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                   ^
+BaccRootConverterEvent_dict.cc:253:161: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::BaccRootConverterEvent*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                                 ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:253:128: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::BaccRootConverterEvent*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                ^
+BaccRootConverterEvent_dict.cc:253:161: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::BaccRootConverterEvent*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                                 ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:253:128: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::BaccRootConverterEvent*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                ^
+BaccRootConverterEvent_dict.cc:436:155: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<volumeInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                           ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:436:122: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<volumeInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                          ^
+BaccRootConverterEvent_dict.cc:436:155: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<volumeInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                           ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:436:122: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<volumeInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                          ^
+BaccRootConverterEvent_dict.cc:499:154: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<trackInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                          ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:499:121: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<trackInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                         ^
+BaccRootConverterEvent_dict.cc:499:154: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<trackInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                          ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:499:121: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<trackInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                         ^
+BaccRootConverterEvent_dict.cc:562:153: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<stepInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                         ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:562:120: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<stepInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                        ^
+BaccRootConverterEvent_dict.cc:562:153: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<stepInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                         ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:562:120: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<stepInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                        ^
+BaccRootConverterEvent_dict.cc:625:164: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<primaryParticleInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                                    ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:625:131: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<primaryParticleInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                   ^
+BaccRootConverterEvent_dict.cc:625:164: error: pasting ")" and "_c" does not give a valid preprocessing token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<primaryParticleInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                                                    ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:33: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                 ^
+BaccRootConverterEvent_dict.cc:625:131: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const vector<primaryParticleInfo>*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                                   ^
+BaccRootConverterEvent_dict.cc:75:55: error: 'Init' was not declared in this scope
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::volumeInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                       ^
+BaccRootConverterEvent_dict.cc:75:61: error: expected ',' or ';' before '=' token
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::volumeInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                             ^
+In file included from BaccRootConverterEvent_dict.cc:12:0:
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/Rtypes.h:267:23: error: expected initializer before '_c'
+    class _NAME2_(name,_c) { public: _NAME2_(name,_c)() { if (name) { } } }
+                       ^
+/usr/gdata/cern/root_v6.08.02/toss_3_x86_64-install/include/RConfig.h:428:40: note: in definition of macro '_NAME2_'
+ #   define _NAME2_(name1,name2) name1##name2
+                                        ^
+BaccRootConverterEvent_dict.cc:75:116: note: in expansion of macro 'R__UseDummy'
+    static ::ROOT::TGenericClassInfo *_R__UNIQUE_DICT_(Init) = GenerateInitInstanceLocal((const ::volumeInfo*)0x0); R__UseDummy(_R__UNIQUE_DICT_(Init));
+                                                                                                                    ^
+BaccRootConverterEvent_dict.cc:721:1: error: expected '}' at end of input
+ }
+ ^
+make[1]: *** [BaccRootConverter] Error 1
+src/TMSDetector.cc: In member function 'void TMSDetector::InitializeDetector()':
+src/TMSDetector.cc:104:16: warning: unused variable 'BACCmanager' [-Wunused-variable]
+   BaccManager *BACCmanager = BaccManager::GetManager();
+                ^
+src/TMSDetector.cc: In member function 'virtual void TMSDetector::BuildDetector()':
+src/TMSDetector.cc:218:3: error: 'TMS_AmBeBoratedPEShield' was not declared in this scope
+   TMS_AmBeBoratedPEShield * shield_obj = new TMS_AmBeBoratedPEShield();
+   ^
+src/TMSDetector.cc:218:29: error: 'shield_obj' was not declared in this scope
+   TMS_AmBeBoratedPEShield * shield_obj = new TMS_AmBeBoratedPEShield();
+                             ^
+src/TMSDetector.cc:218:46: error: expected type-specifier before 'TMS_AmBeBoratedPEShield'
+   TMS_AmBeBoratedPEShield * shield_obj = new TMS_AmBeBoratedPEShield();
+                                              ^
+src/TMSDetector.cc:145:26: warning: unused variable 'lab_space' [-Wunused-variable]
+   BaccDetectorComponent* lab_space = new BaccDetectorComponent(0,
+                          ^
+src/TMSDetector.cc:159:27: warning: unused variable 'detector' [-Wunused-variable]
+   BaccDetectorComponent * detector = new BaccDetectorComponent(detector_rot,
+                           ^
+src/TMSDetector.cc:176:27: warning: unused variable 'lsdet1' [-Wunused-variable]
+   BaccDetectorComponent * lsdet1 = new BaccDetectorComponent(rotm_ls_1,
+                           ^
+src/TMSDetector.cc:188:27: warning: unused variable 'lsdet2' [-Wunused-variable]
+   BaccDetectorComponent * lsdet2 = new BaccDetectorComponent(rotm_ls_2,
+                           ^
+src/TMSDetector.cc:199:27: warning: unused variable 'lsdet3' [-Wunused-variable]
+   BaccDetectorComponent * lsdet3 = new BaccDetectorComponent(rotm_ls_3,
+                           ^
+src/TMSDetector.cc:210:27: warning: unused variable 'lsdet4' [-Wunused-variable]
+   BaccDetectorComponent * lsdet4 = new BaccDetectorComponent(rotm_ls_4,
+                           ^
+src/TMSDetector.cc:219:27: warning: unused variable 'water_shield' [-Wunused-variable]
+   BaccDetectorComponent * water_shield = new BaccDetectorComponent(0,
+                           ^
+src/TMSDetector.cc: At global scope:
+src/TMSDetector.cc:232:61: warning: unused parameter 'ExpHall' [-Wunused-parameter]
+ G4ThreeVector TMSDetector::SetOrigin(BaccDetectorComponent *ExpHall){
+                                                             ^
+In file included from /usr/gdata/cern/CLHEP.2311/toss_3_x86_64/install/include/CLHEP/Vector/RotationX.icc:11:0,
+                 from /usr/gdata/cern/CLHEP.2311/toss_3_x86_64/install/include/CLHEP/Vector/RotationX.h:283,
+                 from /usr/gdata/cern/CLHEP.2311/toss_3_x86_64/install/include/CLHEP/Vector/Rotation.h:30,
+                 from /usr/gapps/cern/geant4.10.02.p02/toss_3_x86_64-install/include/Geant4/G4RotationMatrix.hh:41,
+                 from /usr/gapps/cern/geant4.10.02.p02/toss_3_x86_64-install/include/Geant4/G4VPhysicalVolume.hh:54,
+                 from /usr/gapps/cern/geant4.10.02.p02/toss_3_x86_64-install/include/Geant4/G4LogicalVolume.hh:120,
+                 from src/TMSDetector.cc:23:
+/usr/gdata/cern/CLHEP.2311/toss_3_x86_64/install/include/CLHEP/Units/PhysicalConstants.h:72:21: warning: 'CLHEP::electron_charge' defined but not used [-Wunused-variable]
+ static const double electron_charge = - eplus; // see SystemOfUnits.h
+                     ^
+make[1]: *** [/g/g20/lenardo1/Simulations/BACCARAT/TMS/tmp/Linux-g++/TMS/TMSDetector.o] Error 1
+/usr/bin/ld: cannot find -lTMS
+/usr/bin/ld: cannot find -lTMS
+collect2: error: ld returned 1 exit status
+make[1]: *** [/g/g20/lenardo1/Simulations/BACCARAT/BACCARAT/bin/Linux-g++/BACCARAT] Error 1
+make: *** [makeall] Error 2

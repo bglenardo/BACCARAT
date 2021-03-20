@@ -1,0 +1,85 @@
+################################################################################
+# s2photonBomb.mac for the Bacc package
+#
+# Change log:
+# 02 Dec 2009 - Initial submission copied from example.mac (Melinda and Alex)
+# 03 Dec 2009 - Added /gps/pos/radius, uncommented optical record level
+#			    for PMT_Window, changed center and halfz to be from the liquid
+#				surface to the top grid (Melinda)
+# 17 Dec 2009 - Changed PMT optical record level to 1 (Melinda)
+# 15 Jan 2010 - Changed name to s2photonBomb.mac 
+# 05 Mar 2010 - Changed the gridWires command to on.  Options are now on/off,
+#				default is off. (Melinda)
+# 04 Feb 2012 - Changed the cylinder Z coordinate and dimension to source the
+#				photons between the liquid surface and the anode grid (Kareem)
+################################################################################
+
+/run/verbose 0
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+/process/verbose 0
+
+#/vis/open OGLIX
+#/vis/open VRML2FILE
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/scene/endOfEventAction accumulate
+#/tracking/storeTrajectory 1
+#/vis/viewer/set/viewpointVector 1 0 0 
+#/vis/viewer/set/upVector 0 0 1
+#/vis/viewer/pan 0 0.15
+#/vis/viewer/zoom 16
+
+
+#	This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+#	Next are the Bacc-specific commands
+
+#	Set the output directory
+/Bacc/io/outputDir .
+
+#	Select the kind of detector to use
+/Bacc/detector/select 1_0Detector
+
+#	Set the muon veto (a.k.a. the water shield) on or off
+/Bacc/detector/muonVeto off
+
+#	Set the cryostat stand on or off (not fully developed)
+/Bacc/detector/cryoStand off
+
+#   Set the level of grid wires:
+# wires makes individual wires inside a grid frame (optical)
+# plane places a thin sheet inside the grid frame rather than wires (background)
+# off places nothing
+/Bacc/detector/gridWires on
+
+#	Update geometry
+/Bacc/detector/update
+
+
+#	Select the record levels of the volumes. The default record level is 0.
+
+#	These next commands demonstrate how you can set the record level of 
+#	all components with the same base name in one command, but then set the
+#	record level of individual components on a finer scale.
+/Bacc/detector/recordLevelOptPhot PMT_Window 1
+
+#	Set the event generation.
+
+#	This can be used in place of the regular the event generators. Be sure you
+#	know what you're doing if you're going to use commands like these.
+/gps/particle opticalphoton
+/gps/energy 7 eV
+/gps/pos/type Volume
+/gps/pos/shape Cylinder
+/gps/pos/centre 0 0 132.5 mm
+/gps/pos/radius 0.1 mm
+/gps/pos/halfz 5 mm
+/gps/ang/type iso
+
+#	Use this line instead of "/run/beamOn", as there is internal bookkeeping
+#	that needs to occur before the run is started.
+/Bacc/beamOn 10000
+exit

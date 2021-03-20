@@ -1,0 +1,18 @@
+################################################################################
+# BuildDirs.gmk
+# Compilation support for Bacc. This file sets where the object files,
+# libraries, and executable end up. Set up the appropriate directories before
+# the architecture and common gmks are included in the various GNUmakefiles.
+#
+# Change log:
+# 18 March 2009 - Initial submission (Kareem)
+#
+################################################################################
+
+G4WORKDIR = $(shell pwd)
+G4BINDIR = $(G4WORKDIR)/bin/$(G4SYSTEM)
+G4TMPDIR = $(G4WORKDIR)/tmp/$(G4SYSTEM)
+G4LIBDIR = $(G4WORKDIR)/../BaccLibraries
+
+all:
+	@mkdir -p $(G4LIBDIR)

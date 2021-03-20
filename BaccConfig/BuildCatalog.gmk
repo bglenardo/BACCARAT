@@ -1,0 +1,52 @@
+################################################################################
+# BuildCatalog.gmk
+# This configuration file attempts to automatically detect new projects listed
+# and create the necessary source codes to enable these projects
+#
+# Change log:
+# 14 January 2016 - Add functionality to create sources codes that automatically
+#                   detect and include new projects (Jingke)
+# 9 March 2016 - Update the catalog file only when there are changes (Jingke)
+# 18 March 2016 - Exclude the DummyDetector
+#
+################################################################################
+CATALOG = src/BaccBuildCatalog.cc
+CATALOG_NEW = src/BaccBuildCatalog_new.cc
+#this is an easy way, but we have to make a convention
+#PROJINC := $(shell find .. -name "*Detector.hh" -type f -printf "%f\n" | grep -v BaccDetector.hh )
+#this is a more demanding but more realiable
+ALLHEADERS := $(shell find .. -type f -name "*.hh")
+#a detector should inherit from public BaccDetector
+PROJINC := $(shell grep -H "BaccDetector" $(ALLHEADERS) | grep "public" | awk '{print $$1}' \
+           | sed 's/:class//' | grep -v "BaccDetectorConstruction.hh" | grep -v DummyDetector \
+           | grep -v "BaccDetectorComponent.hh" | grep -v "BaccDetector.hh" )
+PROJINC := $(notdir $(PROJINC) )
+PROJDET := $(PROJINC:%.hh=% )
+
+# add an additional function to setup - to generate the catalog source code
+# using setup can convince make to ignore dependency check
+setup:: catalog
+	$(eval DIFF := $(shell diff $(CATALOG) $(CATALOG_NEW) | head -1))
+	@if [[ -z "$(DIFF)" ]] ; then rm -f $(CATALOG_NEW); \
+	else  echo "The following simulation geometries are detected:"; \
+	echo "$(PROJDET)"; mv -f $(CATALOG_NEW) $(CATALOG);\
+	find . -name BaccBuildCatalog.[od] -delete; fi
+
+catalog:
+	@echo "//The file $(CATALOG) is automatically generated. Don't edit it. (Jingke)" >$(CATALOG_NEW)
+	@echo "//For your geometry to be automatically detected, your geometry class" >>$(CATALOG_NEW)
+	@echo "//has to inherit from \"public BaccDetector\" (defined within a line.)" >>$(CATALOG_NEW)
+	@echo "//And the class name has to be the same as the header file name." >>$(CATALOG_NEW)
+	@echo "//You can assign a different name to your top level geometry within the class." >>$(CATALOG_NEW)
+	@echo >>$(CATALOG_NEW)
+	@echo "#include \"BaccGeometryCatalog.hh\"" >>$(CATALOG_NEW)
+	@$(foreach d,$(PROJINC),echo "#include \"$(d)\"" >>$(CATALOG_NEW);)
+	@echo >>$(CATALOG_NEW)
+	@echo "//Project specific function" >>$(CATALOG_NEW)
+	@echo "void BaccGeometryCatalog::BuildCatalog(){" >>$(CATALOG_NEW)
+	@$(foreach d,$(PROJDET),echo "  geometry.push_back(new $(d)(\"$(d)\",\"$(d)\"));" >>$(CATALOG_NEW);)
+	@echo "}" >>$(CATALOG_NEW)
+	@echo >>$(CATALOG_NEW)
+
+#declare catalog to be phony so it doesn't get executed everytime it is called
+.PHONY: catalog

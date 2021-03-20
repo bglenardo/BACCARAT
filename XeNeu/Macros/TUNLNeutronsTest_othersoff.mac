@@ -1,0 +1,129 @@
+####################################################################################################
+# example macro for the LUXSim package                                                             #
+#                                                                                                  #
+# Change log:                                                                                      #
+# 19 Aug 2013 - Initial submission (Vic)                                                           #
+#                                                                                                  #
+####################################################################################################
+/run/verbose 1
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+/process/verbose 0
+
+# Set up visualization - Comment this stuff out if you want to skip visualization
+#/vis/open OGLSQt 1200x1200-0+0
+#/vis/open VRML2FILE
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/scene/endOfEventAction accumulate
+#/tracking/storeTrajectory 1
+#/vis/viewer/set/viewpointVector 0.5 0.75 1
+#/vis/viewer/set/upVector 0 0 1
+#/vis/viewer/zoom 0 
+#/vis/viewer/set/viewpointThetaPhi 45 45             
+#/vis/viewer/set/style surface
+
+# Set up visualization so that we don't cloud the issue with neutrinos - Comment this stuff out if you want to skip visualization
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add nu_e
+#/vis/filtering/trajectories/particleFilter-0/add nu_mu
+#/vis/filtering/trajectories/particleFilter-0/add nu_tau
+#/vis/filtering/trajectories/particleFilter-0/add anti_nu_e
+#/vis/filtering/trajectories/particleFilter-0/add anti_nu_mu
+#/vis/filtering/trajectories/particleFilter-0/add anti_nu_tau
+#/vis/filtering/trajectories/particleFilter-0/invert true
+
+# Color keys: white, gray, grey, black, red, green, blue, cyan, magenta, yellow - Comment this stuff out if you want to skip visualization
+#/vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/drawByParticleID-0/set e+ blue
+#/vis/modeling/trajectories/drawByParticleID-0/set e- magenta
+#/vis/modeling/trajectories/drawByParticleID-0/set proton cyan
+#/vis/modeling/trajectories/drawByParticleID-0/set neutron grey
+#/vis/modeling/trajectories/drawByParticleID-0/set gamma green
+#/vis/modeling/trajectories/drawByParticleID-0/set opticalPhoton yellow
+
+# This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+# Set the output directory
+/Bacc/io/outputDir ./ # /p/lscratchh/lenardo1/simulations/XeNeu_TUNL_579keV_pm10keV_03/batch_7/
+/Bacc/io/outputName XeNeu_TUNLNeutrons_5degAng_579keV_pm10keV_02_
+/Bacc/io/updateFrequency 10000
+
+
+# Set the random seed
+#/Bacc/randomSeed 0
+
+# Select the kind of detector to use
+#/Bacc/detector/select simpleExample
+#/Bacc/detector/select complexExample
+#/Bacc/detector/select LLNLSinglePhase
+/Bacc/detector/select XeNeuDetector
+#/XeNeu/ddShieldingOn true
+
+# Update geometry
+/Bacc/detector/update
+
+# Set the record level for one of the volumes to write some information about it
+#/Bacc/detector/recordLevel LiquidXeTarget 2 # For "simpleExample" or "complexExample"
+#/Bacc/detector/recordLevel activeVolume 2 # For "LLNLSinglePhase"
+#/Bacc/detector/recordLevel liquid_xenon 2 # For "GNARRLIDetector"
+#/Bacc/detector/recordLevel outer_can 2 
+#/Bacc/detector/recordLevel vacuum_space 2 
+#/Bacc/detector/recordLevel inner_can 2 
+/Bacc/detector/recordLevel liquid_xenon 2 
+#/Bacc/detector/recordLevel cathode_ring 2 
+#/Bacc/detector/recordLevel field_ring_1 2 
+#/Bacc/detector/recordLevel field_ring_2 2 
+#/Bacc/detector/recordLevel field_ring_3 2 
+#/Bacc/detector/recordLevel extraction_grid 2 
+#/Bacc/detector/recordLevel weir 2 
+#/Bacc/detector/recordLevel teflon_block_minus_weir 2 
+#/Bacc/detector/recordLevel gas_xenon_in_weir 2 
+#/Bacc/detector/recordLevel peek_rod_1 2 
+#/Bacc/detector/recordLevel peek_rod_2 2 
+#/Bacc/detector/recordLevel peek_rod_3 2 
+#/Bacc/detector/recordLevel gas_xenon 2 
+#/Bacc/detector/recordLevel bottom_pmt 2 
+#/Bacc/detector/recordLevel pmt_al_box 2 
+#/Bacc/detector/recordLevel glass_slide 2 
+#/Bacc/detector/recordLevel pmt_teflon_casing 2 
+#/Bacc/detector/recordLevel anode_holder 2 
+#/Bacc/detector/recordLevel pmtCage 2 
+#/Bacc/detector/recordLevel detector 2 
+#/Bacc/detector/recordLevel ls_detector_shell 2 
+/Bacc/detector/recordLevel ls_target 2
+/Bacc/detector/recordLevel tof_target 2
+#/Bacc/detector/recordLevel tof_detector_shell 2
+/Bacc/detector/recordLevel ls_detector_1 2 
+/Bacc/detector/recordLevel ls_detector_2 2 
+#/Bacc/detector/recordLevel bpe_outer_shield 2 
+#/Bacc/detector/recordLevel hdpe 2 
+#/Bacc/detector/recordLevel collimator_block 2 
+#/Bacc/detector/recordLevel lead_wall 2 
+#/Bacc/detector/recordLevel lead_sheet 2 
+#/Bacc/detector/recordLevel lead_brick 2 
+#/Bacc/detector/recordLevel pb 2 
+#/Bacc/detector/recordLevel steel 2
+#/Bacc/detector/recordLevel al_detector_support 2
+#/Bacc/detector/recordLevel al_baseplate 2
+
+
+/gps/particle neutron
+/gps/energy 0.579 MeV
+/gps/ene/type Gauss
+/gps/ene/sigma 0.01 MeV
+/gps/position -0.743 0. 0. m
+#/gps/direction 1 0 0
+/gps/ang/type iso
+/gps/ang/mintheta 0. deg
+/gps/ang/maxtheta 7. deg
+/gps/ang/rot1 0 0 -1
+/gps/ang/rot2 0 -1 0
+
+/Bacc/physicsList/useOpticalProcesses 0
+
+/Bacc/beamOn 100000
+
+exit

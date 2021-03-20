@@ -1,0 +1,77 @@
+################################################################################
+# vis.mac
+# This file can be used as an example of how to create visualizations from
+# GEANT4. Right now only the most popular (OGLIX, DAWN, and VRML) are used, but
+# other visualization systems (e.g., raytracing) may be available.
+#
+# Change log:
+# 2014/01/22 - Initial Submission
+################################################################################
+
+/run/verbose 0
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+
+#	Lines for visualization support
+#	Any visualizatio system can be opened, but just the OGLIX and VRML systems
+#	are present.
+#/vis/open HepRepFile
+/vis/open VRML2FILE
+#/vis/open OGLIX
+#/vis/open DAWNFILE
+/vis/drawVolume
+/vis/scene/add/trajectories
+/vis/scene/endOfEventAction accumulate
+/tracking/storeTrajectory 1
+/vis/viewer/set/viewpointVector 0.25 1 0.75
+/vis/viewer/set/upVector 0 0 1
+#/vis/viewer/zoom 2 
+
+#	Set up visualization so that we don't cloud the issue with neutrinos
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add nu_e
+/vis/filtering/trajectories/particleFilter-0/add nu_mu
+/vis/filtering/trajectories/particleFilter-0/add nu_tau
+/vis/filtering/trajectories/particleFilter-0/add anti_nu_e
+/vis/filtering/trajectories/particleFilter-0/add anti_nu_mu
+/vis/filtering/trajectories/particleFilter-0/add anti_nu_tau
+/vis/filtering/trajectories/particleFilter-0/invert true
+
+# Color keys: white, gray, grey, black, red, green, blue, cyan, magenta, yellow
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set e+ blue
+/vis/modeling/trajectories/drawByParticleID-0/set e- magenta
+/vis/modeling/trajectories/drawByParticleID-0/set proton cyan
+/vis/modeling/trajectories/drawByParticleID-0/set neutron grey
+/vis/modeling/trajectories/drawByParticleID-0/set gamma green
+/vis/modeling/trajectories/drawByParticleID-0/set opticalPhoton yellow
+
+#	This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+#	Next are the Bacc-specific commands
+
+#	Select the kind of detector to use
+
+/Bacc/detector/select LBNLAlphaCounter
+#/Bacc/detector/select ExampleNobleTPC
+#/Bacc/detector/select SimpleDetector
+#/Bacc/detector/select ComplexDetector
+
+#	Update geometry
+/Bacc/detector/update
+
+/vis/viewer/refresh
+
+#	Use this line instead of "/run/beamOn" to allow for variations in source
+#	activity due to decay chains
+/gps/particle geantino
+#/gps/particle e-
+/gps/energy 10 keV
+/gps/position 0 0 0 cm
+/gps/direction 0 0 -1
+/gps/ang/type iso
+
+#/Bacc/beamOn 1
+#exit

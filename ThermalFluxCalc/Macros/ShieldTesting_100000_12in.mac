@@ -1,0 +1,104 @@
+####################################################################################################
+# example macro for the LUXSim package                                                             #
+#                                                                                                  #
+# Change log:                                                                                      #
+# 19 Aug 2013 - Initial submission (Vic)                                                           #
+#                                                                                                  #
+####################################################################################################
+/run/verbose 1
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+/process/verbose 0
+
+# Set up visualization - Comment this stuff out if you want to skip visualization
+#/vis/open OGLSQt 1200x1200-0+0
+#/vis/open VRML2FILE
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/scene/endOfEventAction accumulate
+#/tracking/storeTrajectory 1
+##/vis/viewer/set/viewpointVector 0.5 0.75 1
+#/vis/viewer/set/upVector 0 0 1
+#/vis/viewer/zoom 0 
+#/vis/viewer/set/viewpointThetaPhi 45 45             
+#/vis/viewer/set/style surface
+
+# Set up visualization so that we don't cloud the issue with neutrinos - Comment this stuff out if you want to skip visualization
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add nu_e
+#/vis/filtering/trajectories/particleFilter-0/add nu_mu
+#/vis/filtering/trajectories/particleFilter-0/add nu_tau
+#/vis/filtering/trajectories/particleFilter-0/add anti_nu_e
+#/vis/filtering/trajectories/particleFilter-0/add anti_nu_mu
+#/vis/filtering/trajectories/particleFilter-0/add anti_nu_tau
+#/vis/filtering/trajectories/particleFilter-0/invert true
+
+# Color keys: white, gray, grey, black, red, green, blue, cyan, magenta, yellow - Comment this stuff out if you want to skip visualization
+#/vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/drawByParticleID-0/set e+ blue
+#/vis/modeling/trajectories/drawByParticleID-0/set e- magenta
+#/vis/modeling/trajectories/drawByParticleID-0/set proton cyan
+#/vis/modeling/trajectories/drawByParticleID-0/set neutron grey
+#/vis/modeling/trajectories/drawByParticleID-0/set gamma green
+#/vis/modeling/trajectories/drawByParticleID-0/set opticalPhoton yellow
+
+# This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+# Set the output directory
+/Bacc/io/outputDir ./
+/Bacc/io/outputName BoratedPoly20_12in_
+/Bacc/io/updateFrequency 1000
+# Set the random seed
+#/Bacc/randomSeed 0
+
+# Select the kind of detector to use
+#/Bacc/detector/select simpleExample
+#/Bacc/detector/select complexExample
+#/Bacc/detector/select LLNLSinglePhase
+/Bacc/detector/select TestShieldDetector
+#/TestShield/shieldingRadius 22.86 cm
+/TestShield/shieldingRadius 30.48 cm
+#/TestShield/shieldingRadius 38.1 cm
+#/TestShield/shieldingRadius 45.72 cm
+#/TestShield/shieldingRadius 53.34 cm
+#/XeNeu/ddShieldingOn true
+# Update geometry
+/Bacc/detector/update
+
+# Set the record level for one of the volumes to write some information about it
+#/Bacc/detector/recordLevel LiquidXeTarget 2 # For "simpleExample" or "complexExample"
+#/Bacc/detector/recordLevel activeVolume 2 # For "LLNLSinglePhase"
+#/Bacc/detector/recordLevel tms_ 2 # For "GNARRLIDetector"
+/Bacc/detector/recordLevel lab_space 3
+
+# This can be used in place of the regular the event generators. Be sure you
+# know what you're doing if you're going to use commands like these.
+#/gps/particle e-
+/gps/particle neutron
+/gps/position 0. 0. 0. m
+/gps/ang/type iso
+/gps/energy 14. MeV
+#/gps/ene/type Lin
+#/gps/ene/gradient 0
+#/gps/ene/intercept 1
+#/gps/ene/min 0. MeV
+#/gps/ene/max 14. MeV
+#/gps/position 42*0.71. 42.*0.71 -1.01 cm
+#/gps/direction -1 -1 0
+#/gps/ang/type iso
+
+/Bacc/physicsList/useOpticalProcesses 0
+
+
+
+#/gps/position 0 0 0.022 m
+#/gps/direction 1 0 0
+#/gps/ang/mintheta 89.99 deg
+#/gps/ang/maxtheta 90.01 deg
+#/gps/ang/rot1 1 0 0
+#/gps/ang/rot2 0 1 0
+/Bacc/beamOn 100000
+
+exit

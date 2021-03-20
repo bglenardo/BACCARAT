@@ -1,0 +1,47 @@
+################################################################################
+# s1photonBomb.mac for the Bacc package
+#
+# Change log:
+# 15 Jan 2010 - Initial submission (Melinda)
+################################################################################
+
+/run/verbose 0
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+/process/verbose 0
+
+#	This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+#	Next are the Bacc-specific commands
+
+#	Set the output directory
+/Bacc/io/outputDir ./
+
+#	Select the kind of detector to use
+/Bacc/detector/select simpleExample
+
+#	Update geometry
+/Bacc/detector/update
+
+#	Select the record levels of the volumes. The default record level is 0.
+
+#	These next commands demonstrate how you can set the record level of 
+#	all components with the same base name in one command, but then set the
+#	record level of individual components on a finer scale.
+/Bacc/detector/recordLevelOptPhot PMT_Window 1
+
+#	Set the event generation.
+
+#	This can be used in place of the regular the event generators. Be sure you
+#	know what you're doing if you're going to use commands like these.
+/gps/particle opticalphoton
+/gps/energy 7 eV
+/gps/pos/type Point 
+/gps/pos/centre 0 0 0 mm
+/gps/ang/type iso
+
+#	Use this line instead of "/run/beamOn", as there is internal bookkeeping
+#	that needs to occur before the run is started.
+/Bacc/beamOn 100

@@ -1,0 +1,24 @@
+################################################################################
+# ExtraDeps.gmk
+# Compilation support for Bacc. This file sets linking and compilation flags.
+# System-dependent switches are in here as well.
+#
+# Change log:
+# 18 March 2009 - Initial submission (Kareem)
+# 08 March 2012 - Added the COMPDIR definition to the compilation so that we can
+#				  hard-code the compilation directory (Kareem)
+# 09 Nov 2012 - Light editing (Kareem)
+# 11 Mar 2016 - Put the COMPDIR definition on its own line (Kareem)
+#
+################################################################################
+
+# MacOSX stuff
+ifeq ($(OSTYPE),"darwin")
+LDFLAGS += -bind_at_load
+endif
+
+# Set up compiling in the sub-directories
+CPPFLAGS += $(addprefix -I../, $(addsuffix /include, $(SUBDIRS))) -O2
+CPPFLAGS += -DCOMPDIR=\"`pwd`\"
+LDFLAGS += -L$(G4WORKDIR)/../BaccLibraries -O2
+EXTRALIBS += $(addprefix -l, $(SUBDIRS))

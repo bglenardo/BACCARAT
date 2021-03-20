@@ -1,0 +1,37 @@
+################################################################################
+# Libraries.gmk
+# Compilation support for Bacc. This is the common set of commands for all
+# subsystem libraries.
+#
+# Change log:
+# 18 March 2009 - Initial submission (Kareem)
+# 09 Nov 2012 - Removed -O2 flag, as it is set elsewhere in the configuration
+#				(Kareem)
+# 09 Sept 2014 - Added c++11 flag to fix the new WIMP generator having
+#                trouble with char_16t types. (Brian)
+# 14 January 2016 - Add all include dirs to Cpp flags without relying on SUBDIRs
+#                   Now you can simply run "make" in subdirs (Jingke)
+#
+#
+################################################################################
+
+.PHONY: all lib clean
+all: lib
+
+include ../BaccConfig/BuildDirs.gmk
+
+include $(G4INSTALL)/config/architecture.gmk
+include $(G4INSTALL)/config/common.gmk
+
+include ../BaccConfig/ExtraDeps.gmk
+include ../BaccConfig/GEANT4.gmk
+
+# Add the sub-directory include directories to the compilation list
+#CPPFLAGS += $(addprefix -I../, $(addsuffix /include, $(SUBDIRS)))
+CPPFLAGS += $(addprefix -I, $(shell find .. -name include -type d ))
+CPPFLAGS += -std=c++11
+#CPPFLAGS += -DCHAR16_T=uint16_t
+
+clean::
+	cd $(G4WORKDIR)
+	rm -rf bin tmp lib
