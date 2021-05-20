@@ -123,7 +123,7 @@ void BaccSteppingAction::UserSteppingAction( const G4Step* theStep )
 	//      daughters of a decay. This has the effect of having all isotopes
 	//      decay at 0s with a decay time of 1s. Note that hits from each isotope
 	//      decay within the chain are grouped into seperate output events.
-	if( baccManager->GetG4DecayBool() ){
+      if( baccManager->GetG4DecayBool() ){
       
 	  radIsoMap = baccManager->GetRadioIsotopeMap();
 	  
@@ -168,21 +168,25 @@ void BaccSteppingAction::UserSteppingAction( const G4Step* theStep )
 	    }	      
 	  }
 	 
-	  //    First instance of a daughter from a radioisotope, write all accumulated tracks, start new event
-	  if(aStepRecord.parentID==baccManager->GetIsotopeTrackID() && baccManager->GetG4DecayOutputBool() ){
-	    baccManager->IterateEventCount();
-            baccManager->RecordValues( baccManager->GetEventCount() );
-            baccManager->ClearRecords();
-            baccManager->SetG4DecayOutputBool(false);
-            baccManager->CopyPrimaryParticle();
+	  //    First instance of a daughter from a radioisotope, 
+	  //    write all accumulated tracks, start new event
+	  if(aStepRecord.parentID==baccManager->GetIsotopeTrackID() && 
+             baccManager->GetG4DecayOutputBool() ){
+	       baccManager->IterateEventCount();
+               baccManager->RecordValues( baccManager->GetEventCount() );
+               baccManager->ClearRecords();
+               baccManager->SetG4DecayOutputBool(false);
+               baccManager->CopyPrimaryParticle();
 	  }
 
 	  baccManager->UpdateRadioIsotopeMap(radIsoMap);
-    }
+      }
     
-	//Record step 0, which includes position of particle's creation.
-	if (aStepRecord.stepNumber == 1){
-	  if( (aStepRecord.particleName != "opticalphoton" &&  aStepRecord.particleName != "thermalelectron") || (aStepRecord.particleName == "opticalphoton" && optPhotRecordLevel) || (aStepRecord.particleName == "thermalelectron" && thermElecRecordLevel) ){
+      //Record step 0, which includes position of particle's creation.
+      if (aStepRecord.stepNumber == 1){
+        if( (aStepRecord.particleName != "opticalphoton" && aStepRecord.particleName != "thermalelectron") || 
+              (aStepRecord.particleName == "opticalphoton" && optPhotRecordLevel) || 
+              (aStepRecord.particleName == "thermalelectron" && thermElecRecordLevel) ){
 	    //Storage Variables
 	    //Note: KE and direction set from pre-step point so no buffer needed
 	    double xPositionBuffer = aStepRecord.position[0];
@@ -196,27 +200,27 @@ void BaccSteppingAction::UserSteppingAction( const G4Step* theStep )
 	    //Thermal electron tracks should be in reverse order to the order their creation positions were saved.
 	    //(Used for S2 vertex association - see also G4S1Light and BaccManager)
 	    if(aStepRecord.particleName == "thermalelectron" && aStepRecord.creatorProcess == "S1"){ 
-	      G4int i = baccManager->GetCurrentS2Index(); //get last thermal electron index
-	      if(i==0) i = baccManager->GetS2PositionsSize(); //initialise thermal electron index
-	      --i;
+	       G4int i = baccManager->GetCurrentS2Index(); //get last thermal electron index
+	       if(i==0) i = baccManager->GetS2PositionsSize(); //initialise thermal electron index
+	       --i;
 
-	      bool clusterFound = false;
-	      if(std::abs(baccManager->GetCreationTime(i)-aStepRecord.stepTime)<1e-10) clusterFound = true;
-	      else{
-		i = baccManager->GetS2PositionsSize()-1; //Send back to the start as another set of interactions has been added in G4S1Light
-		if(std::abs(baccManager->GetCreationTime(i)-aStepRecord.stepTime)<1e-10) clusterFound = true;
-	      }
+	       bool clusterFound = false;
+	       if(std::abs(baccManager->GetCreationTime(i)-aStepRecord.stepTime)<1e-10) clusterFound = true;
+	       else{
+                    i = baccManager->GetS2PositionsSize()-1; //Send back to the start as another set of interactions has been added in G4S1Light
+		    if(std::abs(baccManager->GetCreationTime(i)-aStepRecord.stepTime)<1e-10) clusterFound = true;
+	       }
 
-	      if(clusterFound){
-		G4ThreeVector clusterPosition = baccManager->GetS2Position(i);
-		aStepRecord.position[0] = clusterPosition[0]/mm;
-		aStepRecord.position[1] = clusterPosition[1]/mm;
-		aStepRecord.position[2] = clusterPosition[2]/mm;
-		baccManager->SetCurrentS2Index(i); //remember current counter position for next thermal electron track
-	      }
-	      else{
-		G4cout << "::ERROR:: BaccSteppingAction. S2 time not matched, vertex position not found. Index: " << i << G4endl;
-	      }
+	       if(clusterFound){
+                  G4ThreeVector clusterPosition = baccManager->GetS2Position(i);
+		  aStepRecord.position[0] = clusterPosition[0]/mm;
+		  aStepRecord.position[1] = clusterPosition[1]/mm;
+		  aStepRecord.position[2] = clusterPosition[2]/mm;
+		  baccManager->SetCurrentS2Index(i); //remember current counter position for next thermal electron track
+	       }
+	       else{
+		 G4cout << "::ERROR:: BaccSteppingAction. S2 time not matched, vertex position not found. Index: " << i << G4endl;
+	       }
 	    }
 	    else{
 	      trackPosition = theStep->GetPreStepPoint()->GetPosition();

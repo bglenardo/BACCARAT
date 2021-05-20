@@ -18,8 +18,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 
-#include "LZDetectorParameters.hh"
-#include "LZSystemTestDetectorParameters.hh"
+//#include "LZDetectorParameters.hh"
+//#include "LZSystemTestDetectorParameters.hh"
 
 //#include "BaccManager.hh"
 
@@ -98,9 +98,9 @@ public: // methods, with descriptions
 
         void LoadS1PulseShape( G4String fileName );
 
-        void SetLZGeoValues();
-        void SetLZSystemTestGeoValues();
-        void SetLZSystemTestMPAGeoValues();
+        //void SetLZGeoValues();
+        //void SetLZSystemTestGeoValues();
+        //void SetLZSystemTestMPAGeoValues();
 
 public:
     G4double GASGAP;

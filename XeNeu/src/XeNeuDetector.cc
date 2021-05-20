@@ -364,6 +364,7 @@ void XeNeuDetector::BuildDetector(){
       rotm_ls_2->rotateX(90.*deg);
       rotm_ls_2->rotateY(-90.*deg - backingDetectorAngle);
     
+      double PI = 3.14159265359;
       double bdAngRad = backingDetectorAngle/deg/180. * PI;
     
       XeNeu_LSDetector * ls_detector_obj = new XeNeu_LSDetector(1);

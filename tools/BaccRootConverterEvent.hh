@@ -77,6 +77,8 @@ struct trackInfo {
     long iParticleID;
     Int_t iTrackID;
     Int_t iParentID;
+    Int_t iCreationVolumeID;
+    Double_t dCreationPosition[3];
     std::string sCreatorProcess;
     std::vector<stepInfo> steps;
     Double_t dWavelength_nm;
@@ -108,7 +110,7 @@ class BaccRootConverterEvent : public TObject
         
     private:
     
-ClassDef( BaccRootConverterEvent, 3 )
+ClassDef( BaccRootConverterEvent, 5 )
 
 };
 

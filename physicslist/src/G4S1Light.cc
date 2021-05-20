@@ -61,8 +61,8 @@
 #include "G4S1Light.hh"
 
 using namespace std;
-using namespace LZDetectorParameters;
-using namespace LZSystemTestDetectorParameters;
+//using namespace LZDetectorParameters;
+//using namespace LZSystemTestDetectorParameters;
 
 #define MIN_ENE -1*eV //lets you turn NEST off BELOW a certain energy
 #define MAX_ENE 1.*TeV //lets you turn NEST off ABOVE a certain energy
@@ -1351,90 +1351,90 @@ void G4S1Light::LoadS1PulseShape(G4String fileName) {
   file.close();
 }
 
-void G4S1Light::SetLZGeoValues()
-{
-    BORDER = activeLXeTargetHeight; //liquid-gas border z-coordinate
-    
-    // different field regions, for gamma-X studies
-    WIN = activeLXeTargetHeight + liquidSurfaceToAnode + anodeToTopGrid
-            + topGridToTopPMTBank; //top Cu block (also, quartz window)
-    TOP = activeLXeTargetHeight + liquidSurfaceToAnode +
-            anodeToTopGrid; //top grid wires
-    ANE = activeLXeTargetHeight + liquidSurfaceToAnode; //anode mesh
-    GAT = gateToCathodeGrid; //gate grid
-    GASGAP = liquidSurfaceToAnode; //S2 generation region
-    SRF = BORDER; //liquid-gas interface
-    //BORDER=SRF; // Same as SRF, because we need two identical variables, for
-    // some reason
-    CTH = 0; //cathode grid
-    BOT = -cathodeToBottomGrid; //bottom PMT grid
-    PMT = -(cathodeToBottomGrid + bottomGridToBottomPMTBank);
-            //bottom Cu block and PMTs
-    
-    R_MAX = innerPTFEFlatRadius; //for corraling diffusing electrons
-    
-    E_RATE_HZ=0./s;
-}
+//void G4S1Light::SetLZGeoValues()
+//{
+//    BORDER = activeLXeTargetHeight; //liquid-gas border z-coordinate
+//    
+//    // different field regions, for gamma-X studies
+//    WIN = activeLXeTargetHeight + liquidSurfaceToAnode + anodeToTopGrid
+//            + topGridToTopPMTBank; //top Cu block (also, quartz window)
+//    TOP = activeLXeTargetHeight + liquidSurfaceToAnode +
+//            anodeToTopGrid; //top grid wires
+//    ANE = activeLXeTargetHeight + liquidSurfaceToAnode; //anode mesh
+//    GAT = gateToCathodeGrid; //gate grid
+//    GASGAP = liquidSurfaceToAnode; //S2 generation region
+//    SRF = BORDER; //liquid-gas interface
+//    //BORDER=SRF; // Same as SRF, because we need two identical variables, for
+//    // some reason
+//    CTH = 0; //cathode grid
+//    BOT = -cathodeToBottomGrid; //bottom PMT grid
+//    PMT = -(cathodeToBottomGrid + bottomGridToBottomPMTBank);
+//            //bottom Cu block and PMTs
+//    
+//    R_MAX = innerPTFEFlatRadius; //for corraling diffusing electrons
+//    
+//    E_RATE_HZ=0./s;
+//}
 
 
 
-void G4S1Light::SetLZSystemTestGeoValues()
-{
-
-  //These are for the LZ System Test
-
-  BORDER = -cryoInnerVesselGasXenonLevel/2+cryoInnerVesselLiquidXenonLevel/2;
-
-  ANE = BORDER + (psa_height_gas+psr_height+gridRingThickness) - (2*anodeGridWireDiameter + 3*um)/2;
-  GAT = BORDER - (gridRingThickness+psa_height) + (2*gateGridWireDiameter + 3*um)/2; 
-  WIN = bc1_halfZ*2 + bc2_halfZ*2 + pmtR9288_adapterHeight1 + pmtR9288_adapterHeight2 + ANE; //Approximate (to maybe a few percent) - this will depend on the choice of array, 
-
-  //There is no top grid here, so we arbitrarily set this to be the PMT window height minus 1 mm. We'll set the
-  //TOP field to be the same as the WIN field.
-  TOP = WIN - 1*mm;
-  SRF = BORDER;
-  CTH = GAT - cathodeToGateHeight;
-  
-  //Things that help describe the RFR (from LZSystemTestTPCptfeInLiquid.cc)
-  G4double fullVolumeHeight = (2.228*cm - bottomConeToBottomGrid) + 0.998*cm + 5.225*cm + 0.333*cm + cathodeTubsBottomToCathode;
-  G4double centerToTop = (2.228*cm - bottomConeToBottomGrid)/2 + 0.998*cm + 5.225*cm + 0.333*cm + cathodeTubsBottomToCathode;
-  BOT = -(fullVolumeHeight - centerToTop) + (2*bottomGridWireDiameter + 3*um)/2;
-
-  //Last 2 parts of RFR, Bottom Cone sub-cones, PMT Adapter pieces 1 and 2
-  G4double bottomToPMT = 2.228*cm + 0.998*cm + 0.6054*cm + 3.810*cm + pmtR9288_adapterHeight1 + pmtR9288_adapterHeight2 ;
-  PMT = GAT - bottomToPMT;
-
-}
-
-
-
-void G4S1Light::SetLZSystemTestMPAGeoValues()
-{
-
-  //These are for the LZ System Test with the multi-PMT array
-
-  BORDER = -cryoInnerVesselGasXenonLevel/2+cryoInnerVesselLiquidXenonLevel/2;
-
-  ANE = BORDER + (psa_height_gas+psr_height+gridRingThickness) - (2*anodeGridWireDiameter + 3*um)/2;
-  GAT = BORDER - (gridRingThickness+psa_height) + (2*gateGridWireDiameter + 3*um)/2; 
-
-
-  WIN = coneDisk_MPA_zWidth + coneCone_MPA_zWidth + ANE; 
-
-  //There is no top grid here, so we arbitrarily set this to be the PMT window height minus 1 mm. We'll set the
-  //TOP field to be the same as the WIN field.
-  TOP = WIN - 1*mm;
-  SRF = BORDER;
-  CTH = GAT - cathodeToGateHeight;
-  
-  //Things that help describe the RFR (from LZSystemTestTPCptfeInLiquid.cc)
-  G4double fullVolumeHeight = (2.228*cm - bottomConeToBottomGrid) + 0.998*cm + 5.225*cm + 0.333*cm + cathodeTubsBottomToCathode;
-  G4double centerToTop = (2.228*cm - bottomConeToBottomGrid)/2 + 0.998*cm + 5.225*cm + 0.333*cm + cathodeTubsBottomToCathode;
-  BOT = -(fullVolumeHeight - centerToTop) + (2*bottomGridWireDiameter + 3*um)/2;
-
-  //Last 2 parts of RFR, Bottom Cone sub-cones
-  G4double bottomToPMT = 2.228*cm + 0.998*cm + 0.6054*cm + 3.810*cm;
-  PMT = GAT - bottomToPMT;
-  
-
-}
+//void G4S1Light::SetLZSystemTestGeoValues()
+//{
+//
+//  //These are for the LZ System Test
+//
+//  BORDER = -cryoInnerVesselGasXenonLevel/2+cryoInnerVesselLiquidXenonLevel/2;
+//
+//  ANE = BORDER + (psa_height_gas+psr_height+gridRingThickness) - (2*anodeGridWireDiameter + 3*um)/2;
+//  GAT = BORDER - (gridRingThickness+psa_height) + (2*gateGridWireDiameter + 3*um)/2; 
+//  WIN = bc1_halfZ*2 + bc2_halfZ*2 + pmtR9288_adapterHeight1 + pmtR9288_adapterHeight2 + ANE; //Approximate (to maybe a few percent) - this will depend on the choice of array, 
+//
+//  //There is no top grid here, so we arbitrarily set this to be the PMT window height minus 1 mm. We'll set the
+//  //TOP field to be the same as the WIN field.
+//  TOP = WIN - 1*mm;
+//  SRF = BORDER;
+//  CTH = GAT - cathodeToGateHeight;
+//  
+//  //Things that help describe the RFR (from LZSystemTestTPCptfeInLiquid.cc)
+//  G4double fullVolumeHeight = (2.228*cm - bottomConeToBottomGrid) + 0.998*cm + 5.225*cm + 0.333*cm + cathodeTubsBottomToCathode;
+//  G4double centerToTop = (2.228*cm - bottomConeToBottomGrid)/2 + 0.998*cm + 5.225*cm + 0.333*cm + cathodeTubsBottomToCathode;
+//  BOT = -(fullVolumeHeight - centerToTop) + (2*bottomGridWireDiameter + 3*um)/2;
+//
+//  //Last 2 parts of RFR, Bottom Cone sub-cones, PMT Adapter pieces 1 and 2
+//  G4double bottomToPMT = 2.228*cm + 0.998*cm + 0.6054*cm + 3.810*cm + pmtR9288_adapterHeight1 + pmtR9288_adapterHeight2 ;
+//  PMT = GAT - bottomToPMT;
+//
+//}
+//
+//
+//
+//void G4S1Light::SetLZSystemTestMPAGeoValues()
+//{
+//
+//  //These are for the LZ System Test with the multi-PMT array
+//
+//  BORDER = -cryoInnerVesselGasXenonLevel/2+cryoInnerVesselLiquidXenonLevel/2;
+//
+//  ANE = BORDER + (psa_height_gas+psr_height+gridRingThickness) - (2*anodeGridWireDiameter + 3*um)/2;
+//  GAT = BORDER - (gridRingThickness+psa_height) + (2*gateGridWireDiameter + 3*um)/2; 
+//
+//
+//  WIN = coneDisk_MPA_zWidth + coneCone_MPA_zWidth + ANE; 
+//
+//  //There is no top grid here, so we arbitrarily set this to be the PMT window height minus 1 mm. We'll set the
+//  //TOP field to be the same as the WIN field.
+//  TOP = WIN - 1*mm;
+//  SRF = BORDER;
+//  CTH = GAT - cathodeToGateHeight;
+//  
+//  //Things that help describe the RFR (from LZSystemTestTPCptfeInLiquid.cc)
+//  G4double fullVolumeHeight = (2.228*cm - bottomConeToBottomGrid) + 0.998*cm + 5.225*cm + 0.333*cm + cathodeTubsBottomToCathode;
+//  G4double centerToTop = (2.228*cm - bottomConeToBottomGrid)/2 + 0.998*cm + 5.225*cm + 0.333*cm + cathodeTubsBottomToCathode;
+//  BOT = -(fullVolumeHeight - centerToTop) + (2*bottomGridWireDiameter + 3*um)/2;
+//
+//  //Last 2 parts of RFR, Bottom Cone sub-cones
+//  G4double bottomToPMT = 2.228*cm + 0.998*cm + 0.6054*cm + 3.810*cm;
+//  PMT = GAT - bottomToPMT;
+//  
+//
+//}

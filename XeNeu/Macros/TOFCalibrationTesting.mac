@@ -68,6 +68,7 @@
 #/Bacc/detector/recordLevel LiquidXeTarget 2 # For "simpleExample" or "complexExample"
 #/Bacc/detector/recordLevel activeVolume 2 # For "LLNLSinglePhase"
 #/Bacc/detector/recordLevel liquid_xenon 2 # For "GNARRLIDetector"
+/Bacc/detector/recordLevel tof_target 2
 
 # This can be used in place of the regular the event generators. Be sure you
 # know what you're doing if you're going to use commands like these.
@@ -90,5 +91,6 @@
 #/gps/ang/maxtheta 90.01 deg
 #/gps/ang/rot1 1 0 0
 #/gps/ang/rot2 0 1 0
-/Bacc/beamOn 5
+/Bacc/beamOn 1
 
+exit

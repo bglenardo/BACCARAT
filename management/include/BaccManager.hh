@@ -213,7 +213,9 @@ class BaccManager
                 void SetComponentVolume( G4String );
 	
 		BaccDetectorComponent *GetComponentByName( G4String );
-			
+
+		std::vector<BaccDetectorComponent*> GetComponentsVec() { return BaccComponents; };	
+		
          //	Source methods
         void SetSource( G4String );
         void SetPrintEventList( G4bool sel ) { printEventList = sel; };

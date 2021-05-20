@@ -402,24 +402,36 @@ int main( int argc, char** argv ){
             aTrack.sCreatorProcess = GetStringFromInputFile();
             aStep.sProcess = GetStringFromInputFile();
             
-            aStep.iStepNumber = GetIntFromInputFile();
-            aTrack.iParticleID = GetIntFromInputFile();
-            aTrack.iTrackID = GetIntFromInputFile();
-            aTrack.iParentID = GetIntFromInputFile();
-            aStep.dParticleEnergy_keV = GetDoubleFromInputFile();
-            aTrack.dWavelength_nm = -1;
+            double size_read = 0.;
+            aStep.iStepNumber = GetIntFromInputFile(); size_read += sizeof(Int_t);
+            aTrack.iParticleID = GetIntFromInputFile(); size_read += sizeof(Int_t);
+            aTrack.iTrackID = GetIntFromInputFile(); size_read += sizeof(Int_t);
+            aTrack.iParentID = GetIntFromInputFile(); size_read += sizeof(Int_t);
+            aTrack.iCreationVolumeID = GetIntFromInputFile(); size_read += sizeof(Int_t);
+            // For reasons that I don't understand, the binary data has four extra bytes
+            // in between the creationVolumeID and the particleEnergy members. So I have
+            // to do an extra "GetInt" call in order for things to line up properly when reading.
+            Int_t dummy = GetIntFromInputFile();
+            for( Int_t k=0; k<3; k++ ) 
+                { aTrack.dCreationPosition[k] = GetDoubleFromInputFile(); size_read += sizeof(Double_t); }
+            aStep.dParticleEnergy_keV = GetDoubleFromInputFile(); size_read += sizeof(Double_t);
+            aTrack.dWavelength_nm = -1; 
             if( aTrack.sParticleName == "opticalphoton" &&
                     aStep.dParticleEnergy_keV > 0 )
                 aTrack.dWavelength_nm = 1.24/aStep.dParticleEnergy_keV;
             for( Int_t k=0; k<3; k++ )
-                aStep.dDirection[k] = GetDoubleFromInputFile();
-            aStep.dEnergyDep_keV = GetDoubleFromInputFile();
+                { aStep.dDirection[k] = GetDoubleFromInputFile(); size_read += sizeof(Double_t); }
+            aStep.dEnergyDep_keV = GetDoubleFromInputFile(); size_read += sizeof(Double_t);
             for( Int_t k=0; k<3; k++ )
-                aStep.dPosition_mm[k] = GetDoubleFromInputFile();
-            aStep.dTime_ns = GetDoubleFromInputFile();
-            aTrack.dCharge = GetDoubleFromInputFile();
+                { aStep.dPosition_mm[k] = GetDoubleFromInputFile(); size_read += sizeof(Double_t); }
+            aStep.dTime_ns = GetDoubleFromInputFile(); size_read += sizeof(Double_t);
+            aTrack.dCharge = GetDoubleFromInputFile(); size_read += sizeof(Double_t);
+
             
             if( DEBUGGING ) {
+                cout << "READ OUT " << size_read << " BITS FROM THE data OBJECT" << endl;
+		cout << "sizeof(Int_t)= " << sizeof(Int_t) << endl;
+		cout << "sizeof(Double_t)= " << sizeof(Double_t) << endl;
                 cout << "j = " << j << endl;
                 cout << "aTrack.sParticleName = " << aTrack.sParticleName
                      << endl;
@@ -430,6 +442,11 @@ int main( int argc, char** argv ){
                 cout << "aTrack.iParticleID = " << aTrack.iParticleID << endl;
                 cout << "aTrack.iTrackID = " << aTrack.iTrackID << endl;
                 cout << "aTrack.iParentID = " << aTrack.iParentID << endl;
+                cout << "aTrack.iCreationVolumeID = " << aTrack.iCreationVolumeID << endl;
+                cout << "aTrack.dCreationPosition = ( "
+                     << aTrack.dCreationPosition[0] << ", "
+                     << aTrack.dCreationPosition[1] << ", "
+                     << aTrack.dCreationPosition[2] << " )" << endl;
                 cout << "aStep.dParticleEnergy_keV = "
                      << aStep.dParticleEnergy_keV << endl;
                 cout << "aStep.dDirection = ( "
@@ -448,7 +465,6 @@ int main( int argc, char** argv ){
             //  At this point, the step is completely read in. We need to make
             //  sure the step is added to the correct track struct, and create
             //  a new track entry in the event if it doesn't exist.
-            
             Int_t trackIndex = -1;
             for( Int_t k=0; k<anEvent->tracks.size(); k++ ) {
                 if( anEvent->tracks[k].iTrackID == aTrack.iTrackID ) {
@@ -456,13 +472,11 @@ int main( int argc, char** argv ){
                     k = anEvent->tracks.size();
                 }
             }
-            
             //  If this is a new track, add it to the vector
             if( trackIndex == -1 ) {
                 anEvent->tracks.push_back( aTrack );
                 trackIndex = anEvent->tracks.size() - 1;
             }
-            
             anEvent->tracks[trackIndex].steps.push_back( aStep );
         }
 	if(i==numRecords-1) { 
@@ -472,11 +486,9 @@ int main( int argc, char** argv ){
 	      stable_sort( anEvent->tracks[j].steps.begin(),
 			   anEvent->tracks[j].steps.end(), CompareSteps );
 	   }
-	   
 	   //  Now sort the tracks in increasing Track ID
 	   stable_sort( anEvent->tracks.begin(), anEvent->tracks.end(),
 			CompareTracks );
-	   
 	   //  Record the data and reset what needs resetting
 	   anEvent->iEventNumber=eventNumber;
 	   anEvent->iRunNumber=runNumber;

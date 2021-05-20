@@ -76,6 +76,8 @@ class BaccOutput
 			G4int particleID;
 			G4int trackID;
 			G4int parentID;
+                        G4int creationVolumeID;
+			G4double creationPosition[3];
 			G4double particleEnergy;
 			G4double particleDirection[3];
 			G4double energyDeposition;

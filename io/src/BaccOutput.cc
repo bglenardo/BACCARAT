@@ -415,10 +415,14 @@ void BaccOutput::RecordEventByVolume( BaccDetectorComponent* component,
 			if( ( (eventRecord[i].particleName != "opticalphoton") && 
 				(eventRecord[i].particleName != "thermalelectron") &&
 				  ( (eventRecord[i].energyDeposition > 0 && recordLevel == 2) ||
-				    recordLevel == 3 || recordLevel == 4 || (recordLevel == 5 && eventRecord[i].stepNumber < 1) ) ) ||
-			    ((optPhotRecordLevel == 3 || optPhotRecordLevel == 4 || (optPhotRecordLevel == 5 && eventRecord[i].stepNumber < 1)) &&
+				    recordLevel == 3 || 
+                                    recordLevel == 4 || 
+                                    (recordLevel == 5 && eventRecord[i].stepNumber < 1) ) ) ||
+			    ( (optPhotRecordLevel == 3 || optPhotRecordLevel == 4 || 
+                                (optPhotRecordLevel == 5 && eventRecord[i].stepNumber < 1)) &&
 						eventRecord[i].particleName == "opticalphoton") ||
-			    ((thermElecRecordLevel == 3 || thermElecRecordLevel == 4 || (thermElecRecordLevel == 5 && eventRecord[i].stepNumber < 1)) &&
+			    ((thermElecRecordLevel == 3 || thermElecRecordLevel == 4 
+                               || (thermElecRecordLevel == 5 && eventRecord[i].stepNumber < 1)) &&
                                                 eventRecord[i].particleName == "thermalelectron") ) {
 
 
@@ -433,17 +437,39 @@ void BaccOutput::RecordEventByVolume( BaccDetectorComponent* component,
 				fBaccOutput.write((char *)(&creatorProcessSize), sizeof(int));
 				fBaccOutput.write((char *)(creatorProcess.c_str()),
 						creatorProcessSize);
-
-                stepProcess = eventRecord[i].stepProcess;
-                stepProcessSize = stepProcess.length();
-                fBaccOutput.write((char *)(&stepProcessSize), sizeof(int));
-                fBaccOutput.write((char *)(stepProcess.c_str()),
-                        stepProcessSize);
+				
+				stepProcess = eventRecord[i].stepProcess;
+				stepProcessSize = stepProcess.length();
+				fBaccOutput.write((char *)(&stepProcessSize), sizeof(int));
+				fBaccOutput.write((char *)(stepProcess.c_str()),
+				stepProcessSize);
 		
 				data.stepNumber = eventRecord[i].stepNumber;
 				data.particleID = eventRecord[i].particleID;
 				data.trackID = eventRecord[i].trackID;
 				data.parentID = eventRecord[i].parentID;
+//				for(G4int j=0; j<(G4int)eventRecord.size(); j++){
+//					if (eventRecord[j].trackID == data.trackID &&
+//						eventRecord[j].stepNumber==0 ){
+//						data.creationVolumeID = eventRecord[j].creationVolumeID;
+//					}
+//				}
+				std::vector<BaccDetectorComponent*> BaccComponents = baccManager->GetComponentsVec();
+				G4bool foundTrackStart=false;
+				for(G4int j=0; j<(G4int)BaccComponents.size(); j++){
+					std::vector<BaccManager::stepRecord> tempEventRecord = BaccComponents[j]->GetEventRecord();
+					for(G4int k=0; k<(G4int)tempEventRecord.size(); k++){
+						if( tempEventRecord[k].trackID == data.trackID &&
+							tempEventRecord[k].stepNumber == 0 ){
+							data.creationVolumeID = (G4int)BaccComponents[j]->GetID();
+							for(G4int l=0; l<3; l++) data.creationPosition[l] = tempEventRecord[k].position[l];
+							foundTrackStart = true;
+						}
+						if(foundTrackStart) break;	
+					}
+					if(foundTrackStart) break;
+				}
+				//data.creationVolumeID = eventRecord[i].creationVolumeID;
 				data.particleEnergy = eventRecord[i].particleEnergy;
 				data.particleDirection[0]=eventRecord[i].particleDirection[0];
 				data.particleDirection[1]=eventRecord[i].particleDirection[1];
@@ -468,6 +494,11 @@ void BaccOutput::RecordEventByVolume( BaccDetectorComponent* component,
 					G4cout << "data.particleID= " << data.particleID << G4endl;
 					G4cout << "data.trackID= " << data.trackID << G4endl;
 					G4cout << "data.parentID= " << data.parentID << G4endl;
+					G4cout << "data.creationVolumeID= " << data.creationVolumeID << G4endl;
+					G4cout << "data.creationPosition= "
+						   << data.creationPosition[0] << ", "
+						   << data.creationPosition[1] << ", "
+						   << data.creationPosition[2] << G4endl;
 					G4cout << "data.particleEnergy= " << data.particleEnergy
 						   << G4endl;
 					G4cout << "data.particleDirection= "
