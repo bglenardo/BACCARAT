@@ -290,7 +290,10 @@ int main( int argc, char** argv ){
                      << endl;
                 cout << "\tvolumeID = " << aPrimaryParticle.iVolumeID << endl;
             }
-            
+            aPrimaryParticle.iAbsorptionVolumeID = GetIntFromInputFile();
+            for( Int_t k=0; k<3; k++ )
+                 aPrimaryParticle.dAbsorptionPos_mm[k] = GetDoubleFromInputFile();           
+ 
             primaryParticles.push_back( aPrimaryParticle );
         }
         

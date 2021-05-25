@@ -58,6 +58,8 @@ struct primaryParticleInfo {
     Double_t dTime_ns;
     std::string sVolumeName;
     Int_t iVolumeID;
+    Int_t iAbsorptionVolumeID;
+    Double_t dAbsorptionPos_mm[3];
 };
 
 struct stepInfo {
@@ -110,7 +112,7 @@ class BaccRootConverterEvent : public TObject
         
     private:
     
-ClassDef( BaccRootConverterEvent, 5 )
+ClassDef( BaccRootConverterEvent, 6 )
 
 };
 

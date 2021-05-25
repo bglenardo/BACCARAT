@@ -101,6 +101,8 @@ class BaccOutput
 		G4double primaryParTime_ns;
 		G4double primaryParPos_mm[3];
 		G4double primaryParDir[3];
+		G4int    primaryParAbsorptionVolume;
+		G4double primaryParAbsorptionPos_mm[3];
 
 };
 

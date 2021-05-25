@@ -7,7 +7,7 @@
 ####################################################################################################
 /run/verbose 1
 /control/verbose 0
-/tracking/verbose 0
+/tracking/verbose 1
 /grdm/verbose 0
 /process/verbose 0
 
@@ -124,6 +124,7 @@
 
 /Bacc/physicsList/useOpticalProcesses 0
 
-/Bacc/beamOn 100000
+#/Bacc/beamOn 100000
+/Bacc/beamOn 1
 
 exit

@@ -358,6 +358,30 @@ void BaccOutput::RecordEventByVolume( BaccDetectorComponent* component,
 			G4cout<<"primary_directionY = "<< primaryParDir[1] <<G4endl;
 			G4cout<<"primary_directionZ = "<< primaryParDir[2] <<G4endl;
 		}
+
+		// This block grabs the initial point of the highest track number whose parent is the
+		// primary particle. The intent is to get the point where the primary absorbs
+		std::vector<BaccDetectorComponent*> BaccComponents = baccManager->GetComponentsVec();
+		G4int tempTrackID=0;
+		for(G4int j=0; j<(G4int)BaccComponents.size(); j++){
+			std::vector<BaccManager::stepRecord> tempEventRecord = BaccComponents[j]->GetEventRecord();
+			for(G4int k=0; k<(G4int)tempEventRecord.size(); k++){
+				if( tempEventRecord[k].parentID == 1 &&
+					tempEventRecord[k].stepNumber == 0 && 
+					tempEventRecord[k].trackID > tempTrackID ){
+					primaryParAbsorptionVolume = (G4int)BaccComponents[j]->GetID();
+						for(G4int l=0; l<3; l++) 
+							primaryParAbsorptionPos_mm[l] = tempEventRecord[k].position[l];
+						tempTrackID = tempEventRecord[k].trackID;
+				}
+			}
+		}
+	
+		fBaccOutput.write((char *)(&primaryParAbsorptionVolume),sizeof(int));
+		fBaccOutput.write((char *)(&primaryParAbsorptionPos_mm[0]),sizeof(double));
+		fBaccOutput.write((char *)(&primaryParAbsorptionPos_mm[1]),sizeof(double));
+		fBaccOutput.write((char *)(&primaryParAbsorptionPos_mm[2]),sizeof(double));
+
 	}
 	
 	//	First handle information recording that is independent of the specific

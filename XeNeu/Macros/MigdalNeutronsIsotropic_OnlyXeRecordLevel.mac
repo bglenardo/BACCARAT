@@ -48,7 +48,7 @@
 
 # Set the output directory
 #/Bacc/io/outputDir /p/lustre2/lenardo1/simulations/migdal_xenu/isotropic_24keV/
-/Bacc/io/outputDir /p/lustre2/lenardo1/simulations/migdal_xenu/isotropic_24keV_OnlyXeRecord/
+/Bacc/io/outputDir /p/lustre2/lenardo1/simulations/migdal_xenu/isotropic_24keV_OnlyXeRecord_20210524/
 /Bacc/io/outputName XeNeu_MigdalNeutrons_isotropic_24keV_
 /Bacc/io/updateFrequency 50000
 
@@ -126,5 +126,6 @@
 /Bacc/physicsList/useOpticalProcesses 0
 
 /Bacc/beamOn 10000000
+#/Bacc/beamOn 10
 
 exit

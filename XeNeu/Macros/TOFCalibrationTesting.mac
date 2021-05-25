@@ -74,6 +74,7 @@
 # know what you're doing if you're going to use commands like these.
 #/gps/particle e-
 /gps/particle neutron
+#/gps/particle gamma
 /gps/energy 0.45 MeV
 #/gps/position 42*0.71. 42.*0.71 -1.01 cm
 #/gps/direction -1 -1 0
