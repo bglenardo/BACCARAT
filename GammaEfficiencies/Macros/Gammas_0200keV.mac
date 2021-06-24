@@ -5,24 +5,24 @@
 # 19 Aug 2013 - Initial submission (Vic)                                                           #
 #                                                                                                  #
 ####################################################################################################
-/run/verbose 1
+/run/verbose 0
 /control/verbose 0
-/tracking/verbose 1
+#/tracking/verbose 1
 /grdm/verbose 0
 /process/verbose 0
 
 # Set up visualization - Comment this stuff out if you want to skip visualization
 #/vis/open OGLSQt 1200x1200-0+0
-/vis/open VRML2FILE
-/vis/drawVolume
-/vis/scene/add/trajectories
-/vis/scene/endOfEventAction accumulate
-/tracking/storeTrajectory 1
+#/vis/open VRML2FILE
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/scene/endOfEventAction accumulate
+#/tracking/storeTrajectory 1
 #/vis/viewer/set/viewpointVector 0.5 0.75 1
-/vis/viewer/set/upVector 0 0 1
-/vis/viewer/zoom 0 
-/vis/viewer/set/viewpointThetaPhi 45 45             
-/vis/viewer/set/style surface
+#/vis/viewer/set/upVector 0 0 1
+#/vis/viewer/zoom 0 
+#/vis/viewer/set/viewpointThetaPhi 45 45             
+#/vis/viewer/set/style surface
 
 # Set up visualization so that we don't cloud the issue with neutrinos - Comment this stuff out if you want to skip visualization
 #/vis/filtering/trajectories/create/particleFilter
@@ -47,8 +47,8 @@
 /run/initialize
 
 # Set the output directory
-/Bacc/io/outputDir ./
-/Bacc/io/outputName BaccTest
+/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/CrystalSims/20210619_StanfordDetectorSims/
+/Bacc/io/outputName NaI_scintillator_StanfordCrystal_100keV_
 
 # Set the random seed
 #/Bacc/randomSeed 0
@@ -67,7 +67,7 @@
 #/Bacc/detector/recordLevel LiquidXeTarget 2 # For "simpleExample" or "complexExample"
 #/Bacc/detector/recordLevel activeVolume 2 # For "LLNLSinglePhase"
 #/Bacc/detector/recordLevel shield 2 # For "GNARRLIDetector"
-/Bacc/detector/recordLevel scintillator 3
+/Bacc/detector/recordLevel scintillator 2
 
 # This can be used in place of the regular the event generators. Be sure you
 # know what you're doing if you're going to use commands like these.
@@ -82,7 +82,10 @@
 /gps/pos/rot2 0 1 0
 /gps/particle gamma
 /gps/ang/type iso
-/gps/energy 10. keV
+/gps/energy 100 keV
+
+
+
 #/gps/ene/type Lin
 #/gps/ene/gradient 0
 #/gps/ene/intercept 1
@@ -91,6 +94,19 @@
 #/gps/position 42*0.71. 42.*0.71 -1.01 cm
 #/gps/direction -1 -1 0
 #/gps/ang/type iso
+#/gps/position 0 0 -1.0 cm
+#/gps/pos/type Volume
+#/gps/pos/shape Cylinder
+##/gps/pos/radius 1.2 cm
+#/gps/pos/halfz 2.54 cm
+#/gps/ang/type iso 
+#/gps/hist/type theta
+#/gps/ang/mintheta 0. deg 
+#/gps/ang/maxtheta 90. deg 
+#/gps/ang/minphi 180. deg
+#/gps/ang/maxphi 360. deg
+#/gps/ang/rot1 0 0 -1
+#/gps/ang/rot2 0 -1 0
 
 /Bacc/physicsList/useOpticalProcesses 0
 
@@ -102,6 +118,6 @@
 #/gps/ang/maxtheta 90.01 deg
 #/gps/ang/rot1 1 0 0
 #/gps/ang/rot2 0 1 0
-/Bacc/beamOn 200
+/Bacc/beamOn 1000000
 
 exit

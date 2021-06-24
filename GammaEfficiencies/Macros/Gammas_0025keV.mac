@@ -5,7 +5,7 @@
 
 /run/initialize
 /Bacc/io/outputDir /p/lustre1/lenardo1/simulations/CrystalSims/20210620_StanfordDetectorSims_1p5by1p5_bad_side/
-/Bacc/io/outputName NaI_scintillator_StanfordCrystal_1p5by1p5_1000keV_
+/Bacc/io/outputName NaI_scintillator_StanfordCrystal_1p5by1p5_0025keV_
 /Bacc/detector/select GammaEfficienciesDetector
 /Bacc/detector/update
 
@@ -20,7 +20,7 @@
 /gps/pos/rot2 0 1 0
 /gps/particle gamma
 /gps/ang/type iso
-/gps/energy 1000.0 keV
+/gps/energy 25.118864315095795 keV
 
 /Bacc/physicsList/useOpticalProcesses 0
 

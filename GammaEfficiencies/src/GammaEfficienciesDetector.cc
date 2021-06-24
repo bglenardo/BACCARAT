@@ -177,7 +177,9 @@ void GammaEfficienciesDetector::BuildDetector(){
 //                                       0,0,true);
 
   bool custom_1p1_1p1_1in_detector = false;
-  bool ots_1p5_1p5_cylinder_detector = true;
+  bool ots_1p5_1p5_cylinder_detector = false;
+  bool stanford_nai_detector = true;
+  bool sg_sipm_detector = false;
 
   if( custom_1p1_1p1_1in_detector ) {
       G4Box * al_shell_box = new G4Box("al_shell_box",
@@ -235,33 +237,153 @@ void GammaEfficienciesDetector::BuildDetector(){
                                                   0,0,true);
       
 
+  } else if( stanford_nai_detector ) {
+    double detector_diameter = 1.5 * 2.54 *cm;
+    double detector_length = 1.5 * 2.54 * cm;
+    double detector_position_radius = 1.25 * 2.54 * cm;
+    double detector_position_angle = 60.*deg;
+    double detector_casing_thickness = 0.1 * 2.54 * cm;
+
+    G4RotationMatrix * rot = new G4RotationMatrix();
+    rot->rotateY(90.*deg);
+    rot->rotateX(120.*deg);
+    double xpos = (detector_position_radius + detector_length/2.)*cos(detector_position_angle);
+    double ypos = (detector_position_radius + detector_length/2.)*sin(detector_position_angle);
+
+    G4Tubs * detector_casing_tubs = new G4Tubs("casing_tubs",0.,(detector_diameter/2. + detector_casing_thickness),
+                                           detector_length/2. + detector_casing_thickness,
+                                           0.*deg,360.*deg);
+    G4LogicalVolume * detector_casing_log = new G4LogicalVolume(detector_casing_tubs, BACCmaterials->Aluminum(), "detector_casing_log");
+    BaccDetectorComponent * detector_casing = new BaccDetectorComponent(rot,
+                                                   G4ThreeVector(xpos,ypos,0),
+                                                   detector_casing_log,
+                                                   "detector_casing",
+                                                   lab_space_log,
+                                                   0,0,true);
+
+
+
+    G4Tubs * nai_tubs = new G4Tubs("nai_tubs",0.,detector_diameter/2.,
+                                   detector_length/2.,0.*deg,360.*deg);
+    G4LogicalVolume * scintillator_log = new G4LogicalVolume(nai_tubs, GammaEfficienciesmaterials->SodiumIodide(),"scintillator_log");
+    scintillator_log->SetVisAttributes( BACCmaterials->TestBlueVis() );
+
+    BaccDetectorComponent * scintillator = new BaccDetectorComponent(0,
+                                                  G4ThreeVector(0,0,0),
+                                                  scintillator_log,
+                                                  "scintillator",
+                                                  detector_casing_log,
+                                                  0,0,true);
+
+  } else if ( sg_sipm_detector ) {
+
+    double detector_diameter = 1.5 * 2.54 *cm;
+    double detector_length = 1.5 * 2.54 * cm;
+    double detector_position_radius = 1.25 * 2.54 * cm;
+    double detector_position_angle = 60.*deg;
+    double detector_casing_thickness = 0.02 * 2.54 * cm;
+
+    G4RotationMatrix * rot = new G4RotationMatrix();
+    rot->rotateY(90.*deg);
+    rot->rotateX(120.*deg);
+    double xpos = (detector_position_radius + detector_length/2.)*cos(detector_position_angle);
+    double ypos = (detector_position_radius + detector_length/2.)*sin(detector_position_angle);
+
+    G4Tubs * detector_casing_tubs = new G4Tubs("casing_tubs",0.,(detector_diameter/2. + detector_casing_thickness),
+                                           detector_length/2. + detector_casing_thickness,
+                                           0.*deg,360.*deg);
+    G4LogicalVolume * detector_casing_log = new G4LogicalVolume(detector_casing_tubs, BACCmaterials->Aluminum(), "detector_casing_log");
+    BaccDetectorComponent * detector_casing = new BaccDetectorComponent(rot,
+                                                   G4ThreeVector(xpos,ypos,0),
+                                                   detector_casing_log,
+                                                   "detector_casing",
+                                                   lab_space_log,
+                                                   0,0,true);
+
+
+
+    G4Tubs * nai_tubs = new G4Tubs("nai_tubs",0.,detector_diameter/2.,
+                                   detector_length/2.,0.*deg,360.*deg);
+    G4LogicalVolume * scintillator_log = new G4LogicalVolume(nai_tubs, GammaEfficienciesmaterials->SodiumIodide(),"scintillator_log");
+    scintillator_log->SetVisAttributes( BACCmaterials->TestBlueVis() );
+
+    BaccDetectorComponent * scintillator = new BaccDetectorComponent(0,
+                                                  G4ThreeVector(0,0,0),
+                                                  scintillator_log,
+                                                  "scintillator",
+                                                  detector_casing_log,
+                                                  0,0,true);
+
   }
 
-  double target_chamber_inner_height = 5.125 * 2.54 * cm;
-  double target_chamber_inner_radius = 6.025 * 2.54 * cm;
-  double target_chamber_radial_wall_thickness = 0.325 * 2.54 * cm;
-  double target_chamber_height_wall_thickness = 0.2 * 2.54 * cm;
-  G4Tubs * target_chamber_tubs = new G4Tubs("target_chamber_tubs",
-                                            0.,target_chamber_inner_radius+target_chamber_radial_wall_thickness,
-                                            (target_chamber_inner_height/2.+target_chamber_height_wall_thickness),
-                                            0.*deg,360.*deg);
-  G4Tubs * target_chamber_cavity_tubs = new G4Tubs("target_chamber_cavity_tubs",
-                                                   0.,target_chamber_inner_radius,
-                                                   target_chamber_inner_height/2.,
-                                                    0.*deg,360.*deg);
-  G4SubtractionSolid * target_chamber_sub = new G4SubtractionSolid("target_chamber_sub",target_chamber_tubs,target_chamber_cavity_tubs);
-  G4LogicalVolume * target_chamber_log = new G4LogicalVolume(target_chamber_sub, BACCmaterials->Aluminum(), "target_chamber_log");
-  target_chamber_log->SetVisAttributes( BACCmaterials->AluminumVis() );
-  BaccDetectorComponent * target_chamber = new BaccDetectorComponent(0,
-                                                     G4ThreeVector(0,0,0),
-                                                     target_chamber_log,
-                                                     "target_chamber",
-                                                     lab_space_log,
-                                                     0,0,true);
+//  double target_chamber_inner_height = 5.125 * 2.54 * cm;
+//  double target_chamber_inner_radius = 6.025 * 2.54 * cm;
+//  double target_chamber_radial_wall_thickness = 0.325 * 2.54 * cm;
+//  double target_chamber_height_wall_thickness = 0.2 * 2.54 * cm;
+//  G4Tubs * target_chamber_tubs = new G4Tubs("target_chamber_tubs",
+//                                            0.,target_chamber_inner_radius+target_chamber_radial_wall_thickness,
+//                                            (target_chamber_inner_height/2.+target_chamber_height_wall_thickness),
+//                                            0.*deg,360.*deg);
+//  G4Tubs * target_chamber_cavity_tubs = new G4Tubs("target_chamber_cavity_tubs",
+//                                                   0.,target_chamber_inner_radius,
+//                                                   target_chamber_inner_height/2.,
+//                                                    0.*deg,360.*deg);
+//  G4SubtractionSolid * target_chamber_sub = new G4SubtractionSolid("target_chamber_sub",target_chamber_tubs,target_chamber_cavity_tubs);
+//  G4LogicalVolume * target_chamber_log = new G4LogicalVolume(target_chamber_sub, BACCmaterials->Aluminum(), "target_chamber_log");
+//  target_chamber_log->SetVisAttributes( BACCmaterials->AluminumVis() );
+//  BaccDetectorComponent * target_chamber = new BaccDetectorComponent(0,
+//                                                     G4ThreeVector(0,0,0),
+//                                                     target_chamber_log,
+//                                                     "target_chamber",
+//                                                     lab_space_log,
+//                                                     0,0,true);
                                  
 
-  //double gas_cell_diameter = 0.5 * 2.54 * cm;
-  //G4Tubs * gas_cell_tubs = new G4Tubs("gas_cell_tubs", 
+  double gas_cell_diameter = 0.5 * 2.54 * cm;
+  G4Tubs * gas_cell_tubs = new G4Tubs("gas_cell_tubs",0.,gas_cell_diameter/2.,
+                                      1.5 * 2.54 * cm, 0.*deg, 360.*deg);
+  
+  G4LogicalVolume * gas_in_cell_log = new G4LogicalVolume(gas_cell_tubs,BACCmaterials->GasXe(),"gas_in_cell_log");
+  gas_in_cell_log->SetVisAttributes( BACCmaterials->TestRedVis() );
+  BaccDetectorComponent * gas_in_cell = new BaccDetectorComponent(0,
+                                                G4ThreeVector(0,0,0),
+                                                gas_in_cell_log,
+                                                "gas_in_cell",
+                                                lab_space_log,
+                                                0,0,true);
+
+
+  G4Box * beam_hole = new G4Box("beam_hole_box",
+                                1. * 2.54 * cm,
+                                0.125 * 2.54 * cm,
+                                0.125 * 2.54 * cm);
+  G4SubtractionSolid * gas_cell_with_beam_hole = new G4SubtractionSolid("gas_cell_with_beam_hole_sub",
+                                                                        gas_cell_tubs,
+                                                                        beam_hole,
+                                                                        0,G4ThreeVector(0.,0.,0.));
+  G4Box * slice_1 = new G4Box("slice_1",
+                              0.5*2.54*cm,
+                              0.5*2.54*cm,
+                              0.125*2.54*cm);
+  G4SubtractionSolid * gas_cell_with_beam_hole_and_slice_1 = new G4SubtractionSolid("gas_cell_blah_blah",
+                                                                 gas_cell_with_beam_hole,
+                                                                 slice_1,
+                                                                 0,G4ThreeVector((0.5+0.125/2.)*2.54*cm,-0.5*2.54*cm,0.));
+
+  G4SubtractionSolid * full_gas_cell = new G4SubtractionSolid("full_gas_cell_sub",
+                                                              gas_cell_with_beam_hole_and_slice_1,
+                                                              slice_1,
+                                                              0,G4ThreeVector( -(0.5+0.125/2.)*2.54*cm,-0.5*2.54*cm,0.));
+  G4LogicalVolume * full_gas_cell_log = new G4LogicalVolume(full_gas_cell,BACCmaterials->Aluminum(),"full_gas_cell_log");
+  BaccDetectorComponent * gas_cell = new BaccDetectorComponent(0,
+                                             G4ThreeVector(0,0,0),
+                                             full_gas_cell_log,
+                                             "gas_cell",
+                                             gas_in_cell_log,
+                                             0,0,true);
+
+ 
+ 
 
 
 }
