@@ -1,0 +1,110 @@
+/run/verbose 1
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+/process/verbose 0
+
+
+# Set up visualization - Comment this stuff out if you want to skip visualization
+##/vis/open OGLSQt 1200x1200-0+0
+#/vis/open VRML2FILE
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/scene/endOfEventAction accumulate
+#/tracking/storeTrajectory 1
+#/vis/viewer/set/viewpointVector 0.5 0.75 1
+#/vis/viewer/set/upVector 0 0 1
+#/vis/viewer/zoom 0 
+##/vis/viewer/set/viewpointThetaPhi 45 45             
+#/vis/viewer/set/style surface
+
+
+/run/initialize
+
+# Set the output directory
+/Bacc/io/outputDir ./
+/Bacc/io/outputName OpticalPhotonTestTeflon10000eventstargetregion_TopandBottomPhotocathodeinwindow_
+#OpticalPhotonNoTeflon10000events_neg15mminZ_gasxenonmeasurement_StraightUP 
+#OpticalPhoton_3000Events_AboveEGPosition_PMTPhotoCathodeSensitiveVolume_withaddedteflon_
+/Bacc/io/updateFrequency 10000
+
+
+# Set the random seed
+/Bacc/randomSeed 10
+
+
+#/XeNeu/dtShieldingOn true
+/Bacc/detector/select XeNeuDetector
+/Bacc/detector/update
+
+#/Bacc/detector/recordLevel liquid_xenon_target 3 
+#/Bacc/detector/recordLevel liquid_xenon_below_cathode 3
+#/Bacc/detector/recordLevel liquid_xenon_above_eg 3 
+#/Bacc/detector/recordLevel gas_xenon 3
+
+
+#/Bacc/detector/recordLevelOptPhot Bottom_Photocathode_obj 4
+#/Bacc/detector/recordLevelOptPhot Bottom_Photocathode_inwindow_obj 4
+#/Bacc/detector/recordLevelOptPhot glass_slide 3
+#/Bacc/detector/recordLevelOptPhot measurementbox_obj 1
+
+#/Bacc/detector/recordLevelOptPhot outer_can 4
+#/Bacc/detector/recordLevelOptPhot Lead_Shielding_Collimator_object 4
+#/Bacc/detector/recordLevelOptPhot Lead_Shielding_object 4
+#/Bacc/detector/recordLevelOptPhot vacuum_space 4
+#/Bacc/detector/recordLevelOptPhot inner_can 4
+#/Bacc/detector/recordLevelOptPhot liquid_xenon 4
+#/Bacc/detector/recordLevelOptPhot cathode_ring 4
+#/Bacc/detector/recordLevelOptPhot field_ring_1 4
+#/Bacc/detector/recordLevelOptPhot field_ring_4 4
+#/Bacc/detector/recordLevelOptPhot field_ring_3 4
+#/Bacc/detector/recordLevelOptPhot extraction_grid 4
+#/Bacc/detector/recordLevelOptPhot weir 4
+#/Bacc/detector/recordLevelOptPhot teflon_block_minus_weir 4
+#/Bacc/detector/recordLevelOptPhot gas_in_weir 4
+#/Bacc/detector/recordLevelOptPhot peek_rod_1 4
+#/Bacc/detector/recordLevelOptPhot peek_rod_4 4
+#/Bacc/detector/recordLevelOptPhot peek_rod_3 4
+#/Bacc/detector/recordLevelOptPhot gas_xenon 4
+#/Bacc/detector/recordLevelOptPhot Photocathode_obj 3
+#/Bacc/detector/recordLevelOptPhot bottom_pmt 4
+#/Bacc/detector/recordLevelOptPhot pmtCage 4
+#/Bacc/detector/recordLevelOptPhot liquid_xenon_target 4
+#/Bacc/detector/recordLevelOptPhot liquid_xenon_below_cathode 4
+#/Bacc/detector/recordLevelOptPhot liquid_xenon_above_eg 4
+
+#/Bacc/detector/recordLevelOptPhot Teflon_AboveCath_obj 4
+#/Bacc/detector/recordLevelOptPhot Teflon_Ring_1_obj 4
+#/Bacc/detector/recordLevelOptPhot Teflon_Ring_4_obj 4
+#/Bacc/detector/recordLevelOptPhot Teflon_Ring_3_obj 4
+#/Bacc/detector/recordLevelOptPhot Teflon_Ring_AboveEG_obj 4 
+#/Bacc/detector/recordLevelOptPhot Teflon_Inside_Drift_obj 4
+#/Bacc/detector/recordLevelOptPhot Teflon_BelowCath_obj 4
+/Bacc/detector/recordLevelOptPhot PhotocathodeBottom_inwindow_obj 3
+/Bacc/detector/recordLevelOptPhot Photocathode_obj 3
+#/Bacc/detector/recordLevelOptPhot PhotocathodeBottom_obj 3
+#/Bacc/detector/recordLevelOptPhot PMT_Window_obj 3
+#/Bacc/detector/recordLevelOptPhot detectorVolume_obj 4
+#/Bacc/detector/recordLevelOptPhot vacuumbox_obj 4
+
+
+/Bacc/source/set liquid_xenon_target ScintPhotons 5 mBq
+
+#/gps/particle opticalphoton
+#/gps/ene/type Gauss
+#/gps/ene/mono 6.97 eV
+#/gps/ene/sigma 0.23 eV
+#/gps/ang/type iso
+#/gps/ang/mintheta 0. deg
+#/gps/ang/maxtheta 140. deg
+#/gps/pos/type Point
+#/gps/pos/centre 0 0 0 mm
+#/gps/position 0. 0. -30. mm
+#/gps/direction 0 0 -1
+
+/Bacc/physicsList/useOpticalProcesses true
+/Bacc/physicsList/opticalDebug true 
+
+/Bacc/beamOn 10000
+
+exit
