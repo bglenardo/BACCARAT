@@ -55,6 +55,7 @@
 #include "XeNeuMessenger.hh"
 //#include "XeNeuDetectorParameters.hh"
 #include "XeNeu_XeDetector.hh"
+#include "XeNeu_MigdalNeutronTagging.hh"
 #include "XeNeu_PMTCage.hh"
 #include "XeNeu_LSDetector.hh"
 #include "XeNeu_DDCastle.hh"
@@ -206,6 +207,21 @@ void XeNeuDetector::BuildDetector(){
                                                         0, 0, true);
 
 
+  bool migdal_neutron_tagging = true;
+
+  if( migdal_neutron_tagging ) {
+
+      G4RotationMatrix * neutron_det_rot = new G4RotationMatrix();
+      neutron_det_rot->rotateZ(180.*deg);
+
+      XeNeu_MigdalNeutronTagging * migdal_tagging_detector_obj = new XeNeu_MigdalNeutronTagging();
+      BaccDetectorComponent * migdal_tagging_detector = new BaccDetectorComponent( neutron_det_rot,
+                                                                 G4ThreeVector(0.,0.,0.),
+                                                                 migdal_tagging_detector_obj->GetLogicalVolume(),
+                                                                 "migdal_neutron_tagging_detector",
+                                                                 logicalVolume,
+                                                                 0,0,true);
+  }
   // Build the vacuum box
   double detectorHalfHeight = 7. * 2.54 * cm; 
   double vacuumBoxHalfHeight = 3. * 2.54 * cm; 

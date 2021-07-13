@@ -269,6 +269,9 @@ BaccMaterials::~BaccMaterials()
     delete ej301;
     delete ej200;
     delete dopedLABGd;
+    delete polystyrene;
+    delete enrLiMaterial;
+    delete liDopedPlasticScintillator;
     delete kapton;
     delete kg2Glass;
     delete lead;
@@ -1702,6 +1705,7 @@ void BaccMaterials::CreateMaterials()
     natGd->AddIsotope( Gd158, 24.84*perCent );
     natGd->AddIsotope( Gd160, 21.86*perCent );
     
+
     G4Element *natCa = new G4Element( "Natural Ca", "natCa", 5);
     natCa->AddIsotope( Ca40, 96.94*perCent );
     natCa->AddIsotope( Ca42, 0.64*perCent );
@@ -1762,7 +1766,7 @@ void BaccMaterials::CreateMaterials()
     
     gadolinium = new G4Material( "gadolinium", 157.25*g/mole, 1 );
     gadolinium->AddElement( natGd, 1 );
-    
+
     //	For this density of the argon gas, the STP density is 1.784 g/L, but
     //	the pressure was 750 Torr and the temperature was 21.4 C.
     //	1.784 g/L * (750/760) * (273 / (273+21.4)) = 1.632 g/L
@@ -1832,6 +1836,18 @@ void BaccMaterials::CreateMaterials()
     lab->AddElement( natC, 10 ); //was 35.5*perCent
     lab->AddElement( natH, 18 ); //was 64.5*perCent
    
+    polystyrene = new G4Material( "polystyrene", 1.0*g/cm3, 2 );
+    polystyrene->AddElement( natC, 8 );
+    polystyrene->AddElement( natH, 8 );
+
+    enrLiMaterial = new G4Material("enrLiMaterial",6.*g/mole,1);
+    enrLiMaterial->AddElement( enrLi, 1 );
+
+    liDopedPlasticScintillator = new G4Material( "liDopedPlasticScintillator", 1.1*g/cm3, 3);
+    liDopedPlasticScintillator->AddMaterial( polystyrene, 27.88*perCent );
+    liDopedPlasticScintillator->AddMaterial( acrylic, 70*perCent );
+    liDopedPlasticScintillator->AddMaterial( enrLiMaterial, 0.12*perCent );
+
     ej301 = new G4Material( "ej301", 0.876*g/cm3, 2);
     ej301->AddElement( natC, 199 );
     ej301->AddElement( natH, 241 );
