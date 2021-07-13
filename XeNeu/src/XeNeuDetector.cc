@@ -56,6 +56,7 @@
 //#include "XeNeuDetectorParameters.hh"
 #include "XeNeu_XeDetector.hh"
 #include "XeNeu_MigdalNeutronTagging.hh"
+#include "XeNeu_MigdalNaITagging.hh"
 #include "XeNeu_PMTCage.hh"
 #include "XeNeu_LSDetector.hh"
 #include "XeNeu_DDCastle.hh"
@@ -207,13 +208,9 @@ void XeNeuDetector::BuildDetector(){
                                                         0, 0, true);
 
 
-  bool migdal_neutron_tagging = true;
-
   if( migdal_neutron_tagging ) {
-
       G4RotationMatrix * neutron_det_rot = new G4RotationMatrix();
-      neutron_det_rot->rotateZ(180.*deg);
-
+      neutron_det_rot->rotateZ(165.*deg);
       XeNeu_MigdalNeutronTagging * migdal_tagging_detector_obj = new XeNeu_MigdalNeutronTagging();
       BaccDetectorComponent * migdal_tagging_detector = new BaccDetectorComponent( neutron_det_rot,
                                                                  G4ThreeVector(0.,0.,0.),
@@ -222,6 +219,22 @@ void XeNeuDetector::BuildDetector(){
                                                                  logicalVolume,
                                                                  0,0,true);
   }
+
+  if( migdal_nai_tagging ) {
+      G4RotationMatrix * nai_det_rot = new G4RotationMatrix();
+      nai_det_rot->rotateZ(165.*deg);
+      XeNeu_MigdalNaITagging * migdal_tagging_detector_obj = new XeNeu_MigdalNaITagging();
+      BaccDetectorComponent * migdal_tagging_detector = new BaccDetectorComponent( nai_det_rot,
+                                                                 G4ThreeVector(0.,0.,0.),
+                                                                 migdal_tagging_detector_obj->GetLogicalVolume(),
+                                                                 "migdal_neutron_tagging_detector",
+                                                                 logicalVolume,
+                                                                 0,0,true);
+  }
+
+
+
+
   // Build the vacuum box
   double detectorHalfHeight = 7. * 2.54 * cm; 
   double vacuumBoxHalfHeight = 3. * 2.54 * cm; 
@@ -614,13 +627,13 @@ void XeNeuDetector::BuildDetector(){
   G4LogicalVolume * lead_brick_log = new G4LogicalVolume( lead_brick_box, BACCmaterials->Lead(), "lead_brick_log");
   lead_brick_log->SetVisAttributes( BACCmaterials->TestPurpleVis() );
   BaccDetectorComponent * lead_brick_1 = new BaccDetectorComponent(0,
-                                               G4ThreeVector(-5.3*2.54*cm,(2.7/2.+2.*2.54)*cm,0.),
+                                               G4ThreeVector(-6.6*2.54*cm,(2.7/2.+2.*2.54)*cm,0.),
                                                lead_brick_log,
                                                "lead_brick_1",
                                                logicalVolume,
                                                0,0,true);
   BaccDetectorComponent * lead_brick_2 = new BaccDetectorComponent(0,
-                                               G4ThreeVector(-5.3*2.54*cm,-(2.7/2.+2.*2.54)*cm,0.),
+                                               G4ThreeVector(-6.6*2.54*cm,-(2.7/2.+2.*2.54)*cm,0.),
                                                lead_brick_log,
                                                "lead_brick_2",
                                                logicalVolume,

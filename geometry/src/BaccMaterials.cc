@@ -271,6 +271,7 @@ BaccMaterials::~BaccMaterials()
     delete dopedLABGd;
     delete polystyrene;
     delete enrLiMaterial;
+    delete sodiumIodide;
     delete liDopedPlasticScintillator;
     delete kapton;
     delete kg2Glass;
@@ -1433,7 +1434,9 @@ void BaccMaterials::CreateMaterials()
     G4Isotope *F19 = new G4Isotope( "F19", 9, 19, 18.99840322*g/mole );
     
     G4Isotope *Na23 = new G4Isotope( "Na23", 11, 23, 22.9897677*g/mole );
-    
+
+    G4Isotope *I127 = new G4Isotope( "I127", 53, 127, 126.904473*g/mole );    
+
     G4Isotope *Mg24 = new G4Isotope( "Mg24", 12, 24, 23.9850417*g/mole );
     G4Isotope *Mg25 = new G4Isotope( "Mg25", 12, 25, 24.9858369*g/mole );
     G4Isotope *Mg26 = new G4Isotope( "Mg26", 12, 26, 25.9825929*g/mole );
@@ -1589,6 +1592,9 @@ void BaccMaterials::CreateMaterials()
     G4Element *natNa = new G4Element( "Natural Na", "natNa", 1 );
     natNa->AddIsotope( Na23, 100.*perCent );
     
+    G4Element *natI = new G4Element("Natural Iodine", "natI", 1 );
+    natI->AddIsotope( I127, 100.*perCent );
+
     G4Element *natMg = new G4Element( "Natural Mg", "natMg", 3 );
     natMg->AddIsotope( Mg24, 78.99*perCent );
     natMg->AddIsotope( Mg25, 10.00*perCent );
@@ -1842,6 +1848,10 @@ void BaccMaterials::CreateMaterials()
 
     enrLiMaterial = new G4Material("enrLiMaterial",6.*g/mole,1);
     enrLiMaterial->AddElement( enrLi, 1 );
+
+    sodiumIodide = new G4Material("sodiumIodide", 3.67 * g/cm3, 2);
+    sodiumIodide->AddElement( natNa, 1 );
+    sodiumIodide->AddElement( natI, 1 );
 
     liDopedPlasticScintillator = new G4Material( "liDopedPlasticScintillator", 1.1*g/cm3, 3);
     liDopedPlasticScintillator->AddMaterial( polystyrene, 27.88*perCent );

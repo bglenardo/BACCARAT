@@ -52,7 +52,7 @@
 //
 //	LZSystemTest includes
 //
-#include "XeNeu_MigdalNeutronTagging.hh"
+#include "XeNeu_MigdalNaITagging.hh"
 #include "XeNeu_PMTCage.hh"
 #include "XeNeu_XeDetectorParameters.hh"
 //
@@ -67,7 +67,7 @@ using namespace XeNeuDetectorParameters;
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 //				LZSystemTestActiveLXeRegion
 //------++++++------++++++------++++++------++++++------++++++------++++++------
-XeNeu_MigdalNeutronTagging::XeNeu_MigdalNeutronTagging()
+XeNeu_MigdalNaITagging::XeNeu_MigdalNaITagging()
 {
 
     //	Get the BaccMaterials pointer
@@ -84,12 +84,12 @@ XeNeu_MigdalNeutronTagging::XeNeu_MigdalNeutronTagging()
                                              outerCanOuterRadius + detectorThickness,
                                              detectorHalfHeight,
                                              0.*deg,330.*deg);
-  taggingDetectorVolume_log = new G4LogicalVolume( taggingDetectorVolume_tubs, BACCmaterials->LiDopedPlasticScintillator(), "detector");
+  taggingDetectorVolume_log = new G4LogicalVolume( taggingDetectorVolume_tubs, BACCmaterials->SodiumIodide(), "detector");
   taggingDetectorVolume_log->SetVisAttributes( BACCmaterials->TestBlueVis() );
 
 }
 
 //------++++++------++++++------++++++------++++++------++++++------++++++------
-//				~XeNeu_MigdalNeutronTagging
+//				~XeNeu_MigdalNaITagging
 //------++++++------++++++------++++++------++++++------++++++------++++++------
-XeNeu_MigdalNeutronTagging::~XeNeu_MigdalNeutronTagging(){}
+XeNeu_MigdalNaITagging::~XeNeu_MigdalNaITagging(){}

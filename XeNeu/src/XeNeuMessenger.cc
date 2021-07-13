@@ -47,6 +47,14 @@ XeNeuMessenger::XeNeuMessenger( XeNeuDetector *Det )
   XeNeuDDShieldingCommand->SetGuidance(" The default choice is false." );
   XeNeuDDShieldingCommand->AvailableForStates( G4State_PreInit, G4State_Idle );
 
+  XeNeuMigdalNaITaggingCommand = new G4UIcmdWithABool("/XeNeu/migdalNaITagging",this);
+  XeNeuMigdalNaITaggingCommand->SetGuidance("Turns on or off the NaI tagging detector. Default false.");
+  XeNeuMigdalNaITaggingCommand->AvailableForStates( G4State_PreInit, G4State_Idle );
+
+  XeNeuMigdalNeutronTaggingCommand = new G4UIcmdWithABool("/XeNeu/migdalNeutronTagging",this);
+  XeNeuMigdalNeutronTaggingCommand->SetGuidance("Turns on or off the Neutron tagging detector. Default false.");
+  XeNeuMigdalNeutronTaggingCommand->AvailableForStates( G4State_PreInit, G4State_Idle );
+
   XeNeuTOFCalibrationCommand = new G4UIcmdWithABool("/XeNeu/tofCalibration", this);
   XeNeuTOFCalibrationCommand->SetGuidance("Turns the TOF calibration geometry on or off.");
   XeNeuTOFCalibrationCommand->SetGuidance(" The default choice is false.");
@@ -66,6 +74,8 @@ XeNeuMessenger::~XeNeuMessenger()
   //delete everything that you declared with new
   delete XeNeuDir;
   delete XeNeuDDShieldingCommand;
+  delete XeNeuMigdalNaITaggingCommand;
+  delete XeNeuMigdalNeutronTaggingCommand;
 
 }
 
@@ -76,6 +86,10 @@ void XeNeuMessenger::SetNewValue( G4UIcommand *command, G4String newValue )
 {
    if( command == XeNeuDDShieldingCommand )
       XeNeudetector->SetXeNeuDDShielding( XeNeuDDShieldingCommand->GetNewBoolValue(newValue) ); 
+   else if( command == XeNeuMigdalNaITaggingCommand )
+      XeNeudetector->SetXeNeuMigdalNaITagging( XeNeuMigdalNaITaggingCommand->GetNewBoolValue(newValue) );
+   else if( command == XeNeuMigdalNeutronTaggingCommand )
+      XeNeudetector->SetXeNeuMigdalNeutronTagging( XeNeuMigdalNeutronTaggingCommand->GetNewBoolValue(newValue) );
    else if( command == XeNeuTOFCalibrationCommand )
       XeNeudetector->SetXeNeuTOFCalibration( XeNeuTOFCalibrationCommand->GetNewBoolValue(newValue) );
    else if( command == XeNeuTOFDistanceCommand )

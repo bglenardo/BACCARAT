@@ -88,6 +88,7 @@ class BaccMaterials
 		inline G4Material *Acrylic() { return acrylic; };
                 inline G4Material *Polystyrene() { return polystyrene; }
                 inline G4Material *EnrLi() { return enrLiMaterial; }
+                inline G4Material *SodiumIodide() { return sodiumIodide; }
                 inline G4Material *LiDopedPlasticScintillator(){ return liDopedPlasticScintillator; }
 		inline G4Material *Air() { return air; };
 		inline G4Material *Aluminum() { return aluminum; };
@@ -412,6 +413,7 @@ class BaccMaterials
 		G4Material *isohexane;
                 G4Material *liDopedPlasticScintillator;
                 G4Material *polystyrene;
+                G4Material *sodiumIodide;
                 G4Material *enrLiMaterial;
 		G4Material *dopedIsohexaneTMB5;
 		G4Material *dopedIsohexaneTMB50;

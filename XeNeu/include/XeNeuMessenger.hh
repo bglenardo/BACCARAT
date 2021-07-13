@@ -52,6 +52,8 @@ private:
   // Declare the UI commands below
   G4UIcmdWithABool * XeNeuDDShieldingCommand;
   G4UIcmdWithABool * XeNeuTOFCalibrationCommand;
+  G4UIcmdWithABool * XeNeuMigdalNaITaggingCommand;
+  G4UIcmdWithABool * XeNeuMigdalNeutronTaggingCommand;
   G4UIcmdWithADouble * XeNeuTOFDistanceCommand;
 
  
