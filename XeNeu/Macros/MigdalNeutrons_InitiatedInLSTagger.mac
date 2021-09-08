@@ -47,10 +47,10 @@
 /run/initialize
 
 # Set the output directory
-#/Bacc/io/outputDir /p/lustre2/lenardo1/simulations/migdal_xenu/isotropic_24keV/
+#/Bacc/io/outputDir /p/lustre2/lenardo1/simulations/migdal_xenu/2deg_LSNeutronTagging_10percentDoping/
 /Bacc/io/outputDir ./
-/Bacc/io/outputName XeNeu_MigdalNeutrons_isotropic_24keV_
-/Bacc/io/updateFrequency 50000
+/Bacc/io/outputName XeNeu_MigdalNeutrons_isotropic_initiated_in_tagger_ej254_2percentDoping_
+/Bacc/io/updateFrequency 10000
 
 
 # Set the random seed
@@ -61,9 +61,9 @@
 #/Bacc/detector/select complexExample
 #/Bacc/detector/select LLNLSinglePhase
 /Bacc/detector/select XeNeuDetector
-/XeNeu/ddShieldingOn false
+/XeNeu/ddShieldingOn true
 /XeNeu/migdalNaITagging false
-/XeNeu/migdalNeutronTagging false
+/XeNeu/migdalNeutronTagging true
 
 # Update geometry
 /Bacc/detector/update
@@ -117,17 +117,17 @@
 /gps/energy 0.024 MeV
 #/gps/ene/type Gauss
 #/gps/ene/sigma 0.01 MeV
-/gps/position -0.743 0. 0. m
+/gps/position 0. 12.541 0. cm
 #/gps/direction 1 0 0
 /gps/ang/type iso
 #/gps/ang/mintheta 0. deg
-#/gps/ang/maxtheta 15. deg
+#/gps/ang/maxtheta 2. deg
 #/gps/ang/rot1 0 0 -1
 #/gps/ang/rot2 0 -1 0
 
 /Bacc/physicsList/useOpticalProcesses 0
 
 #/Bacc/beamOn 1000000
-/Bacc/beamOn 10000
+/Bacc/beamOn 100000
 
 exit

@@ -61,7 +61,9 @@
 #/Bacc/detector/select complexExample
 #/Bacc/detector/select LLNLSinglePhase
 /Bacc/detector/select XeNeuDetector
-#/XeNeu/ddShieldingOn true
+/XeNeu/ddShieldingOn false
+/XeNeu/migdalNaITagging false
+/XeNeu/migdalNeutronTagging false
 
 # Update geometry
 /Bacc/detector/update

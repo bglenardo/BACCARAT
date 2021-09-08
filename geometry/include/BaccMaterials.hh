@@ -112,6 +112,7 @@ class BaccMaterials
 		inline G4Material *DopedIsohexaneGd3() { return dopedIsohexaneGd3; };
 		inline G4Material *DopedIsohexaneGd7() { return dopedIsohexaneGd7; };
 		inline G4Material *LAB() { return lab; };
+                inline G4Material *EJ254() { return ej254; };
 		inline G4Material *EJ301() { return ej301; };
 		inline G4Material *EJ200() { return ej200; };
 		inline G4Material *DopedLABGd() { return dopedLABGd; };
@@ -420,6 +421,7 @@ class BaccMaterials
 		G4Material *dopedIsohexaneGd3;
 		G4Material *dopedIsohexaneGd7;
 		G4Material *lab;
+                G4Material *ej254;
 		G4Material *ej301;
                 G4Material *ej200;
 		G4Material *dopedLABGd;

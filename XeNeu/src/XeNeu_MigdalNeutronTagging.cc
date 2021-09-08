@@ -79,12 +79,15 @@ XeNeu_MigdalNeutronTagging::XeNeu_MigdalNeutronTagging()
   double detectorThickness = 1.5*2.54 * cm;
   double detectorHalfHeight = 4.*2.54*cm;
 
+  // There is a 4.76mm lead sheet wrapped around the detector
+
   G4Tubs * taggingDetectorVolume_tubs = new G4Tubs("migdal_neutron_tag_tubs",
-                                             outerCanOuterRadius,
-                                             outerCanOuterRadius + detectorThickness,
+                                             outerCanOuterRadius + 0.476*cm,
+                                             outerCanOuterRadius + detectorThickness + 0.476*cm,
                                              detectorHalfHeight,
                                              0.*deg,330.*deg);
-  taggingDetectorVolume_log = new G4LogicalVolume( taggingDetectorVolume_tubs, BACCmaterials->LiDopedPlasticScintillator(), "detector");
+  //taggingDetectorVolume_log = new G4LogicalVolume( taggingDetectorVolume_tubs, BACCmaterials->LiDopedPlasticScintillator(), "detector");
+  taggingDetectorVolume_log = new G4LogicalVolume( taggingDetectorVolume_tubs, BACCmaterials->EJ254(), "detector");
   taggingDetectorVolume_log->SetVisAttributes( BACCmaterials->TestBlueVis() );
 
 }

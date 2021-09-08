@@ -266,6 +266,7 @@ BaccMaterials::~BaccMaterials()
     delete dopedIsohexaneGd3;
     delete dopedIsohexaneGd7;
     delete lab;
+    delete ej254;
     delete ej301;
     delete ej200;
     delete dopedLABGd;
@@ -1849,14 +1850,28 @@ void BaccMaterials::CreateMaterials()
     enrLiMaterial = new G4Material("enrLiMaterial",6.*g/mole,1);
     enrLiMaterial->AddElement( enrLi, 1 );
 
+
     sodiumIodide = new G4Material("sodiumIodide", 3.67 * g/cm3, 2);
     sodiumIodide->AddElement( natNa, 1 );
     sodiumIodide->AddElement( natI, 1 );
 
+    //liDopedPlasticScintillator = new G4Material( "liDopedPlasticScintillator", 1.1*g/cm3, 3);
+    //liDopedPlasticScintillator->AddMaterial( polystyrene, 29.88*perCent );
+    //liDopedPlasticScintillator->AddMaterial( acrylic, 70*perCent );
+    //liDopedPlasticScintillator->AddMaterial( enrLiMaterial, 0.12*perCent );
+
+    // Taken properties taken from Andrew Mabe's paper
     liDopedPlasticScintillator = new G4Material( "liDopedPlasticScintillator", 1.1*g/cm3, 3);
-    liDopedPlasticScintillator->AddMaterial( polystyrene, 27.88*perCent );
-    liDopedPlasticScintillator->AddMaterial( acrylic, 70*perCent );
-    liDopedPlasticScintillator->AddMaterial( enrLiMaterial, 0.12*perCent );
+    liDopedPlasticScintillator->AddMaterial( polystyrene, 29.9*perCent );
+    liDopedPlasticScintillator->AddMaterial( acrylic, 70.*perCent );
+    liDopedPlasticScintillator->AddMaterial( enrLiMaterial, 0.1*perCent );
+   
+    // Properties taken from EJ-254 web page (kind of rough estimates)
+    ej254 = new G4Material( "ej254", 1.021*g/cm3, 3);
+    ej254->AddElement( natC, 91.*perCent );
+    ej254->AddElement( natH, 8.*perCent );
+    ej254->AddElement( natB, 1.*perCent );
+    
 
     ej301 = new G4Material( "ej301", 0.876*g/cm3, 2);
     ej301->AddElement( natC, 199 );

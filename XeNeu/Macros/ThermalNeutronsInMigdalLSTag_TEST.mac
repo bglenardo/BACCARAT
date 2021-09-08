@@ -7,22 +7,22 @@
 ####################################################################################################
 /run/verbose 1
 /control/verbose 0
-#/tracking/verbose 1
+/tracking/verbose 1
 /grdm/verbose 0
 /process/verbose 0
 
-## Set up visualization - Comment this stuff out if you want to skip visualization
-##/vis/open OGLSQt 1200x1200-0+0
-#/vis/open VRML2FILE
-#/vis/drawVolume
-#/vis/scene/add/trajectories
-#/vis/scene/endOfEventAction accumulate
-#/tracking/storeTrajectory 1
-##/vis/viewer/set/viewpointVector 0.5 0.75 1
-##/vis/viewer/set/upVector 0 0 1
-##/vis/viewer/zoom 0 
-##/vis/viewer/set/viewpointThetaPhi 45 45             
-#/vis/viewer/set/style surface
+# Set up visualization - Comment this stuff out if you want to skip visualization
+#/vis/open OGLSQt 1200x1200-0+0
+/vis/open VRML2FILE
+/vis/drawVolume
+/vis/scene/add/trajectories
+/vis/scene/endOfEventAction accumulate
+/tracking/storeTrajectory 1
+#/vis/viewer/set/viewpointVector 0.5 0.75 1
+#/vis/viewer/set/upVector 0 0 1
+#/vis/viewer/zoom 0 
+#/vis/viewer/set/viewpointThetaPhi 45 45             
+/vis/viewer/set/style surface
 
 # Set up visualization so that we don't cloud the issue with neutrinos - Comment this stuff out if you want to skip visualization
 #/vis/filtering/trajectories/create/particleFilter
@@ -61,9 +61,9 @@
 #/Bacc/detector/select complexExample
 #/Bacc/detector/select LLNLSinglePhase
 /Bacc/detector/select XeNeuDetector
-/XeNeu/ddShieldingOn false
+/XeNeu/ddShieldingOn true
 /XeNeu/migdalNaITagging false
-/XeNeu/migdalNeutronTagging false
+/XeNeu/migdalNeutronTagging true
 
 # Update geometry
 /Bacc/detector/update
@@ -114,20 +114,20 @@
 /Bacc/detector/recordLevel concrete 2
 
 /gps/particle neutron
-/gps/energy 0.024 MeV
+/gps/energy 0.025 eV
 #/gps/ene/type Gauss
 #/gps/ene/sigma 0.01 MeV
-/gps/position -0.743 0. 0. m
+/gps/position 0. 0.1143 0. m
 #/gps/direction 1 0 0
 /gps/ang/type iso
 #/gps/ang/mintheta 0. deg
-#/gps/ang/maxtheta 15. deg
+#/gps/ang/maxtheta 3. deg
 #/gps/ang/rot1 0 0 -1
 #/gps/ang/rot2 0 -1 0
 
 /Bacc/physicsList/useOpticalProcesses 0
 
 #/Bacc/beamOn 1000000
-/Bacc/beamOn 10000
+/Bacc/beamOn 100
 
 exit
