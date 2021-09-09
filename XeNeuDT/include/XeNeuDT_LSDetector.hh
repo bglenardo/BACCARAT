@@ -47,7 +47,7 @@ class XeNeuDT_LSDetector
     
 public:
   
-  XeNeuDT_LSDetector();
+  XeNeuDT_LSDetector(int det_num);
   ~XeNeuDT_LSDetector();
   
   inline G4LogicalVolume *GetLogicalVolume() { return lsDetectorVolume_log; }

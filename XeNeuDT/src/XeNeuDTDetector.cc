@@ -244,59 +244,67 @@ if( dtShieldingOn ) {
       double bdAngRad_7 = backingDetectorAngle_7/deg/180. * PI;
       double bdAngRad_8 = backingDetectorAngle_8/deg/180. * PI;
  
-      XeNeuDT_LSDetector * ls_detector_obj = new XeNeuDT_LSDetector();
+      XeNeuDT_LSDetector * ls_detector_1_obj = new XeNeuDT_LSDetector(1);
       BaccDetectorComponent * ls_detector_1 = new BaccDetectorComponent(rotm_ls_1,
                                                            G4ThreeVector(-d_LS1*cos(bdAngRad_1),-d_LS1*sin(bdAngRad_1),0.),
-                                                           ls_detector_obj->GetLogicalVolume(),
+                                                           ls_detector_1_obj->GetLogicalVolume(),
                                                            "ls_detector_1",
                                                            logicalVolume,
                                                            0,0,true);
  
+      XeNeuDT_LSDetector * ls_detector_2_obj = new XeNeuDT_LSDetector(2);
       BaccDetectorComponent * ls_detector_2 = new BaccDetectorComponent(rotm_ls_2,
                                                            G4ThreeVector(-d_LS2*cos(bdAngRad_2),-d_LS2*sin(bdAngRad_2),0.),
-                                                           ls_detector_obj->GetLogicalVolume(),
+                                                           ls_detector_2_obj->GetLogicalVolume(),
                                                            "ls_detector_2",
                                                            logicalVolume,
                                                            0,0,true);
 
+      XeNeuDT_LSDetector * ls_detector_3_obj = new XeNeuDT_LSDetector(3);
       BaccDetectorComponent * ls_detector_3 = new BaccDetectorComponent(rotm_ls_3,
                                                            G4ThreeVector(-d_LS3*cos(bdAngRad_3),-d_LS3*sin(bdAngRad_3),0.),
-                                                           ls_detector_obj->GetLogicalVolume(),
+                                                           ls_detector_3_obj->GetLogicalVolume(),
                                                            "ls_detector_3",
                                                            logicalVolume,
                                                            0,0,true);
+
+      XeNeuDT_LSDetector * ls_detector_4_obj = new XeNeuDT_LSDetector(4);
       BaccDetectorComponent * ls_detector_4 = new BaccDetectorComponent(rotm_ls_4,
                                                            G4ThreeVector(-d_LS4*cos(bdAngRad_4),-d_LS4*sin(bdAngRad_4),0.),
-                                                           ls_detector_obj->GetLogicalVolume(),
+                                                           ls_detector_4_obj->GetLogicalVolume(),
                                                            "ls_detector_4",
                                                            logicalVolume,
                                                            0,0,true);
 
 
+      XeNeuDT_LSDetector * ls_detector_5_obj = new XeNeuDT_LSDetector(5);
       BaccDetectorComponent * ls_detector_5 = new BaccDetectorComponent(rotm_ls_5,
                                                            G4ThreeVector(-d_LS5*cos(bdAngRad_5),-d_LS5*sin(bdAngRad_5),0.),
-                                                           ls_detector_obj->GetLogicalVolume(),
+                                                           ls_detector_5_obj->GetLogicalVolume(),
                                                            "ls_detector_5",
                                                            logicalVolume,
                                                            0,0,true);
 
+      XeNeuDT_LSDetector * ls_detector_6_obj = new XeNeuDT_LSDetector(6);
       BaccDetectorComponent * ls_detector_6 = new BaccDetectorComponent(rotm_ls_6,
                                                            G4ThreeVector(-d_LS6*cos(bdAngRad_6),-d_LS6*sin(bdAngRad_6),0.),
-                                                           ls_detector_obj->GetLogicalVolume(),
+                                                           ls_detector_6_obj->GetLogicalVolume(),
                                                            "ls_detector_6",
                                                            logicalVolume,
                                                            0,0,true);
 
+      XeNeuDT_LSDetector * ls_detector_7_obj = new XeNeuDT_LSDetector(7);
       BaccDetectorComponent * ls_detector_7 = new BaccDetectorComponent(rotm_ls_7,
                                                            G4ThreeVector(- d_LS7*cos(bdAngRad_7), -d_LS7*sin(bdAngRad_7),0.),
-                                                           ls_detector_obj->GetLogicalVolume(),
+                                                           ls_detector_7_obj->GetLogicalVolume(),
                                                            "ls_detector_7",
                                                            logicalVolume,
                                                            0,0,true);
 
+      XeNeuDT_LSDetector * ls_detector_8_obj = new XeNeuDT_LSDetector(8);
       BaccDetectorComponent * ls_detector_8 = new BaccDetectorComponent(rotm_ls_8,
                                                            G4ThreeVector(-(d_LS8)*cos(bdAngRad_8),-(d_LS8)*sin(bdAngRad_8),0.),
-                                                           ls_detector_obj->GetLogicalVolume(),
+                                                           ls_detector_8_obj->GetLogicalVolume(),
                                                            "ls_detector_8",
                                                            logicalVolume,
                                                            0,0,true);

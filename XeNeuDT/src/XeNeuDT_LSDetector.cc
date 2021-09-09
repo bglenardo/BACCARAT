@@ -64,7 +64,7 @@ using namespace std;
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 //				XeNeuDT_LSDetector
 //------++++++------++++++------++++++------++++++------++++++------++++++------
-XeNeuDT_LSDetector::XeNeuDT_LSDetector()
+XeNeuDT_LSDetector::XeNeuDT_LSDetector(int det_num)
 {
 
   double detector_radius = 2. * 2.54 * cm;
@@ -98,17 +98,21 @@ XeNeuDT_LSDetector::XeNeuDT_LSDetector()
                                              detector_shell_cutout_tubs,
                                              0,G4ThreeVector(0.,0.,0.));
 
+  char shell_name[100];
+  sprintf(shell_name,"ls_detector_shell_%d",det_num);
   G4LogicalVolume * detector_shell_log = new G4LogicalVolume( detector_shell_final_solid, BACCmaterials->Aluminum(), "detector_shell_log");
   detector_shell_log->SetVisAttributes( BACCmaterials->WaterVis() );
   BaccDetectorComponent * detector_shell = new BaccDetectorComponent(0,
                                              G4ThreeVector(0.,0.,0.),
                                              detector_shell_log,
-                                             "ls_detector_shell",
+                                             shell_name,
                                              lsDetectorVolume_log,
                                              0,0,true);
 
   double targetZ = -full_assembly_half_length + detector_half_length + 1/16.*2.54 * cm;
 
+  char targ_name[100];
+  sprintf(targ_name,"ls_target_%d",det_num);
   G4Tubs * ls_target_volume = new G4Tubs( "ls_target_volume_tubs",
                                  0.*cm,
                                  detector_radius - 1./16. * 2.54 * cm,
@@ -119,7 +123,7 @@ XeNeuDT_LSDetector::XeNeuDT_LSDetector()
   BaccDetectorComponent * ls_target = new BaccDetectorComponent(0,
                                             G4ThreeVector(0.,0.,targetZ),
                                             ls_target_log,
-                                            "ls_target",
+                                            targ_name,
                                             lsDetectorVolume_log,
                                             0,0,true);
 
