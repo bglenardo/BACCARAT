@@ -47,7 +47,7 @@
 /run/initialize
 
 # Set the output directory
-/Bacc/io/outputDir ./ 
+/Bacc/io/outputDir /p/lustre2/lenardo1/simulations/XeNeu_DT_20210908/ 
 #/p/lscratchh/naim1/DTSimulations/PastRootFiles/ScatteringTests/BackgroundTests/
 #g/g14/naim1/BACCARAT/ 
 #/p/lscratchh/naim1/DTSimulations/PastRootFiles/ScatteringTests/
@@ -74,9 +74,6 @@
 # Update geometry
 /Bacc/detector/update
 
-# Set the record level for one of the volumes to write some information about it
-#/Bacc/detector/recordLevel LiquidXeTarget 2 # For "simpleExample" or "complexExample"
-#/Bacc/detector/recordLevel activeVolume 2 # For "LLNLSinglePhase"
 
 #record
 /Bacc/detector/recordLevel liquid_xenon 2 # For "GNARRLIDetector"
@@ -84,7 +81,6 @@
 /Bacc/detector/recordLevel vacuum_space 2
 /Bacc/detector/recordLevel inner_can 2 
 /Bacc/detector/recordLevel detector 2
-/Bacc/detector/recordLevel LeadOutside 2
 /Bacc/detector/recordLevel dt_shield 2
 /Bacc/detector/recordLevel Teflon 2
 /Bacc/detector/recordLevel DT_Tube 2
@@ -94,8 +90,6 @@
 /Bacc/detector/recordLevel Water 2
 /Bacc/detector/recordLevel PhotocathodeBottom 2
 
-#/Bacc/detector/recordLevel liquid_xenon_target 3 
-/Bacc/detector/recordLevel ls_detector_2
 /Bacc/detector/recordLevel cathode_ring 2
 /Bacc/detector/recordLevel field_ring 2
 /Bacc/detector/recordLevel peek_rod 2
@@ -104,127 +98,29 @@
 /Bacc/detector/recordLevel bottom_pmt 2
 /Bacc/detector/recordLevel pmt_al_box 2
 /Bacc/detector/recordLevel glass_slide 2
-/Bacc/detector/recordLevel bpe_outer_shield 2
 /Bacc/detector/recordLevel pmt_teflon_casing 2
 /Bacc/detector/recordLevel anode_holder 2
 /Bacc/detector/recordLevel pmtCage 2 
-/Bacc/detector/recordLevel detector 2
 /Bacc/detector/recordLevel ls_target 2
-/Bacc/detector/recordLevel tof_target 2
 /Bacc/detector/recordLevel ls_detector_shell 2
-/Bacc/detector/recordLevel tof_detector_shell 2
-/Bacc/detector/recordLevel lead_wall 2
-/Bacc/detector/recordLevel lead 2
 /Bacc/detector/recordLevel pb 2
 /Bacc/detector/recordLevel al_detector_support 2
-/Bacc/detector/recordLevel al 2
+/Bacc/detector/recordLevel al_baseplate 2
 /Bacc/detector/recordLevel steel 2
 /Bacc/detector/recordLevel vacuum 2
-#/Bacc/detector/recordLevel ls_detector_1 3
-#/Bacc/detector/recordLevel ls_detector_3 3
-#/Bacc/detector/recordLevel ls_detector_4 3
-#/Bacc/detector/recordLevel ls_detector_5 3
-#/Bacc/detector/recordLevel ls_detector_6 3
-#/Bacc/detector/recordLevel ls_detector_7 3
-#/Bacc/detector/recordLevel ls_detector_8 3
-#/Bacc/detector/recordLevel ls_detector_9 3
-#/Bacc/detector/recordLevel ls_detector_10 3
-#/Bacc/detector/recordLevel ls_detector_11 3
-#/Bacc/detector/recordLevel ls_detector_12 3
-#/Bacc/detector/recordLevel ls_target 3
-#/Bacc/detector/recordLevel water_tank_shield 3
-#/Bacc/detector/recordLevel liquid_xenon_below_cathode 3
-#/Bacc/detector/recordLevel liquid_xenon_above_eg 3
-#
-#/Bacc/detector/recordLevel Teflon_BelowCath_obj  3
-#/Bacc/detector/recordLevel Teflon_Inside_Drift_obj 3
-#/Bacc/detector/recordLevel Teflon_Ring_AboveEG_obj 3
-#
 
-
-##/Bacc/detector/recordLevel subtract_object 2
-
-##/Bacc/detector/recordLevel Shield_Sphere_1_object 3 
-
-/Bacc/detector/recordLevel Measurement_Volume_object 3
-
-##/Bacc/detector/recordLevel dt_shield 3 
-##/Bacc/detector/recordLevel Water_Tank_object  3
-##/Bacc/detector/recordLevel Water_Tank_object 3
-##/Bacc/detector/recordLevel BPE5_Top_Shielding_object 3
-
-
-#/Bacc/detector/recordLevel cathode_ring 3 
-#/Bacc/detector/recordLevel field_ring_1 3 
-#/Bacc/detector/recordLevel field_ring_2 3 
-#/Bacc/detector/recordLevel field_ring_3 3 
-#/Bacc/detector/recordLevel extraction_grid 3 
-#/Bacc/detector/recordLevel weir 3 
-#/Bacc/detector/recordLevel teflon_block_minus_weir 3 
-#/Bacc/detector/recordLevel gas_xenon_in_weir 3 
-#/Bacc/detector/recordLevel peek_rod_1 3 
-#/Bacc/detector/recordLevel peek_rod_1 3 
-#/Bacc/detector/recordLevel peek_rod_1 3 
-#/Bacc/detector/recordLevel gas_xenon 3 
-#/Bacc/detector/recordLevel bottom_pmt 3 
-#/Bacc/detector/recordLevel pmt_al_box 3 
-#/Bacc/detector/recordLevel glass_slide 3 
-#/Bacc/detector/recordLevel pmt_teflon_casing 3 
-#/Bacc/detector/recordLevel anode_holder 3 
-#/Bacc/detector/recordLevel pmtCage 3 
-#/Bacc/detector/recordLevel detector 3 
-#/Bacc/detector/recordLevel ls_detector_shell 3 
-#
-#/Bacc/detector/recordLevel al_baseplate 3
-#/Bacc/detector/recordLevel al_detector_support_1 3
-#/Bacc/detector/recordLevel al_detector_support_2 3
-#/Bacc/detector/recordLevel al_detector_support_3 3
-#
-#/Bacc/detector/recordLevel Lead_Shielding_Collimator_object 3
-#/Bacc/detector/recordLevel Lead_Shielding_object 3
-
-
-
-
-#/Bacc/detector/recordLevel ls_target 2 
-#/Bacc/detector/recordLevel ls_detector_1 2 
-#/Bacc/detector/recordLevel ls_detector_2 2 
-#/Bacc/detector/recordLevel poly_block_0 2 
-#/Bacc/detector/recordLevel poly_block_1 2 
-#/Bacc/detector/recordLevel poly_block_2 2 
-#/Bacc/detector/recordLevel sm_poly_block_1 2 
-#/Bacc/detector/recordLevel sm_poly_block_2 2 
-#/Bacc/detector/recordLevel poly_block_3 2 
-#/Bacc/detector/recordLevel poly_block_4 2 
-#/Bacc/detector/recordLevel poly_block_5 2 
-#/Bacc/detector/recordLevel poly_block_6 2 
-#/Bacc/detector/recordLevel lead_ring_1 2 
-#/Bacc/detector/recordLevel lead_ring_2 2 
-#/Bacc/detector/recordLevel dd_generator 2 
-#/Bacc/detector/recordLevel dd_castle 2 
-#/Bacc/detector/recordLevel b_poly_sheet_0 2 
-#/Bacc/detector/recordLevel b_poly_sheet_1 2 
-#/Bacc/detector/recordLevel b_poly_sheet_2 2 
-#/Bacc/detector/recordLevel b_poly_sheet_3 2 
-#/Bacc/detector/recordLevel lead_sheet 2 
-#/Bacc/detector/recordLevel b_poly_1 2 
-#/Bacc/detector/recordLevel b_poly_sheet_0 2 
-#/Bacc/detector/recordLevel b_poly_sheet_1 2 
-#/Bacc/detector/recordLevel lead_sheet_1 2 
-#/Bacc/detector/recordLevel lead_sheet_2 2 
-#/Bacc/detector/recordLevel b_poly_2 2 
 
 
 
 /gps/particle neutron
-/gps/energy 14 MeV
+/gps/energy 14.1 MeV
 /gps/ene/type Mono
 #/gps/ene/sigma .1 MeV
-/gps/position 1.8 0. 0. m
+/gps/position 1.82 0. 0. m
 #/gps/direction -1 0 0
 /gps/ang/type iso
 /gps/ang/mintheta 0. deg
-/gps/ang/maxtheta 3. deg
+/gps/ang/maxtheta 1. deg
 /gps/ang/rot1 0 0 1
 /gps/ang/rot2 0 -1 0
 #/gps/ang/mintheta 0. deg
@@ -237,6 +133,7 @@
 
 /Bacc/physicsList/useOpticalProcesses 0
 
-/Bacc/beamOn 50000
+/Bacc/beamOn 300000
+#/Bacc/beamOn 100
 
 exit

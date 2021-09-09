@@ -195,43 +195,43 @@ if( dtShieldingOn ) {
       double backingDetectorAngle_1 = 17.*deg;
       double backingDetectorAngle_2 = 92.*deg;
       double backingDetectorAngle_3 = 50.*deg;
-      double backingDetectorAngle_4 = 67.*deg;
-      double backingDetectorAngle_5 = 115.*deg;
-      double backingDetectorAngle_6 = 36.*deg;
+      double backingDetectorAngle_4 = -67.*deg;
+      double backingDetectorAngle_5 = -115.*deg;
+      double backingDetectorAngle_6 = -36.*deg;
       double backingDetectorAngle_7 = 140.*deg;
-      double backingDetectorAngle_8 = 162.*deg;
+      double backingDetectorAngle_8 = -162.*deg;
 
       G4RotationMatrix * rotm_ls_1 = new G4RotationMatrix();
       rotm_ls_1->rotateX(90.*deg);
-      rotm_ls_1->rotateY(-(-90.*deg-backingDetectorAngle_1));
+      rotm_ls_1->rotateY(90.*deg + backingDetectorAngle_1);
     
       G4RotationMatrix * rotm_ls_2 = new G4RotationMatrix();
       rotm_ls_2->rotateX(90.*deg);
-      rotm_ls_2->rotateY(-(-90.*deg - backingDetectorAngle_2));
+      rotm_ls_2->rotateY(90.*deg + backingDetectorAngle_2);
 
       G4RotationMatrix * rotm_ls_3 = new G4RotationMatrix();
       rotm_ls_3->rotateX(90.*deg);
-      rotm_ls_3->rotateY(-(-90.*deg - backingDetectorAngle_3));
+      rotm_ls_3->rotateY(90.*deg + backingDetectorAngle_3);
 
       G4RotationMatrix * rotm_ls_4 = new G4RotationMatrix();
       rotm_ls_4->rotateX(90.*deg);
-      rotm_ls_4->rotateY((-90.*deg - backingDetectorAngle_4));
+      rotm_ls_4->rotateY(90.*deg + backingDetectorAngle_4);
 
       G4RotationMatrix * rotm_ls_5 = new G4RotationMatrix();
       rotm_ls_5->rotateX(90.*deg);
-      rotm_ls_5->rotateY((-90.*deg - backingDetectorAngle_5));
+      rotm_ls_5->rotateY(90.*deg + backingDetectorAngle_5);
 
       G4RotationMatrix * rotm_ls_6 = new G4RotationMatrix();
       rotm_ls_6->rotateX(90.*deg);
-      rotm_ls_6->rotateY((-90.*deg - backingDetectorAngle_6));
+      rotm_ls_6->rotateY(90.*deg + backingDetectorAngle_6);
 
       G4RotationMatrix * rotm_ls_7 = new G4RotationMatrix();
       rotm_ls_7->rotateX(90.*deg);
-      rotm_ls_7->rotateY(-(-90.*deg - backingDetectorAngle_7));
+      rotm_ls_7->rotateY(90.*deg + backingDetectorAngle_7);
 
       G4RotationMatrix * rotm_ls_8 = new G4RotationMatrix();
       rotm_ls_8->rotateX(90.*deg);
-      rotm_ls_8->rotateY((-90.*deg - backingDetectorAngle_8));
+      rotm_ls_8->rotateY((90.*deg + backingDetectorAngle_8));
 
       double PI = 3.1415927;
 
@@ -266,7 +266,7 @@ if( dtShieldingOn ) {
                                                            logicalVolume,
                                                            0,0,true);
       BaccDetectorComponent * ls_detector_4 = new BaccDetectorComponent(rotm_ls_4,
-                                                           G4ThreeVector(-d_LS4*cos(-bdAngRad_4),-d_LS4*sin(-bdAngRad_4),0.),
+                                                           G4ThreeVector(-d_LS4*cos(bdAngRad_4),-d_LS4*sin(bdAngRad_4),0.),
                                                            ls_detector_obj->GetLogicalVolume(),
                                                            "ls_detector_4",
                                                            logicalVolume,
@@ -274,14 +274,14 @@ if( dtShieldingOn ) {
 
 
       BaccDetectorComponent * ls_detector_5 = new BaccDetectorComponent(rotm_ls_5,
-                                                           G4ThreeVector(-d_LS5*cos(-bdAngRad_5),-d_LS5*sin(-bdAngRad_5),0.),
+                                                           G4ThreeVector(-d_LS5*cos(bdAngRad_5),-d_LS5*sin(bdAngRad_5),0.),
                                                            ls_detector_obj->GetLogicalVolume(),
                                                            "ls_detector_5",
                                                            logicalVolume,
                                                            0,0,true);
 
       BaccDetectorComponent * ls_detector_6 = new BaccDetectorComponent(rotm_ls_6,
-                                                           G4ThreeVector(-d_LS6*cos(-bdAngRad_6),-d_LS6*sin(-bdAngRad_6),0.),
+                                                           G4ThreeVector(-d_LS6*cos(bdAngRad_6),-d_LS6*sin(bdAngRad_6),0.),
                                                            ls_detector_obj->GetLogicalVolume(),
                                                            "ls_detector_6",
                                                            logicalVolume,
@@ -295,7 +295,7 @@ if( dtShieldingOn ) {
                                                            0,0,true);
 
       BaccDetectorComponent * ls_detector_8 = new BaccDetectorComponent(rotm_ls_8,
-                                                           G4ThreeVector(-(d_LS8)*cos(-bdAngRad_8),-(d_LS8)*sin(-bdAngRad_8),0.),
+                                                           G4ThreeVector(-(d_LS8)*cos(bdAngRad_8),-(d_LS8)*sin(bdAngRad_8),0.),
                                                            ls_detector_obj->GetLogicalVolume(),
                                                            "ls_detector_8",
                                                            logicalVolume,

@@ -123,6 +123,7 @@ XeNeu_DTShielding::XeNeu_DTShielding()
 */
 //Square Water Shielding
   G4Box * water_tank_shielding = new G4Box("water_tank_shielding",119.38*cm, 96.52*cm,83.82*cm);
+  //G4Box * water_tank_shielding = new G4Box("water_tank_shielding",119.38*cm, 10*cm,83.82*cm);
 
    G4LogicalVolume * Water_Tank_Shielding_log = new G4LogicalVolume(water_tank_shielding,
                                                    XeNeumaterials->BoratedWater(),
@@ -171,7 +172,10 @@ BPEShielding_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
 
  double DT_Tube_Radius = 10.16/2*cm;
 
- G4Box * Lead_DT_Box = new G4Box("Lead_DT_Box", DT_Tube_Radius + Lead_Box_Thickness, DT_Tube_Radius + Lead_Box_Thickness, DT_Tube_Radius + Lead_Box_Thickness);
+ G4Box * Lead_DT_Box = new G4Box("Lead_DT_Box", 
+					DT_Tube_Radius + Lead_Box_Thickness, 
+					DT_Tube_Radius + Lead_Box_Thickness + 3.*2.54*cm, 
+					DT_Tube_Radius + Lead_Box_Thickness);
 
  G4LogicalVolume * Lead_Box_log = new G4LogicalVolume(Lead_DT_Box, BACCmaterials->Lead(), "Lead_Box_log");
 
@@ -188,7 +192,12 @@ BPEShielding_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
  Lead_Collimator_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
 
 
- BaccDetectorComponent * Lead_Collimator_object = new BaccDetectorComponent(rm,G4ThreeVector(-(Lead_Box_Thickness +2*DT_Tube_Radius)/2, DT_Shift_y_Position,0.),Lead_Collimator_log,"Lead_Collimator_object",Lead_Box_log, 0,0,true);
+ BaccDetectorComponent * Lead_Collimator_object = new BaccDetectorComponent( rm,
+							G4ThreeVector(-(Lead_Box_Thickness +2*DT_Tube_Radius)/2, DT_Shift_y_Position,0.),
+							Lead_Collimator_log,
+							"Lead_Collimator_object",
+							Lead_Box_log, 
+							0,0,true);
  
  Lead_Box_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
  
