@@ -47,13 +47,14 @@
 /run/initialize
 
 # Set the output directory
-/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220128_Four17deg_DoubleDistance/
+#/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220128_Four17deg_DoubleDistance/
+/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220218_45deg_Four17deg_1p5distance_BKG/
 #/p/lscratchh/naim1/DTSimulations/PastRootFiles/ScatteringTests/BackgroundTests/
 #g/g14/naim1/BACCARAT/ 
 #/p/lscratchh/naim1/DTSimulations/PastRootFiles/ScatteringTests/
 #/g/g14/naim1/BACCARAT/ 
 #/p/lscratchh/naim1/DTSimulations/Tests/bin_files/
-/Bacc/io/outputName DT_Four17Deg_DoubleDistance
+/Bacc/io/outputName DT_Four17Deg_1p5Distance_BKG_
 #BackgroundTest_Sheetinfrontofcollimator_10thousand14MeVNeutrons_Iso_20cmlead_36inchwater_
 
 # FiftyThousandNeutronsOne_SixDifferentDegrees_LSWaterTankRadius80cm115cmDistanceRecordXenonandLS1MonoEnergeticBeam14MeV_StepSizeCut_
@@ -83,11 +84,11 @@
 /Bacc/detector/recordLevel detector 2
 /Bacc/detector/recordLevel dt_shield 2
 /Bacc/detector/recordLevel Teflon 2
-/Bacc/detector/recordLevel DT_Tube 2
-/Bacc/detector/recordLevel Lead 2
-/Bacc/detector/recordLevel BPEShielding 2
-/Bacc/detector/recordLevel Collimator 2
-/Bacc/detector/recordLevel Water 2
+/Bacc/detector/recordLevel DT_Tube 1
+/Bacc/detector/recordLevel Lead 1
+/Bacc/detector/recordLevel BPEShielding 1
+/Bacc/detector/recordLevel Collimator 1
+/Bacc/detector/recordLevel Water 1
 /Bacc/detector/recordLevel PhotocathodeBottom 2
 
 /Bacc/detector/recordLevel cathode_ring 2
@@ -120,7 +121,7 @@
 #/gps/direction -1 0 0
 /gps/ang/type iso
 /gps/ang/mintheta 0. deg
-/gps/ang/maxtheta 1. deg
+/gps/ang/maxtheta 45. deg
 /gps/ang/rot1 0 0 1
 /gps/ang/rot2 0 -1 0
 #/gps/ang/mintheta 0. deg

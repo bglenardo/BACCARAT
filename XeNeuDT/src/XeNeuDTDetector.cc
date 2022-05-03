@@ -163,7 +163,7 @@ void XeNeuDTDetector::BuildDetector(){
 */
 //Create Laboratory Space
   G4Box * laboratory = new G4Box("laboratory", 8 * m, 8 * m, 8 * m);
-  logicalVolume  = new G4LogicalVolume(laboratory, BACCmaterials->Vacuum(), "laboratory");
+  logicalVolume  = new G4LogicalVolume(laboratory, BACCmaterials->Air(), "laboratory");
   logicalVolume->SetVisAttributes( BACCmaterials->VacuumVis() );
 
 
@@ -180,7 +180,22 @@ if( dtShieldingOn ) {
                                             "dt_shield",
                                             logicalVolume,
                                             0,0,true);
-    
+  bool is_first_DT_Sept2021 = false; 
+  bool dt_Migdal_Run_RandD = true;
+
+  G4Box * floor_box = new G4Box("floor_box",5.*m, 5.*m, 0.5*m);
+  G4LogicalVolume * floor_log = new G4LogicalVolume( floor_box, BACCmaterials->PortlandConcrete(), "floor_log" );
+  floor_log->SetVisAttributes( BACCmaterials->TestRedVis() );  
+    BaccDetectorComponent * concrete_floor = new BaccDetectorComponent(0,
+                                                 G4ThreeVector(0,0,-(50.*cm + 83.82*cm)),
+                                                 floor_log,
+                                                 "concrete_floor",
+                                                 logicalVolume, 0,0,true); 
+
+
+
+  if( is_first_DT_Sept2021 ) { 
+   
       // Build the liquid scintillator detectors
       // 180 deg is straight in front of the DT Beam 
       double d_LS1 =  54.53 * cm + 3.94 * 2.54 * cm + 4.5 * 2.54 *cm;
@@ -308,6 +323,79 @@ if( dtShieldingOn ) {
                                                            "ls_detector_8",
                                                            logicalVolume,
                                                            0,0,true);
+
+   } else if( dt_Migdal_Run_RandD ){
+
+      // Here we want to model an experiment where all the detectors are at the same angle.
+      // To start, I'll put two detectors at the 17deg, nominal distance, then 
+
+      double d_LS1 =  54.53 * cm + 3.94 * 2.54 * cm + 4.5 * 2.54 *cm;
+      d_LS1 = d_LS1 * 1.5;
+
+      double backingDetectorAngle_1 = 17.*deg;
+
+      G4RotationMatrix * rotm_ls_1 = new G4RotationMatrix();
+      rotm_ls_1->rotateX(90.*deg);
+      rotm_ls_1->rotateY(90.*deg + backingDetectorAngle_1);
+
+      double PI = 3.1415927;
+      double bdAngRad_1 = backingDetectorAngle_1/deg/180. * PI;
+
+      XeNeuDT_LSDetector * ls_detector_1_obj = new XeNeuDT_LSDetector(1);
+
+      BaccDetectorComponent * ls_detector_1 = new BaccDetectorComponent(rotm_ls_1,
+                                                           G4ThreeVector(-d_LS1*cos(bdAngRad_1),-d_LS1*sin(bdAngRad_1),0.),
+                                                           ls_detector_1_obj->GetLogicalVolume(),
+                                                           "ls_detector_1",
+                                                           logicalVolume,
+                                                           0,0,true);
+      
+      // Detector 2 is at the same distance/angle as detector 1, 
+      // just at the opposite position in the horizontal plane.
+      G4RotationMatrix * rotm_ls_2 = new G4RotationMatrix();
+      rotm_ls_2->rotateX(90.*deg);
+      rotm_ls_2->rotateY(90.*deg - backingDetectorAngle_1);
+
+      XeNeuDT_LSDetector * ls_detector_2_obj = new XeNeuDT_LSDetector(2);
+
+      BaccDetectorComponent * ls_detector_2 = new BaccDetectorComponent(rotm_ls_2,
+                                                           G4ThreeVector(-d_LS1*cos(bdAngRad_1),d_LS1*sin(bdAngRad_1),0.),
+                                                           ls_detector_2_obj->GetLogicalVolume(),
+                                                           "ls_detector_2",
+                                                           logicalVolume,
+                                                           0,0,true);
+
+
+      // Detector 3 is above in the vertical plane.
+      G4RotationMatrix * rotm_ls_3 = new G4RotationMatrix();
+      rotm_ls_3->rotateY(90.*deg - backingDetectorAngle_1);
+      //rotm_ls_3->rotateX(90.*deg - backingDetectorAngle_1);
+
+      XeNeuDT_LSDetector * ls_detector_3_obj = new XeNeuDT_LSDetector(3);
+
+      BaccDetectorComponent * ls_detector_3 = new BaccDetectorComponent(rotm_ls_3,
+                                                           G4ThreeVector(-d_LS1*cos(bdAngRad_1),0.,d_LS1*sin(bdAngRad_1)),
+                                                           ls_detector_3_obj->GetLogicalVolume(),
+                                                           "ls_detector_3",
+                                                           logicalVolume,
+                                                           0,0,true);
+
+      // Detector 4 is above in the vertical plane.
+      G4RotationMatrix * rotm_ls_4 = new G4RotationMatrix();
+      rotm_ls_4->rotateY(90.*deg + backingDetectorAngle_1);
+      //rotm_ls_4->rotateX(90.*deg + backingDetectorAngle_1);
+
+      XeNeuDT_LSDetector * ls_detector_4_obj = new XeNeuDT_LSDetector(4);
+
+      BaccDetectorComponent * ls_detector_4 = new BaccDetectorComponent(rotm_ls_4,
+                                                           G4ThreeVector(-d_LS1*cos(bdAngRad_1),0.,-d_LS1*sin(bdAngRad_1)),
+                                                           ls_detector_4_obj->GetLogicalVolume(),
+                                                           "ls_detector_4",
+                                                           logicalVolume,
+                                                           0,0,true);
+
+
+   }
 
 
 }

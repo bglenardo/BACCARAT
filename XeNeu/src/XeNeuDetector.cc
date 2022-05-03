@@ -445,7 +445,7 @@ void XeNeuDetector::BuildDetector(){
                                                         
   }
 
-
+/*
   // Build detector ID11
   double det_11_ang = 17.73*deg;
   double det_11_x = (57.88)*cm + 4.5*2.54*cm * cos(det_11_ang);
@@ -602,7 +602,7 @@ void XeNeuDetector::BuildDetector(){
                                                  "ls_detector_8l",
                                                  logicalVolume,
                                                  0,0,true);
-
+*/
 
   // Add lead sheet 
   G4Box * lead_sheet_box = new G4Box("lead_sheet_box",

@@ -31,3 +31,4 @@ BaccRootConverter
 BaccPMTStream
 NMDAnalysis
 BaccBuildCatalog.cc
+tools/BaccRootConverterEvent_cc_ACLiC_dict.cxx*

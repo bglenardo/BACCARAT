@@ -46,16 +46,22 @@
 
 
 /gps/particle neutron
-#/gps/ene/type Gauss
-/gps/ene/mono 14 GeV
+#/gps/particle geantino
+/gps/energy 14.1 GeV
+/gps/ene/type Mono
 #/gps/ene/sigma 0.23 eV
-#/gps/ang/type iso
+/gps/position 1.82 0. 0. m
+#/gps/direction -1 0 0
+/gps/ang/type iso
+/gps/ang/mintheta 0. deg
+/gps/ang/maxtheta 0.001 deg
+/gps/ang/rot1 0 0 1
+/gps/ang/rot2 0 -1 0
 #/gps/ang/mintheta 0. deg
 #/gps/ang/maxtheta 140. deg
 #/gps/pos/type Point
 #/gps/pos/centre 0 0 0 mm
-/gps/position 0. 0. 0. m
-/gps/direction 0 0 -1
+#/gps/direction 0 0 -1
 
 #/Bacc/physicsList/useOpticalProcesses 0
 #/Bacc/physicsList/opticalDebug true 
