@@ -173,15 +173,18 @@ if( dtShieldingOn ) {
 
  XeNeu_DTShielding * dt_shield_obj = new XeNeu_DTShielding();  
 // ShieldingVolume = dt_shield_obj->GetLogicalVolume();
-  
+  // double source_detector_distance = 1.8236 * m; // Value in DT recoil measurement
+  double source_detector_distance = 1.5236 * m;
+ 
   BaccDetectorComponent * dt_shield = new BaccDetectorComponent(0,
-                                            G4ThreeVector(1.8236*m,.3*m,0),
+                                            G4ThreeVector(source_detector_distance,.3*m,0),
                                             dt_shield_obj->GetLogicalVolume(),
                                             "dt_shield",
                                             logicalVolume,
                                             0,0,true);
   bool is_first_DT_Sept2021 = false; 
-  bool dt_Migdal_Run_RandD = true;
+  bool dt_Migdal_Run_RandD = false;
+  bool dt_Migdal_Run_14det_17deg = true;
 
   G4Box * floor_box = new G4Box("floor_box",5.*m, 5.*m, 0.5*m);
   G4LogicalVolume * floor_log = new G4LogicalVolume( floor_box, BACCmaterials->PortlandConcrete(), "floor_log" );
@@ -393,6 +396,37 @@ if( dtShieldingOn ) {
                                                            "ls_detector_4",
                                                            logicalVolume,
                                                            0,0,true);
+
+
+   } else if( dt_Migdal_Run_14det_17deg ) {
+  
+      double scattering_angle = 17.*deg;
+      double ls_Distance = 1. * m;
+      double ls_DistanceX = - ls_Distance * cos( scattering_angle );
+      double ls_ring_radius = 26.5 * cm;
+
+      G4RotationMatrix * rotm_ls = new G4RotationMatrix();
+      rotm_ls->rotateX(90.*deg);
+      rotm_ls->rotateY(90.*deg);
+
+      BaccDetectorComponent * ls_detectors[14];
+      XeNeuDT_LSDetector * ls_det_temp;
+
+      for(int i=0; i<14; i++){
+          //G4RotationMatrix * rotm = new G4RotationMatrix();
+          char detector_name[100];
+          sprintf(detector_name,"ls_detector_%d",i);
+          double ls_det_z_angle = 360.*deg / 14 * i;
+          ls_det_temp = new XeNeuDT_LSDetector(i);
+          ls_detectors[i] = new BaccDetectorComponent(rotm_ls,
+                                                      G4ThreeVector( ls_DistanceX,
+                                                                     ls_ring_radius * cos( ls_det_z_angle ),
+                                                                     ls_ring_radius * sin( ls_det_z_angle )),
+                                                      ls_det_temp->GetLogicalVolume(),
+                                                      detector_name,
+                                                      logicalVolume,
+                                                      0,0,true);
+      }      
 
 
    }
