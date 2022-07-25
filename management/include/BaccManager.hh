@@ -131,8 +131,11 @@ class BaccManager
 		G4int GetInputEventSeed1() { return inputEventSeed1; };
 		G4int GetInputEventSeed2() { return inputEventSeed2; };	
 		
-		void SaveEventSeedVals( G4int _eventSeedIndex, G4int _eventSeed1, G4int _eventSeed2 );
-		
+		void SaveEventSeedVals( G4int _eventSeedIndex, G4long _eventSeed1, G4long _eventSeed2 );
+		G4int GetEventSeedIndex() { return eventSeedIndex; };
+		G4int GetEventSeed1() { return eventSeed1; };
+		G4int GetEventSeed2() { return eventSeed2; };		
+
 
 		//	Input/output methods
                 void SetIsSVNRepo( G4bool isSVN ) { IsSVNRepo = isSVN; }
@@ -369,8 +372,8 @@ class BaccManager
 		G4int inputEventSeed1;
 		G4int inputEventSeed2;
 		G4int eventSeedIndex;
-		G4int eventSeed1;
-		G4int eventSeed2;		
+		G4long eventSeed1;
+		G4long eventSeed2;		
 
 
 		//	Input/output variables

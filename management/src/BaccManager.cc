@@ -368,7 +368,7 @@ void BaccManager::SetRandomSeed( G4int seed )
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 //					SaveEventSeedVals()
 //------++++++------++++++------++++++------++++++------++++++------++++++------
-void BaccManager::SaveEventSeedVals( G4int _eventSeedIndex, G4int _eventSeed1, G4int _eventSeed2 )
+void BaccManager::SaveEventSeedVals( G4int _eventSeedIndex, G4long _eventSeed1, G4long _eventSeed2 )
 {
 	eventSeedIndex = _eventSeedIndex;
 	eventSeed1 = _eventSeed1;

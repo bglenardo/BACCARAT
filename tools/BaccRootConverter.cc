@@ -103,6 +103,18 @@ Int_t GetIntFromInputFile()
 
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 //
+//  GetLongFromInputFile()
+//
+//------++++++------++++++------++++++------++++++------++++++------++++++------
+Int_t GetLongFromInputFile()
+{
+    long tmpLong;
+    inputFile->read( (Char_t *)(&tmpLong), sizeof(long) );
+    return tmpLong;
+}
+
+//------++++++------++++++------++++++------++++++------++++++------++++++------
+//
 //  CompareSteps()
 //
 //------++++++------++++++------++++++------++++++------++++++------++++++------
@@ -313,6 +325,10 @@ int main( int argc, char** argv ){
         if( DEBUGGING )
             cout << "eventNumber, checking if still in same event " << eventNumber << endl;
         
+	Int_t eventSeedIndex = GetIntFromInputFile();
+	long eventSeed1 = GetLongFromInputFile();
+	long eventSeed2 = GetLongFromInputFile();
+
         //  Check to see if we're in a new event. If so, record the previous
         //  event and clear everything out to get ready for this new event.
         Bool_t newEvent = true;
@@ -333,6 +349,9 @@ int main( int argc, char** argv ){
             
             //  Record the data and reset what needs resetting
 	    anEvent->iEventNumber=eventNumber-1;
+            anEvent->iEventSeedIndex = eventSeedIndex;
+            anEvent->iEventSeed1 = eventSeed1;
+            anEvent->iEventSeed2 = eventSeed2;
 	    anEvent->iRunNumber=runNumber;
             dataTree->Fill();
             anEvent->ClearEverything();

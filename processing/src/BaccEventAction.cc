@@ -69,7 +69,7 @@ void BaccEventAction::BeginOfEventAction(const G4Event* evt )
 	baccManager->SetCurrentS2Index(0);
 
 	if( baccManager->GetUseInputEventSeed() ){
-		long fEventSeeds[2];
+		G4long fEventSeeds[2];
 		fEventSeeds[0] = baccManager->GetInputEventSeed1();
 		fEventSeeds[1] = baccManager->GetInputEventSeed2();
 		CLHEP::HepRandom::setTheSeeds( fEventSeeds, 
