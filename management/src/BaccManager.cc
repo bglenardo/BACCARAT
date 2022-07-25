@@ -107,7 +107,6 @@ BaccManager::BaccManager()
 	BaccOut = NULL;
 	
 	BaccComponents.clear();
-
 	
 	outputDir = ".";
 	
@@ -121,6 +120,7 @@ BaccManager::BaccManager()
     windowEnd = 0.;
     checkVolumeOverlaps = false;	
 	useOpticalProcesses = true;
+	useInputEventSeed = false;
     
     s1gain = 1;
     s2gain = 1;
@@ -363,6 +363,21 @@ void BaccManager::SetRandomSeed( G4int seed )
 	G4cout << "Randomization seed = " << randomSeed << G4endl;
 	CLHEP::HepRandom::setTheSeed( randomSeed );
 }
+
+
+//------++++++------++++++------++++++------++++++------++++++------++++++------
+//					SaveEventSeedVals()
+//------++++++------++++++------++++++------++++++------++++++------++++++------
+void BaccManager::SaveEventSeedVals( G4int _eventSeedIndex, G4int _eventSeed1, G4int _eventSeed2 )
+{
+	eventSeedIndex = _eventSeedIndex;
+	eventSeed1 = _eventSeed1;
+	eventSeed2 = _eventSeed2;
+
+	G4cout << "\n\n\nEvent seeds (idx,1,2): (" << eventSeedIndex << "," << 
+		eventSeed1 << "," << eventSeed2 << ")\n\n\n" << G4endl;
+
+};	
 
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 //					SetOutputDir()

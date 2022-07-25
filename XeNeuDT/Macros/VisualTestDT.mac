@@ -30,7 +30,7 @@
 
 
 # Set the random seed
-/Bacc/randomSeed 10
+/Bacc/randomSeed 3
 
 
 #/XeNeu/dtShieldingOn true
@@ -47,10 +47,10 @@
 
 /gps/particle neutron
 #/gps/particle geantino
-/gps/energy 14.1 GeV
+/gps/energy 14.1 MeV
 /gps/ene/type Mono
 #/gps/ene/sigma 0.23 eV
-/gps/position 1.82 0. 0. m
+/gps/position 1.52 0. 0. m
 #/gps/direction -1 0 0
 /gps/ang/type iso
 /gps/ang/mintheta 0. deg
@@ -63,7 +63,7 @@
 #/gps/pos/centre 0 0 0 mm
 #/gps/direction 0 0 -1
 
-#/Bacc/physicsList/useOpticalProcesses 0
+/Bacc/physicsList/useOpticalProcesses 0
 #/Bacc/physicsList/opticalDebug true 
 
 /Bacc/beamOn 1

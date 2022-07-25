@@ -123,7 +123,6 @@ G4S1Light::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 // this is the most important function, where all light & charge yields happen!
 {
         aParticleChange.Initialize(aTrack);
-	
 	if ( !YieldFactor ) //set YF=0 when you want S1Light off in your sim
           return G4VRestDiscreteProcess::PostStepDoIt(aTrack, aStep);
 	
