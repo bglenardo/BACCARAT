@@ -30,7 +30,13 @@
 
 
 # Set the random seed
-/Bacc/randomSeed 4
+/Bacc/randomSeed 3
+#Event seeds (idx,1,2): (4,1689174239,709645262)
+/Bacc/inputEventRandomSeed true
+/Bacc/eventSeedIndex 4
+/Bacc/eventSeed1 1689174239
+/Bacc/eventSeed2 709645262
+
 
 
 #/XeNeu/dtShieldingOn true
