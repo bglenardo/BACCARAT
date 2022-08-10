@@ -44,6 +44,20 @@ BaccPrimaryGeneratorAction::~BaccPrimaryGeneratorAction()
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 void BaccPrimaryGeneratorAction::GeneratePrimaries( G4Event *event )
 {
+        if( baccManager->GetUseInputEventSeed() ){
+                G4long fEventSeeds[2];
+                fEventSeeds[0] = baccManager->GetInputEventSeed1();
+                fEventSeeds[1] = baccManager->GetInputEventSeed2();
+                CLHEP::HepRandom::setTheSeed( baccManager->GetInputEventSeedIndex() );
+                CLHEP::HepRandom::setTheSeeds( fEventSeeds ); //, 
+                        //baccManager->GetInputEventSeedIndex() );
+                    
+        }
+        baccManager->SaveEventSeedVals( 
+                         CLHEP::HepRandom::getTheSeed(),
+                         CLHEP::HepRandom::getTheSeeds()[0],
+                         CLHEP::HepRandom::getTheSeeds()[1] );
+
 	//	Have the management class determine which event is next and generate
 	//	that event
 	if( baccManager->GetTotalSimulationActivity() )

@@ -374,8 +374,8 @@ void BaccManager::SaveEventSeedVals( G4int _eventSeedIndex, G4long _eventSeed1, 
 	eventSeed1 = _eventSeed1;
 	eventSeed2 = _eventSeed2;
 
-	G4cout << "\n\n\nEvent seeds (idx,1,2): (" << eventSeedIndex << "," << 
-		eventSeed1 << "," << eventSeed2 << ")\n\n\n" << G4endl;
+	//G4cout << "Event seeds (idx,1,2): (" << eventSeedIndex << "," << 
+	//	eventSeed1 << "," << eventSeed2 << ")" << G4endl;
 
 };	
 

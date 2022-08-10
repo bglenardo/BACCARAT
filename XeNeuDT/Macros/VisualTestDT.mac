@@ -66,6 +66,6 @@
 /Bacc/physicsList/useOpticalProcesses 0
 #/Bacc/physicsList/opticalDebug true 
 
-/Bacc/beamOn 1
+/Bacc/beamOn 3
 
 exit

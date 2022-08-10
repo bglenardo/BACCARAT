@@ -65,12 +65,12 @@ BaccMessenger::BaccMessenger( BaccManager *man )
 	BaccEventSeedIndexCommand->SetGuidance( " Works only when using the RanecuEngine.");
 	BaccEventSeedIndexCommand->AvailableForStates( G4State_PreInit, G4State_Idle );
 
-	BaccEventSeed1Command = new G4UIcmdWithAnInteger( "/Bacc/eventSeed1", this);
+	BaccEventSeed1Command = new G4UIcmdWithADouble( "/Bacc/eventSeed1", this);
 	BaccEventSeed1Command->SetGuidance( "Use this command to set the event-level random seed");
 	BaccEventSeed1Command->SetGuidance( " Works only when using the RanecuEngine.");
 	BaccEventSeed1Command->AvailableForStates( G4State_PreInit, G4State_Idle );
 
-	BaccEventSeed2Command = new G4UIcmdWithAnInteger( "/Bacc/eventSeed2", this);
+	BaccEventSeed2Command = new G4UIcmdWithADouble( "/Bacc/eventSeed2", this);
 	BaccEventSeed2Command->SetGuidance( "Use this command to set the event-level random seed");
 	BaccEventSeed2Command->SetGuidance( " Works only when using the RanecuEngine.");
 	BaccEventSeed2Command->AvailableForStates( G4State_PreInit, G4State_Idle );
@@ -246,9 +246,9 @@ void BaccMessenger::SetNewValue( G4UIcommand *command, G4String newValue )
 	else if( command == BaccEventSeedIndexCommand )
 		baccManager->SetEventSeedIndex( BaccEventSeedIndexCommand->GetNewIntValue(newValue) );
 	else if( command == BaccEventSeed1Command )
-		baccManager->SetEventSeed1( BaccEventSeed1Command->GetNewIntValue(newValue) );
+		baccManager->SetEventSeed1( BaccEventSeed1Command->GetNewDoubleValue(newValue) );
 	else if( command == BaccEventSeed2Command )
-		baccManager->SetEventSeed2( BaccEventSeed2Command->GetNewIntValue(newValue) );
+		baccManager->SetEventSeed2( BaccEventSeed2Command->GetNewDoubleValue(newValue) );
 	
 	//	Input/output commands
 	else if( command == BaccOutputDirCommand )
