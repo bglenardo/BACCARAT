@@ -7,9 +7,9 @@
 ####################################################################################################
 /run/verbose 1
 /control/verbose 0
-/tracking/verbose 1
+/tracking/verbose 0
 /grdm/verbose 0
-/process/verbose 1
+/process/verbose 0
 
 
 ## Set up visualization - Comment this stuff out if you want to skip visualization
@@ -49,40 +49,16 @@
 /run/initialize
 
 # Set the output directory
-/Bacc/io/outputDir ./
-/Bacc/io/outputName visualtest_
-#OpticalPhotonNoTeflon10000events_neg15mminZ_gasxenonmeasurement_StraightUP 
-#OpticalPhoton_3000Events_AboveEGPosition_PMTPhotoCathodeSensitiveVolume_withaddedteflon_
-/Bacc/io/updateFrequency 10000
+/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220809_0p5deg_14det_17deg_1mdistance_30cm_closer_detector_save_seed/
+/Bacc/io/outputName DT_14det_17deg_1mDistance_10degOpening_30cm_closer_detector_
+#/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220128_Four17deg_DoubleDistance/
+ #/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220218_45deg_Four17deg_1p5distance_BKG/
+/Bacc/io/updateFrequency 5000
 
 
 
 # Set the random seed
-#/Bacc/randomSeed 1443996789
-#/Bacc/randomSeed 2
-#Event seeds (idx,1,2): (4,1689174239,709645262)
-/Bacc/inputEventRandomSeed true
-/Bacc/eventSeedIndex 27
-/Bacc/eventSeed1 611767323
-/Bacc/eventSeed2 1459778372
-# iEventSeedIndex = 26
-# iEventSeed1     = 911874496
-# iEventSeed2     = 1993247747
-
-# iEventSeed1     = 1799435490
-# iEventSeed2     = 1866894232
-# iEventSeedIndex = 202
-# iEventSeed1     = 1878352554
-# iEventSeed2     = 898339343
-#(93,160046346,1376205460)
-# iEventSeedIndex = 148
-# iEventSeed1     = 1471237935
-# iEventSeed2     = 1808106101
-#(89,156131120,792071204)
-#(2,1111758524,1807838028)
-#(2,1433648226,1870278457)
-#(106,1409112465,2141943786)
-#(106,452103759,824512441)
+#/Bacc/randomSeed 0
 
 # Select the kind of detector to use
 /XeNeu/dtShieldingOn true
@@ -102,11 +78,11 @@
 /Bacc/detector/recordLevel detector 2
 /Bacc/detector/recordLevel dt_shield 2
 /Bacc/detector/recordLevel Teflon 2
-/Bacc/detector/recordLevel DT_Tube 2
-/Bacc/detector/recordLevel Lead 2
-/Bacc/detector/recordLevel BPEShielding 2
-/Bacc/detector/recordLevel Collimator 2
-/Bacc/detector/recordLevel Water 2
+/Bacc/detector/recordLevel DT_Tube 1
+/Bacc/detector/recordLevel Lead 1
+/Bacc/detector/recordLevel BPEShielding 1
+/Bacc/detector/recordLevel Collimator 1
+/Bacc/detector/recordLevel Water 1
 /Bacc/detector/recordLevel PhotocathodeBottom 2
 
 /Bacc/detector/recordLevel cathode_ring 2
@@ -142,15 +118,17 @@
 /gps/ang/rot1 0 0 1
 /gps/ang/rot2 0 -1 0
 #/gps/ang/mintheta 0. deg
-#/gps/ang/maxtheta 140. deg
-#/gps/pos/type Point
-#/gps/pos/centre 0 0 0 mm
-#/gps/direction 0 0 -1
+#/gps/ang/maxtheta 20. deg
+#/gps/ang/minphi 160. deg
+#/gps/ang/maxphi 200. deg
+#/gps/ang/rot1 0 1 0
+#/gps/ang/rot2 0 0 1
 
 
 /Bacc/physicsList/useOpticalProcesses 0
 #/Bacc/physicsList/opticalDebug true 
 
-/Bacc/beamOn 1
+/Bacc/beamOn 1000000
+#/Bacc/beamOn 100
 
 exit

@@ -15,6 +15,9 @@ LZSystemTest/*
 *.wrl
 *.pdf
 *.png
+*.out
+*.log
+*.pcm
 tmp
 bin
 *.core
