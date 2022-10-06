@@ -317,7 +317,7 @@ BaccDetectorComponent * Lead_Sheet_Collimator_object = new BaccDetectorComponent
   
 //Lead shielding outside collimator
 
-G4Box * LeadOutside_Left = new G4Box("LeadOutside_Left", 2.54/2*cm,34.4/2*cm,22.62/2*cm);
+G4Box * LeadOutside_Left = new G4Box("LeadOutside_Left", (2.54*0.275)/2*cm,34.4/2*cm,22.62/2*cm);
 
 G4LogicalVolume * LeadOutside_Left_log = new G4LogicalVolume(LeadOutside_Left, BACCmaterials->Lead(),"LeadOutside_Left_log");
 
@@ -325,8 +325,9 @@ LeadOutside_Left_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
 
 BaccDetectorComponent * LeadOutside_Left_object = new BaccDetectorComponent(0,G4ThreeVector(-119.38*cm - 2.54/2*cm,DT_Shift_y_Position - 34.4/2*cm - 2.54/2* cm,0),LeadOutside_Left_log,"LeadOutside_Left_object",full_shield_assembly_log,0,0,true); 
 
-
-G4Box * LeadOutside_Right = new G4Box("LeadOutside_Right", 2.54/2*cm,24.4/2*cm,22.62/2*cm);
+// Commented out for DT Migdal measurements, August 2022
+//G4Box * LeadOutside_Right = new G4Box("LeadOutside_Right", 2.54/2*cm,24.4/2*cm,22.62/2*cm);
+G4Box * LeadOutside_Right = new G4Box("LeadOutside_Right", (2.54*0.275)/2*cm,24.4/2*cm,22.62/2*cm);
 
 G4LogicalVolume * LeadOutside_Right_log = new G4LogicalVolume(LeadOutside_Right, BACCmaterials->Lead(),"LeadOutside_Right_log");
 
