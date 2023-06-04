@@ -33,7 +33,7 @@
 /Bacc/randomSeed 4
 
 
-#/XeNeu/dtShieldingOn true
+/XeNeu/dtShieldingOn true
 /Bacc/detector/select XeNeuDTDetector
 /Bacc/detector/update
 

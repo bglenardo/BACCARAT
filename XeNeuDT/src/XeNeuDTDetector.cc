@@ -171,8 +171,8 @@ void XeNeuDTDetector::BuildDetector(){
 // Create the DT Shielding object
 if( dtShieldingOn ) {
 
-// XeNeu_DTShielding * dt_shield_obj = new XeNeu_DTShielding();  
- XeNeu_DDShieldingMigdal * dt_shield_obj = new XeNeu_DDShieldingMigdal();
+  XeNeu_DTShielding * dt_shield_obj = new XeNeu_DTShielding();  
+ //XeNeu_DDShieldingMigdal * dt_shield_obj = new XeNeu_DDShieldingMigdal();
 // ShieldingVolume = dt_shield_obj->GetLogicalVolume();
   // double source_detector_distance = 1.8236 * m; // Value in DT recoil measurement
   double source_detector_distance = 1.5236 * m;
@@ -408,8 +408,8 @@ if( dtShieldingOn ) {
       
       // Hardcoded dimension of true Migdal Run August 2022:
       // 95cm from center of TPC to the front faces of the LS detectors
-      //double ls_DistanceX = -1.*(95.0 * cm + 4.5 * 2.54*cm); // Distance for DT generator
-      double ls_DistanceX = -1.*(50.0 * cm + 4.5 * 2.54*cm); // Distance for DD generator
+      double ls_DistanceX = -1.*(95.0 * cm + 4.5 * 2.54*cm); // Distance for DT generator
+      //double ls_DistanceX = -1.*(34.0 * cm + 4.5 * 2.54*cm); // Distance for DD generator
       double ls_ring_radius = 26.5 * cm;
 
       G4RotationMatrix * rotm_ls = new G4RotationMatrix();

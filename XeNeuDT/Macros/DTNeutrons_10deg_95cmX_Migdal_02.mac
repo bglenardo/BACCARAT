@@ -50,8 +50,8 @@
 #/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220128_Four17deg_DoubleDistance/
 #/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220218_45deg_Four17deg_1p5distance_BKG/
 #/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220623_10deg_14det_17deg_1mdistance_30cm_closer_detector_04/
-/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220901_10deg_14det_95cmXdistance_02/
-
+#/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220901_10deg_14det_95cmXdistance_02/
+/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220403_10deg_14det_95cmXdistance_02/
 
 #/p/lscratchh/naim1/DTSimulations/PastRootFiles/ScatteringTests/BackgroundTests/
 #g/g14/naim1/BACCARAT/ 
@@ -93,10 +93,13 @@
 /Bacc/detector/recordLevel BPEShielding 1
 /Bacc/detector/recordLevel Collimator 1
 /Bacc/detector/recordLevel Water 1
+/Bacc/detector/recordLevel concrete 1 
 /Bacc/detector/recordLevel PhotocathodeBottom 2
 
 /Bacc/detector/recordLevel cathode_ring 2
 /Bacc/detector/recordLevel field_ring 2
+/Bacc/detector/recordLevel weir 2
+/Bacc/detector/recordLevel extraction_grid 2 
 /Bacc/detector/recordLevel peek_rod 2
 /Bacc/detector/recordLevel teflon 2
 /Bacc/detector/recordLevel gas_xenon 2
