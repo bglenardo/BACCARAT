@@ -69,6 +69,10 @@ class BaccOutput
 		G4int volume;
 		G4int recordSize;  // Total number recorded for the volume/event 
 		G4int numRecords;
+		G4int randomSeed;
+		G4int eventSeedIndex;
+		G4long eventSeed1;
+		G4long eventSeed2;
 
 		G4String particleName;
 		struct datalevel {

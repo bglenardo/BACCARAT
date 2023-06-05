@@ -57,6 +57,24 @@ BaccMessenger::BaccMessenger( BaccManager *man )
 	BaccRandomSeedCommand->SetGuidance( "command is used for reproducing earlier data (e.g., for debugging)." );
 	BaccRandomSeedCommand->AvailableForStates( G4State_PreInit, G4State_Idle );
 
+	BaccInputEventSeedCommand = new G4UIcmdWithABool( "/Bacc/inputEventRandomSeed", this);
+	BaccInputEventSeedCommand->AvailableForStates( G4State_PreInit, G4State_Idle );
+
+	BaccEventSeedIndexCommand = new G4UIcmdWithAnInteger( "/Bacc/eventSeedIndex", this);
+	BaccEventSeedIndexCommand->SetGuidance( "Use this command to set the event-level random seed");
+	BaccEventSeedIndexCommand->SetGuidance( " Works only when using the RanecuEngine.");
+	BaccEventSeedIndexCommand->AvailableForStates( G4State_PreInit, G4State_Idle );
+
+	BaccEventSeed1Command = new G4UIcmdWithADouble( "/Bacc/eventSeed1", this);
+	BaccEventSeed1Command->SetGuidance( "Use this command to set the event-level random seed");
+	BaccEventSeed1Command->SetGuidance( " Works only when using the RanecuEngine.");
+	BaccEventSeed1Command->AvailableForStates( G4State_PreInit, G4State_Idle );
+
+	BaccEventSeed2Command = new G4UIcmdWithADouble( "/Bacc/eventSeed2", this);
+	BaccEventSeed2Command->SetGuidance( "Use this command to set the event-level random seed");
+	BaccEventSeed2Command->SetGuidance( " Works only when using the RanecuEngine.");
+	BaccEventSeed2Command->AvailableForStates( G4State_PreInit, G4State_Idle );
+
 	//	Input/output commands
 	BaccFileDir = new G4UIdirectory( "/Bacc/io/" );
 	BaccFileDir->SetGuidance( "Controls the Bacc input and output files" );
@@ -168,6 +186,10 @@ BaccMessenger::~BaccMessenger()
 	delete BaccDir;
 	delete BaccBeamOnCommand;
 	delete BaccRandomSeedCommand;
+	delete BaccInputEventSeedCommand;
+	delete BaccEventSeedIndexCommand;
+	delete BaccEventSeed1Command;
+	delete BaccEventSeed2Command;
 
 	//	Input/output commands
 	delete BaccFileDir;
@@ -214,10 +236,20 @@ void BaccMessenger::SetNewValue( G4UIcommand *command, G4String newValue )
 	//	General commands
 	if( command == BaccBeamOnCommand )
 		baccManager->BeamOn( BaccBeamOnCommand->GetNewIntValue(newValue) );
-		
+
+	//	Commands related to random seeding	
 	else if( command == BaccRandomSeedCommand )
 		baccManager->SetRandomSeed( BaccRandomSeedCommand->GetNewIntValue(newValue) );
-		
+
+	else if( command == BaccInputEventSeedCommand )
+		baccManager->SetUseInputEventSeed( BaccInputEventSeedCommand->GetNewBoolValue(newValue) );	
+	else if( command == BaccEventSeedIndexCommand )
+		baccManager->SetEventSeedIndex( BaccEventSeedIndexCommand->GetNewIntValue(newValue) );
+	else if( command == BaccEventSeed1Command )
+		baccManager->SetEventSeed1( BaccEventSeed1Command->GetNewDoubleValue(newValue) );
+	else if( command == BaccEventSeed2Command )
+		baccManager->SetEventSeed2( BaccEventSeed2Command->GetNewDoubleValue(newValue) );
+	
 	//	Input/output commands
 	else if( command == BaccOutputDirCommand )
 		baccManager->SetOutputDir( newValue );

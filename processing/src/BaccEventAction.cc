@@ -17,6 +17,9 @@ Change log
 //
 #include <ctime>
 
+//      CLHEP includes
+#include "Randomize.hh"
+
 //
 //	GEANT4 includes
 //
@@ -64,7 +67,25 @@ void BaccEventAction::BeginOfEventAction(const G4Event* evt )
 	
 	radioactivePrimaryTime = 0;
 	baccManager->SetCurrentS2Index(0);
-	
+
+//	if( baccManager->GetUseInputEventSeed() ){
+//		G4long fEventSeeds[2];
+//		fEventSeeds[0] = baccManager->GetInputEventSeed1();
+//		fEventSeeds[1] = baccManager->GetInputEventSeed2();
+//		CLHEP::HepRandom::setTheSeeds( fEventSeeds, 
+//			baccManager->GetInputEventSeedIndex() );
+//	}
+//	baccManager->SaveEventSeedVals( 
+//			CLHEP::HepRandom::getTheSeed(),
+//			CLHEP::HepRandom::getTheSeeds()[0],
+//			CLHEP::HepRandom::getTheSeeds()[1] );
+	//4,1689174239,709645262	
+	//std::vector<G4int> fEventSeeds{1689174239, 709645262};
+	//long fEventSeeds[2];
+	//fEventSeeds[0] = 1689174239;
+	//fEventSeeds[1] = 709645262;
+	//CLHEP::HepRandom::setTheSeeds(fEventSeeds,4);
+
 }
 
 //------++++++------++++++------++++++------++++++------++++++------++++++------

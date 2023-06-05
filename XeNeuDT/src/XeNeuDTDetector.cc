@@ -59,9 +59,10 @@
 #include "XeNeu_DDCastle.hh"
 #include "XeNeu_DDBoratedPoly_1.hh"
 #include "XeNeu_DDBoratedPoly_2.hh"
-#include "XeNeu_VacuumBox.hh"
+#include "XeNeuDT_VacuumBox.hh"
 #include "XeNeu_TUNLShielding.hh"
 #include "XeNeu_DTShielding.hh"
+#include "XeNeu_DDShieldingMigdal.hh"
 //#include "XeNeu_MaterialTest.hh"
 //#include "XeNeu_Sphere.hh"
 #include "R8520PMT.hh"
@@ -170,8 +171,8 @@ void XeNeuDTDetector::BuildDetector(){
 // Create the DT Shielding object
 if( dtShieldingOn ) {
 
-
- XeNeu_DTShielding * dt_shield_obj = new XeNeu_DTShielding();  
+  XeNeu_DTShielding * dt_shield_obj = new XeNeu_DTShielding();  
+ //XeNeu_DDShieldingMigdal * dt_shield_obj = new XeNeu_DDShieldingMigdal();
 // ShieldingVolume = dt_shield_obj->GetLogicalVolume();
   // double source_detector_distance = 1.8236 * m; // Value in DT recoil measurement
   double source_detector_distance = 1.5236 * m;
@@ -399,10 +400,16 @@ if( dtShieldingOn ) {
 
 
    } else if( dt_Migdal_Run_14det_17deg ) {
-  
-      double scattering_angle = 17.*deg;
-      double ls_Distance = 1. * m;
-      double ls_DistanceX = - ls_Distance * cos( scattering_angle );
+ 
+      // Commented out for real DT Migdal run August 2022 
+      //double scattering_angle = 17.*deg;
+      //double ls_Distance = 1. * m;
+      //double ls_DistanceX = - ls_Distance * cos( scattering_angle );
+      
+      // Hardcoded dimension of true Migdal Run August 2022:
+      // 95cm from center of TPC to the front faces of the LS detectors
+      double ls_DistanceX = -1.*(95.0 * cm + 4.5 * 2.54*cm); // Distance for DT generator
+      //double ls_DistanceX = -1.*(34.0 * cm + 4.5 * 2.54*cm); // Distance for DD generator
       double ls_ring_radius = 26.5 * cm;
 
       G4RotationMatrix * rotm_ls = new G4RotationMatrix();
@@ -420,8 +427,8 @@ if( dtShieldingOn ) {
           ls_det_temp = new XeNeuDT_LSDetector(i);
           ls_detectors[i] = new BaccDetectorComponent(rotm_ls,
                                                       G4ThreeVector( ls_DistanceX,
-                                                                     ls_ring_radius * cos( ls_det_z_angle ),
-                                                                     ls_ring_radius * sin( ls_det_z_angle )),
+                                                                     ls_ring_radius * sin( ls_det_z_angle ),
+                                                                     ls_ring_radius * cos( ls_det_z_angle )),
                                                       ls_det_temp->GetLogicalVolume(),
                                                       detector_name,
                                                       logicalVolume,
@@ -432,9 +439,9 @@ if( dtShieldingOn ) {
    }
 
 
-}
+} 
   G4RotationMatrix * det_rot = new G4RotationMatrix();
-   det_rot->rotateZ(180.*deg);
+   det_rot->rotateZ(0.*deg);
   double detector_Z = 1.*cm;
 // Build the liquid xenon detector and stuff
   XeNeuDT_XeDetector * detector_obj = new XeNeuDT_XeDetector();
@@ -451,7 +458,7 @@ if( dtShieldingOn ) {
   double vacuumBoxHalfHeight = 3. * 2.54 * cm; 
   double vacuumBoxHole_Y = (11. - 5.)*2.54 * cm;
 
-  XeNeu_VacuumBox * vacuum_box_obj = new XeNeu_VacuumBox();
+  XeNeuDT_VacuumBox * vacuum_box_obj = new XeNeuDT_VacuumBox();
   BaccDetectorComponent * vacuum_box = new BaccDetectorComponent(det_rot,
                                         G4ThreeVector(0.,
                                                       -vacuumBoxHole_Y,
@@ -524,6 +531,116 @@ if( dtShieldingOn ) {
                                       "al_detector_support_3",
                                       logicalVolume,
                                       0,0,true);
+
+
+      // Build the lead shielding around the detector 
+      double detectorOuterRadius  = 4.* 2.54 * cm;
+      double shieldThickness = 0.476 * cm;
+    
+      G4Tubs * pb_det_shield_1_tubs = new G4Tubs("pb_det_shield_1_tubs",
+                                           detectorOuterRadius,
+                                           detectorOuterRadius + shieldThickness,
+                                           detectorHalfHeight,
+                                           0.*deg,
+                                           180.*deg);
+
+      G4Box * front_hole_box = new G4Box("front_hole_box",0.75*2.54*cm,1.*2.54*cm,0.75*2.54*cm);
+      G4SubtractionSolid * pb_shield_minus_front_hole = new G4SubtractionSolid("pb_shield_minus_front_hole",
+                                                        pb_det_shield_1_tubs,front_hole_box,0,G4ThreeVector(0,4.*2.54*cm,-1.*cm));
+      
+      G4LogicalVolume * pb_det_shield_1_log = new G4LogicalVolume(pb_shield_minus_front_hole,
+                                           BACCmaterials->Lead(),
+                                            "pb_det_shield_1_log");
+      pb_det_shield_1_log->SetVisAttributes( BACCmaterials->TestPurpleVis() );
+      G4RotationMatrix * rotm_pb_wrap = new G4RotationMatrix();
+      rotm_pb_wrap->rotateZ( 90.*deg );
+      BaccDetectorComponent * pb_det_shield_1 = new BaccDetectorComponent(rotm_pb_wrap,
+                                           G4ThreeVector(0,0,detector_Z),
+                                           pb_det_shield_1_log,
+                                           "pb_det_shield_1",
+                                           logicalVolume,
+                                           0,0,true);
+
+      G4Box * pb_brick_1in_box = new G4Box("pb_brick_1in_box",
+                                            0.5 * 2.54*cm,
+                                            2. * 2.54*cm,
+                                            4. * 2.54*cm);
+      G4LogicalVolume * pb_brick_1in_log = new G4LogicalVolume(pb_brick_1in_box,
+                                                               BACCmaterials->Lead(),
+                                                               "pb_brick_1in_log");
+      pb_brick_1in_log->SetVisAttributes( BACCmaterials->TestRedVis() );
+
+      double brick_1in_radius = 4.25 * 2.54 * cm + 0.5*2.54*cm;
+
+      double brick_1_angle = 34.4 * deg;
+      G4RotationMatrix * rotm_pb_brick_1 = new G4RotationMatrix();
+      rotm_pb_brick_1->rotateZ( -1.*brick_1_angle );
+      BaccDetectorComponent * pb_brick_1in_1 = new BaccDetectorComponent(rotm_pb_brick_1,
+                                                       G4ThreeVector( brick_1in_radius * cos(brick_1_angle),
+                                                                      brick_1in_radius * sin(brick_1_angle),
+                                                                      detector_Z),
+                                                       pb_brick_1in_log,
+                                                       "pb_brick_1in_1",
+                                                       logicalVolume,
+                                                       0,0,true);
+      double brick_2_angle = 34.4 * deg + 2*25.2 * deg;
+      G4RotationMatrix * rotm_pb_brick_2 = new G4RotationMatrix();
+      rotm_pb_brick_2->rotateZ( -1.*brick_2_angle );
+      BaccDetectorComponent * pb_brick_1in_2 = new BaccDetectorComponent(rotm_pb_brick_2,
+                                                       G4ThreeVector( brick_1in_radius * cos(brick_2_angle),
+                                                                      brick_1in_radius * sin(brick_2_angle),
+                                                                      detector_Z),
+                                                       pb_brick_1in_log,
+                                                       "pb_brick_1in_2",
+                                                       logicalVolume,
+                                                       0,0,true);
+      double brick_3_angle = -34.4 * deg;
+      G4RotationMatrix * rotm_pb_brick_3 = new G4RotationMatrix();
+      rotm_pb_brick_3->rotateZ( -1.*brick_3_angle );
+      BaccDetectorComponent * pb_brick_1in_3 = new BaccDetectorComponent(rotm_pb_brick_3,
+                                                       G4ThreeVector( brick_1in_radius * cos(brick_3_angle),
+                                                                      brick_1in_radius * sin(brick_3_angle),
+                                                                      detector_Z),
+                                                       pb_brick_1in_log,
+                                                       "pb_brick_1in_3",
+                                                       logicalVolume,
+                                                       0,0,true);
+      double brick_4_angle = -34.4 * deg - 2*25.2 * deg;
+      G4RotationMatrix * rotm_pb_brick_4 = new G4RotationMatrix();
+      rotm_pb_brick_4->rotateZ( -1.*brick_4_angle );
+      BaccDetectorComponent * pb_brick_1in_4 = new BaccDetectorComponent(rotm_pb_brick_4,
+                                                       G4ThreeVector( brick_1in_radius * cos(brick_4_angle),
+                                                                      brick_1in_radius * sin(brick_4_angle),
+                                                                      detector_Z),
+                                                       pb_brick_1in_log,
+                                                       "pb_brick_1in_4",
+                                                       logicalVolume,
+                                                       0,0,true);
+
+     
+     double large_brick_distance =  (5.75 + 1.) * 2.54 * cm;
+     G4Box * large_brick_box = new G4Box("large_brick_box", 1.*2.54*cm, 4.*2.54*cm, 2.*2.54*cm);
+     G4LogicalVolume * large_brick_log = new G4LogicalVolume(large_brick_box, BACCmaterials->Lead(),"large_brick_log");
+     large_brick_log->SetVisAttributes( BACCmaterials->TestPurpleVis() );
+     BaccDetectorComponent * large_pb_brick = new BaccDetectorComponent(0, 
+                                                                        G4ThreeVector(large_brick_distance,
+                                                                                     0., detector_Z-(2.75 * 2.54 * cm)),
+                                                                        large_brick_log,
+                                                                        "large_pb_brick",
+                                                                        logicalVolume,
+                                                                        0,0,true);
+    
+     G4Box * thin_pb_sheet_box = new G4Box("thin_pb_sheet_box", 3.*mm / 2., 20.*cm, 20*cm);
+     G4LogicalVolume * thin_pb_sheet_log = new G4LogicalVolume( thin_pb_sheet_box, BACCmaterials->Lead(), "thin_pb_sheet_log");
+     thin_pb_sheet_log->SetVisAttributes( BACCmaterials->TestGreenVis() );
+     BaccDetectorComponent * thin_pb_sheet = new BaccDetectorComponent(0,
+                                                              G4ThreeVector(9.*2.54*cm, 0., 0.),
+                                                              thin_pb_sheet_log,
+                                                              "thin_pb_sheet",
+                                                              logicalVolume,
+                                                              0,0,true);     
+
+
 
 
 

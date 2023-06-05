@@ -1,10 +1,12 @@
 /////////////////////////////////////////////////////
 //                                                  //
-//  XeNeu_DTShielding.cc                             //
+//  XeNeu_DDShieldingMigdal.cc                             //
 //                                                  //
 //  This is the class implementation for the XeNeu  //
 //  xenon detector, for use in the LLNL xenon       //
 //  recoil experiments                              //
+//  Copied from the DT shielding model, with a few  //
+//  modifications. 
 //                                                  //
 //////////////////////////////////////////////////////
 /*
@@ -13,6 +15,7 @@
 *	Change log
 *	
 *	2019-06-20 - Initial submission (Daniel Naim)
+* 2022-10-06 - Copied from DTShielding
 *
 *
 ********************************************************************************
@@ -53,7 +56,7 @@
 //	LZSystemTest includes
 //
 //#include "XeNeu_XeDetectorParameters.hh"
-#include "XeNeu_DTShielding.hh"
+#include "XeNeu_DDShieldingMigdal.hh"
 #include "XeNeuDTMaterials.hh"
 #include "XeNeuDTMessenger.hh"
 //
@@ -67,7 +70,7 @@ using namespace std;
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 //				LZSystemTestActiveLXeRegion
 //------++++++------++++++------++++++------++++++------++++++------++++++------
-XeNeu_DTShielding::XeNeu_DTShielding()
+XeNeu_DDShieldingMigdal::XeNeu_DDShieldingMigdal()
 {
 
   double water_tank_radius = 93.98 * cm;
@@ -82,9 +85,9 @@ XeNeu_DTShielding::XeNeu_DTShielding()
   double BPE_Thickness = 0. * cm; 
   double  Lead_Box_Thickness = 25.4 * cm; 
 
-  double water_collimator_radius = 1.27 * cm;
-  double water_collimator_height = ((119.38*cm - DT_container_half_length_x - Lead_Box_Thickness)/2.0); 
-  double center_water_collimator = ((119.38*cm + DT_container_half_length_x + Lead_Box_Thickness)/2.0);
+  double bpe_collimator_radius = 1.27 * cm;
+  double bpe_collimator_height = 4.5 * 2.54 * cm; 
+  double center_bpe_collimator = -119.38 * cm + 9./2. * 2.54 * cm;
  
 
   double measurement_box_side = 10 * cm;
@@ -140,42 +143,120 @@ XeNeu_DTShielding::XeNeu_DTShielding()
 
 //Create the BPE30 that the collimator will sit in
 //
-
- G4Box * BPEShielding = new G4Box("BPEShielding", 15.24/2*cm, 22.86/2*cm, water_collimator_height);
-
- G4LogicalVolume * BPEShielding_log = new G4LogicalVolume(BPEShielding, XeNeumaterials->BPE30(),"BPEShielding_log");
-
-BPEShielding_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
-
-
-
-
+G4Box * BPEShielding = new G4Box("BPEShielding", 
+                                  9./2. * 2.54 * cm, 
+                                  36./2 * 2.54 * cm, 
+                                  6./2 * 2.54 * cm);
+G4LogicalVolume * BPEShielding_log = new G4LogicalVolume(BPEShielding, XeNeumaterials->BPE30(),"BPEShielding_log");
+BPEShielding_log->SetVisAttributes(BACCmaterials->TestRedVis());
+BaccDetectorComponent * BPEShielding_object = new BaccDetectorComponent(0,
+                              G4ThreeVector(center_bpe_collimator, 0., 0.5*2.54*cm),
+                              BPEShielding_log,
+                              "BPEShielding_object",
+                              Water_Tank_Shielding_log,
+                              0,0,true);
+G4Box * BPE_5_slab = new G4Box("BPE_5_slab_box",
+                               4.5 * 2.54 * cm,
+                               18. * 2.54 * cm,
+                               0.5 * 2.54 * cm);
+G4LogicalVolume * BPE_5_slab_log = new G4LogicalVolume(BPE_5_slab, XeNeumaterials->BPE5(), "BPE_5_slab_log");
+BPE_5_slab_log->SetVisAttributes( BACCmaterials->TestGreenVis() );
+BaccDetectorComponent * BPE_5_slab_object = new BaccDetectorComponent(0,
+                              G4ThreeVector( 0, 0, -0.5*2.54*cm),
+                              BPE_5_slab_log,
+                              "BPE_5_slab",
+                              BPEShielding_log,
+                              0,0,true);
 
 //Create the collimator
-
-// G4Tubs * Collimator = new G4Tubs("Collimator", 0, water_collimator_radius,water_collimator_height , 0, 2*PI);
-
-  G4Box * Collimator = new G4Box("Collimator", 2.54/2 * cm, 2.54/2 * cm, water_collimator_height);
-
- G4LogicalVolume * Collimator_log = new G4LogicalVolume(Collimator ,BACCmaterials->Vacuum(),"Collimator_log");
-
-
- BaccDetectorComponent * Collimator_object = new BaccDetectorComponent(0,G4ThreeVector(0,0,0.), Collimator_log, "Collimator_object", BPEShielding_log,0,0,true);
+// G4Tubs * Collimator = new G4Tubs("Collimator", 0, bpe_collimator_radius,bpe_collimator_height , 0, 2*PI);
+G4Box * Collimator = new G4Box("Collimator", 4.5*2.54*cm, 2.54/2*cm, 2.54/2*cm);
+G4LogicalVolume * Collimator_log = new G4LogicalVolume(Collimator, BACCmaterials->Vacuum(), "Collimator_log");
+BaccDetectorComponent * Collimator_object = new BaccDetectorComponent( 0,
+                                           G4ThreeVector(0, DT_Shift_y_Position, 0.), 
+                                           Collimator_log, 
+                                           "Collimator_object", 
+                                           BPE_5_slab_log,
+                                           0,0,true );
  
 
- BaccDetectorComponent * BPEShielding_object = new BaccDetectorComponent(rm,G4ThreeVector(-center_water_collimator,DT_Shift_y_Position,0.),BPEShielding_log,"BPEShielding_object",Water_Tank_Shielding_log,0,0,true);
+
+//------------------------------------------------------------------------------------------------
+// Create the box with the DD generator
+double top_al_sheet_thickness = 3./8. * 2.54 *cm;
+double bottom_al_sheet_thickness = 5./8. * 2.54 * cm;
+double ddgen_box_x_offset = center_bpe_collimator + 9.*2.54*cm;
+
+G4Box * top_al_sheet_box = new G4Box("top_al_sheet_box", 4.5*2.54*cm, 18.*2.54*cm, top_al_sheet_thickness/2.);
+G4LogicalVolume * top_al_sheet_log = new G4LogicalVolume( top_al_sheet_box,
+                                                          BACCmaterials->Aluminum(),
+                                                          "top_al_sheet_log");
+top_al_sheet_log->SetVisAttributes( BACCmaterials->AluminumVis() );
+BaccDetectorComponent * top_al_sheet = new BaccDetectorComponent( 0, 
+                                             G4ThreeVector(ddgen_box_x_offset, 0, 3.5*2.54*cm - top_al_sheet_thickness/2. ),
+                                             top_al_sheet_log,
+                                             "top_al_sheet",
+                                             Water_Tank_Shielding_log,
+                                             0,0,true);
+
+G4Box * bottom_al_sheet_box = new G4Box("bottom_al_sheet_box", 4.5*2.54*cm, 18.*2.54*cm, bottom_al_sheet_thickness/2.);
+G4LogicalVolume * bottom_al_sheet_log = new G4LogicalVolume( bottom_al_sheet_box,
+                                                          BACCmaterials->Aluminum(),
+                                                          "bottom_al_sheet_log");
+bottom_al_sheet_log->SetVisAttributes( BACCmaterials->AluminumVis() );
+BaccDetectorComponent * bottom_al_sheet = new BaccDetectorComponent( 0, 
+                                             G4ThreeVector(ddgen_box_x_offset, 0, -2.5*2.54*cm + bottom_al_sheet_thickness/2. ),
+                                             bottom_al_sheet_log,
+                                             "bottom_al_sheet",
+                                             Water_Tank_Shielding_log,
+                                             0,0,true);
+
+G4Box * dd_bpe_shield_box = new G4Box("dd_bpe_shield_box", 2.*2.54*cm, 18.*2.54*cm, 2.5*2.54*cm);
+G4LogicalVolume * dd_bpe_shield_log = new G4LogicalVolume( dd_bpe_shield_box,
+                                                          XeNeumaterials->BPE5(),
+                                                          "dd_bpe_shield_log");
+dd_bpe_shield_log->SetVisAttributes( BACCmaterials->TestGreenVis() );
+BaccDetectorComponent * dd_bpe_shield = new BaccDetectorComponent( 0, 
+                                             G4ThreeVector(ddgen_box_x_offset-2.5*2.54*cm, 0, 0.625*2.54*cm),
+                                             dd_bpe_shield_log,
+                                             "dd_BPE_shield",
+                                             Water_Tank_Shielding_log,
+                                             0,0,true);
+
+G4Box * dd_short_collimator_box = new G4Box("dd_short_collimator_box", 2.*2.54*cm, 0.5*2.54*cm, 1.*2.54*cm);
+G4LogicalVolume * dd_short_collimator_log = new G4LogicalVolume( dd_short_collimator_box,
+                                                          BACCmaterials->Vacuum(),
+                                                          "dd_short_collimator_log");
+// dd_short_collimator_log->SetVisAttributes( BACCmaterials->VacuumVis() );
+BaccDetectorComponent * dd_short_collimator = new BaccDetectorComponent( 0, 
+                                             G4ThreeVector(0, DT_Shift_y_Position, -0.625*2.54*cm),
+                                             dd_short_collimator_log,
+                                             "dd_short_collimator",
+                                             dd_bpe_shield_log,
+                                             0,0,true);
+
+G4Box * dd_vacuum_space_box = new G4Box("dd_vacuum_space_box", 2.5*2.54*cm, 18.*2.54*cm, 2.5*2.54*cm);
+G4LogicalVolume * dd_vacuum_space_log = new G4LogicalVolume( dd_vacuum_space_box,
+                                             BACCmaterials->Vacuum(), "dd_vacuum_space_log");
+BaccDetectorComponent * dd_vacuum_space = new BaccDetectorComponent( 0,
+                                            G4ThreeVector( ddgen_box_x_offset + 2.*2.54*cm, 0, 0.625*2.54*cm),
+                                            dd_vacuum_space_log,
+                                            "dd_vacuum_space",
+                                            Water_Tank_Shielding_log,
+                                            0,0,true);
 
 
-//BaccDetectorComponent * Collimator_object = new BaccDetectorComponent(rm,G4ThreeVector(-center_water_collimator,DT_Shift_y_Position,0.), Collimator_log, "Collimator_object", Water_Tank_Shielding_log,0,0,true);
+
+
 
 //Create The Lead Shielding Surrounding the DT generator
 
- double DT_Tube_Radius = 10.16/2*cm;
+ double DD_Tube_Radius = 10.16/2*cm;
 
  G4Box * Lead_DT_Box = new G4Box("Lead_DT_Box", 
-					DT_Tube_Radius + Lead_Box_Thickness, 
-					DT_Tube_Radius + Lead_Box_Thickness + 3.*2.54*cm, 
-					DT_Tube_Radius + Lead_Box_Thickness);
+					DD_Tube_Radius + Lead_Box_Thickness, 
+					DD_Tube_Radius + Lead_Box_Thickness + 3.*2.54*cm, 
+					DD_Tube_Radius + Lead_Box_Thickness);
 
  G4LogicalVolume * Lead_Box_log = new G4LogicalVolume(Lead_DT_Box, BACCmaterials->Lead(), "Lead_Box_log");
 
@@ -183,7 +264,7 @@ BPEShielding_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
 //Collimator for Lead Shielding around DT 
 //
  
-// G4Tubs * Lead_Collimator = new G4Tubs("Lead_Collimator", 0, water_collimator_radius, (DT_container_half_length_x - DT_Tube_Radius + 2*Lead_Box_Thickness)/2.0, 0, 2*PI);
+// G4Tubs * Lead_Collimator = new G4Tubs("Lead_Collimator", 0, bpe_collimator_radius, (DT_container_half_length_x - DD_Tube_Radius + 2*Lead_Box_Thickness)/2.0, 0, 2*PI);
 
  G4Box * Lead_Collimator = new G4Box("Lead_Collimator", 2.54/2 * cm, 2.54/2 * cm, (Lead_Box_Thickness)/2);
 
@@ -193,7 +274,7 @@ BPEShielding_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
 
 
  BaccDetectorComponent * Lead_Collimator_object = new BaccDetectorComponent( rm,
-							G4ThreeVector(-(Lead_Box_Thickness +2*DT_Tube_Radius)/2, DT_Shift_y_Position,0.),
+							G4ThreeVector(-(Lead_Box_Thickness +2*DD_Tube_Radius)/2, DT_Shift_y_Position,0.),
 							Lead_Collimator_log,
 							"Lead_Collimator_object",
 							Lead_Box_log, 
@@ -204,25 +285,17 @@ BPEShielding_log->SetVisAttributes(XeNeumaterials->BoratedWaterVis());
  //Create the vacuum that the DT generator will sit inside the lead shielding Box
   G4RotationMatrix* rm1 = new G4RotationMatrix();
   rm1->rotateX(90.*deg); 
-/*
- //Box
- G4Box * DT_Box = new G4Box("DT_Box", DT_container_half_length_x, DT_container_half_width_y, DT_container_half_height_z);
-
- G4LogicalVolume * DT_Box_log = new G4LogicalVolume(DT_Box,BACCmaterials->Vacuum(),"DT_Box_log");
-
- DT_Box_log->SetVisAttributes(BACCmaterials->LeadVis());
- 
- BaccDetectorComponent * DT_Box_object = new BaccDetectorComponent(rm,G4ThreeVector(0,0,0),DT_Box_log, "DT_Box_object", Lead_Box_log,0,0,true);
- */
 
  //Tube
- G4Tubs * DT_Tube = new G4Tubs("DT_Tube", 0, DT_Tube_Radius, (DT_container_half_width_y), 0,2*PI);
-
- G4LogicalVolume * DT_Tube_log = new G4LogicalVolume(DT_Tube,BACCmaterials->Vacuum(),"DT_Tube_log"); 
-
- DT_Tube_log->SetVisAttributes(BACCmaterials->SteelVis());
-
- BaccDetectorComponent * DT_Tube_obj = new BaccDetectorComponent(rm1,G4ThreeVector(0,0,0),DT_Tube_log, "DT_Tube_obj", Lead_Box_log,0,0,true);
+ G4Tubs * DD_Tube = new G4Tubs("DD_Tube", 0, DD_Tube_Radius, (DT_container_half_width_y), 0,2*PI);
+ G4LogicalVolume * DD_Tube_log = new G4LogicalVolume(DD_Tube,BACCmaterials->Vacuum(),"DD_Tube_log"); 
+ DD_Tube_log->SetVisAttributes(BACCmaterials->SteelVis());
+ BaccDetectorComponent * DD_Tube_obj = new BaccDetectorComponent(rm1,
+                                                  G4ThreeVector(0, 0,0),
+                                                  DD_Tube_log, 
+                                                  "DD_Tube_obj", 
+                                                  dd_vacuum_space_log,
+                                                  0,0,true);
 
 
 //Finally Create the Lead Box
@@ -339,6 +412,6 @@ BaccDetectorComponent * LeadOutside_Right_object = new BaccDetectorComponent(0,G
 }
 
 //------++++++------++++++------++++++------++++++------++++++------++++++------
-//				~XeNeu_DTShielding
+//				~XeNeu_DDShieldingMigdal
 //------++++++------++++++------++++++------++++++------++++++------++++++------
-XeNeu_DTShielding::~XeNeu_DTShielding(){}
+XeNeu_DDShieldingMigdal::~XeNeu_DDShieldingMigdal(){}

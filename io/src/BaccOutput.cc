@@ -282,6 +282,9 @@ void BaccOutput::RecordEventByVolume( BaccDetectorComponent* component,
 	optPhotRecordLevel = component->GetRecordLevelOptPhot();
         thermElecRecordLevel = component->GetRecordLevelThermElec();
         recordLevel = component->GetRecordLevel();
+	eventSeedIndex = baccManager->GetEventSeedIndex();
+	eventSeed1 = baccManager->GetEventSeed1();
+	eventSeed2 = baccManager->GetEventSeed2();
 
         totalVolumeEnergy = 0.;
         totalOptPhotNumber = 0;
@@ -392,6 +395,9 @@ void BaccOutput::RecordEventByVolume( BaccDetectorComponent* component,
 	volume = component->GetID();
 	fBaccOutput.write((char *)(&volume),sizeof(int));
 	fBaccOutput.write((char *)(&eventNum),sizeof(int));
+	fBaccOutput.write((char *)(&eventSeedIndex),sizeof(int));
+	fBaccOutput.write((char *)(&eventSeed1),sizeof(long));
+	fBaccOutput.write((char *)(&eventSeed2),sizeof(long));
 
 	//	record steping information according to the specified record level
 	//

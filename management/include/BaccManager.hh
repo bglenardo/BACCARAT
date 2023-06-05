@@ -40,6 +40,7 @@ Change log
 //	CLHEP includes
 //
 #include "CLHEP/Random/MTwistEngine.h"
+#include "CLHEP/Random/RanecuEngine.h"
 
 //
 //	Bacc includes
@@ -114,8 +115,28 @@ class BaccManager
 		//	General-purpose methods
 		void BeamOn( G4int );
 		inline G4int GetRandomSeed() { return randomSeed; };
+
+                //CLHEP::RanecuEngine * GetRandomEnginePointer() { return &randomizationEngine; }
 		void SetRandomSeed( G4int );
+		void SetUseInputEventSeed( G4bool _useInputEventSeed ) 
+			{ useInputEventSeed = _useInputEventSeed; };
+		void SetEventSeedIndex( G4int _inputEventSeedIndex )
+			{ inputEventSeedIndex = _inputEventSeedIndex; G4cout << "\n\nSetting event seed index: " << inputEventSeedIndex << G4endl; };
+		void SetEventSeed1( G4double _inputEventSeed1 )
+			{ inputEventSeed1 = long(_inputEventSeed1); G4cout << "\n\nSetting event seed 1: " << inputEventSeed1 << G4endl; };
+		void SetEventSeed2( G4double _inputEventSeed2 )
+			{ inputEventSeed2 = long(_inputEventSeed2); G4cout << "\n\nSetting event seed 2: " << inputEventSeed2 << G4endl; };
+		G4bool GetUseInputEventSeed() { return useInputEventSeed; };
+		G4int GetInputEventSeedIndex() {return inputEventSeedIndex; };
+		G4int GetInputEventSeed1() { return inputEventSeed1; };
+		G4int GetInputEventSeed2() { return inputEventSeed2; };	
 		
+		void SaveEventSeedVals( G4int _eventSeedIndex, G4long _eventSeed1, G4long _eventSeed2 );
+		G4int GetEventSeedIndex() { return eventSeedIndex; };
+		G4int GetEventSeed1() { return eventSeed1; };
+		G4int GetEventSeed2() { return eventSeed2; };		
+
+
 		//	Input/output methods
                 void SetIsSVNRepo( G4bool isSVN ) { IsSVNRepo = isSVN; }
                 G4bool GetIsSVNRepo() { return IsSVNRepo; }
@@ -322,7 +343,7 @@ class BaccManager
 				{ return BaccMat->GetOpticalDebugging(); };
 		void SetOpticalDebugging( G4bool debug )
 				{ BaccMat->SetOpticalDebugging(debug); };
-		
+	     	
 
 	private:
 		static BaccManager *baccManager;
@@ -343,9 +364,18 @@ class BaccManager
 
 		G4UImanager *UI;
 		
-		CLHEP::MTwistEngine randomizationEngine;
+		//CLHEP::MTwistEngine randomizationEngine;
+		CLHEP::RanecuEngine randomizationEngine;
 		G4int randomSeed;
-		
+		G4bool useInputEventSeed;
+		G4int inputEventSeedIndex;
+		G4long inputEventSeed1;
+		G4long inputEventSeed2;
+		G4int eventSeedIndex;
+		G4long eventSeed1;
+		G4long eventSeed2;		
+
+
 		//	Input/output variables
 		G4bool   IsSVNRepo;
 		G4bool   IsGitRepo;

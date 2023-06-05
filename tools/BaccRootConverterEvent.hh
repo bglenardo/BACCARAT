@@ -96,6 +96,9 @@ class BaccRootConverterEvent : public TObject
         };
         
         Int_t iEventNumber;
+	Int_t iEventSeedIndex;
+	long iEventSeed1;
+	long iEventSeed2;
         Int_t iRunNumber;
         
         std::vector<volumeInfo> volumes;
@@ -112,7 +115,7 @@ class BaccRootConverterEvent : public TObject
         
     private:
     
-ClassDef( BaccRootConverterEvent, 6 )
+ClassDef( BaccRootConverterEvent, 7 )
 
 };
 

@@ -125,13 +125,19 @@ int XeNeuSimsAnalysisEnvironment::PrintOutEnergyDepInfo() {
      return -1;
   } 
 
-    for(int tr=0; tr<current_evt->tracks.size(); tr++) {
-      printf("\n\tTrack %d,\t particle ID: %d,\t sCreatorProcess: %s, \t parent: %d\n",
+    printf("iEvtSeedIndex: l%d\n",current_evt->iEventSeedIndex);
+    printf("iEvtSeed1: %ld\n",current_evt->iEventSeed1);
+    printf("iEvtSeed2: %ld\n",current_evt->iEventSeed2);
+    for(size_t tr=0; tr<current_evt->tracks.size(); tr++) {
+      if( current_evt->tracks[tr].iTrackID == 0 ) { continue; }
+      //printf("Track info:\n");
+      printf("\n\tTrack %d,\t particle ID: %ld,\t sCreatorProcess: %s, \t parent: %d\n",
              current_evt->tracks[tr].iTrackID,
              current_evt->tracks[tr].iParticleID,
              current_evt->tracks[tr].sCreatorProcess.c_str(),
              current_evt->tracks[tr].iParentID);
-      for(int st=0; st<current_evt->tracks[tr].steps.size(); st++) {
+      for(size_t st=0; st<current_evt->tracks[tr].steps.size(); st++) {
+         //printf("Step info:\n");
          printf("\t\tVolume: %d, %s, Time: %f, Edep: %f, CurrentE: %f, Process: %s\n", current_evt->tracks[tr].steps[st].iVolumeID,
                                                   current_evt->tracks[tr].steps[st].sVolumeName.c_str(),
                                                   current_evt->tracks[tr].steps[st].dTime_ns,
@@ -193,9 +199,9 @@ int XeNeuSimsAnalysisEnvironment::PrimaryNeutronScatteringVolumes() {
 
          // Find out if there are any interactions in the liquid xenon target
          bool scatters_in_target_vol = false;
-         for(int tr=0; tr < current_evt->tracks.size(); tr++) {
+         for(size_t tr=0; tr < current_evt->tracks.size(); tr++) {
             track = current_evt->tracks[tr];
-            for(int st=0; st < track.steps.size(); st++) {
+            for(size_t st=0; st < track.steps.size(); st++) {
                 if( track.steps[st].iVolumeID == FindVolumeID("liquid_xenon_target") )
                     scatters_in_target_vol = true;
             }
@@ -219,7 +225,7 @@ int XeNeuSimsAnalysisEnvironment::PrimaryNeutronScatteringVolumes() {
   printf("************************************************************************************\n"); 
   printf("Rates of first-scattering in various volumes: \n");
   bool human_readable = false;
-  for(int vol=0; vol < volumes[0].size(); vol++) {
+  for(size_t vol=0; vol < volumes[0].size(); vol++) {
     if( human_readable ) {
        cout << setw(7) << left << "Volume " << setw(3) << left << vol << ": " << setw(30) << left << volumes[0][vol]
             << setw(7) << left << " Hits: " << setw(8) << right << h_scattering_vols_first->GetBinContent(vol+3) << "/" << num_events
@@ -272,9 +278,9 @@ int XeNeuSimsAnalysisEnvironment::DirectionOfPrimariesForScatteringEvents() {
      scatters_in_detector_vols = false;
      if( tracks.size() == 0 ) continue;
 
-     for(int tr=0; tr < tracks.size(); tr++) {
+     for(size_t tr=0; tr < tracks.size(); tr++) {
         steps = tracks[tr].steps;
-        for(int st=0; st < steps.size(); st++) {
+        for(size_t st=0; st < steps.size(); st++) {
             if( steps[st].sVolumeName == "liquid_xenon_target" ||
                 steps[st].sVolumeName == "ls_target" )
                 scatters_in_detector_vols = true;
@@ -319,12 +325,13 @@ bool XeNeuSimsAnalysisEnvironment::IsSingleScatter() {
   if( current_evt->tracks.size() == 1 ) return true;
   
   if( current_evt->tracks.size() > 1 ) {
-    for( int i=0; i<current_evt->tracks.size(); i++) {
+    for( size_t i=0; i<current_evt->tracks.size(); i++) {
        if( current_evt->tracks[i].sCreatorProcess != "neutronInelastic" ) return false;
     }
     return true;
   }  
   if( current_evt->tracks.size() < 1 ) return false;
+  return false;
 }
 
 
@@ -390,13 +397,13 @@ int XeNeuSimsAnalysisEnvironment::PrintCurrentEvtDetails() {
      return -1;
   } 
 
-    for(int tr=0; tr<current_evt->tracks.size(); tr++) {
-      printf("\tTrack %d,\t particle ID: %d,\t sCreatorProcess: %s,\t iParentID: %d\n",
+    for(size_t tr=0; tr<current_evt->tracks.size(); tr++) {
+      printf("\tTrack %d,\t particle ID: %ld,\t sCreatorProcess: %s,\t iParentID: %d\n",
              current_evt->tracks[tr].iTrackID,
              current_evt->tracks[tr].iParticleID,
              current_evt->tracks[tr].sCreatorProcess.c_str(),
              current_evt->tracks[tr].iParentID);
-      for(int st=0; st<current_evt->tracks[tr].steps.size(); st++) {
+      for(size_t st=0; st<current_evt->tracks[tr].steps.size(); st++) {
          printf("\tVolume: %d, %s\n",current_evt->tracks[tr].steps[st].iVolumeID,current_evt->tracks[tr].steps[st].sVolumeName.c_str());
       }
   }
@@ -414,7 +421,7 @@ int XeNeuSimsAnalysisEnvironment::FindVolumeID( string vname ) {
     return -1;
   } 
 
-  for( int i=0; i<volumes[0].size(); i++) {
+  for( size_t i=0; i<volumes[0].size(); i++) {
     if( vname == volumes[0][i] ) return i+1;
   }
   cout << "Couldn't find the volume specified. Check the name and try again." << endl;
@@ -521,8 +528,25 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
   double firstLSScatterPos_z;
   double primaryEmissionAngle_deg;
   vector<string> sXeProcessNames;
+  vector<double> dEDepXe_NR_keV;
+  vector<double> dTXe_NR_ns;
+  vector<vector<double>> dPosXe_NR_mm;
+  vector<double> dEDepXe_ER_keV;
+  vector<double> dTXe_ER_ns;
+  vector<vector<double>> dPosXe_ER_mm;
+  vector<double> dEDepXeBelowCathode_NR_keV;
+  vector<double> dTXeBelowCathode_NR_ns;
+  vector<double> dEDepXeBelowCathode_ER_keV;
+  vector<double> dTXeBelowCathode_ER_ns;
+  vector<double> dEDepXeAboveEG_NR_keV;
+  vector<double> dTXeAboveEG_NR_ns;
+  vector<double> dEDepXeAboveEG_ER_keV;
+  vector<double> dTXeAboveEG_ER_ns;
   string sFileName;
   int    iEvtNum;
+  int    iEvtSeedIndex;
+  long   iEvtSeed1;
+  long   iEvtSeed2;
   bool   bSSInXe,
          bTrueSSInXe,
          bMSOtherMat,
@@ -558,8 +582,25 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
   data->Branch("dLastXeT_ns",&dLastXeT_ns,"dLastXeT_ns/D");
   data->Branch("dTotEDepLS_keV",&dTotEDepLS_keV,"dTotEDepLS_keV/D");
   data->Branch("sXeProcessNames",&sXeProcessNames);
+  data->Branch("dEDepXe_NR_keV",&dEDepXe_NR_keV);
+  data->Branch("dEDepXe_ER_keV",&dEDepXe_ER_keV);
+  data->Branch("dTXe_NR_ns",&dTXe_NR_ns);
+  data->Branch("dTXe_ER_ns",&dTXe_ER_ns);
+  data->Branch("dPosXe_NR_mm",&dPosXe_NR_mm);
+  data->Branch("dPosXe_ER_mm",&dPosXe_ER_mm);
+  data->Branch("dEDepXeBelowCathode_NR_keV",&dEDepXeBelowCathode_NR_keV);
+  data->Branch("dEDepXeBelowCathode_ER_keV",&dEDepXeBelowCathode_ER_keV);
+  data->Branch("dTXeBelowCathode_NR_ns",&dTXeBelowCathode_NR_ns);
+  data->Branch("dTXeBelowCathode_ER_ns",&dTXeBelowCathode_ER_ns);
+  data->Branch("dEDepXeAboveEG_NR_keV",&dEDepXeAboveEG_NR_keV);
+  data->Branch("dEDepXeAboveEG_ER_keV",&dEDepXeAboveEG_ER_keV);
+  data->Branch("dTXeAboveEG_NR_ns",&dTXeAboveEG_NR_ns);
+  data->Branch("dTXeAboveEG_ER_ns",&dTXeAboveEG_ER_ns);
   data->Branch("sFileName",&sFileName);
-  data->Branch("iEvtNum",&iEvtNum);
+  data->Branch("iEvtNum",&iEvtNum,"iEvtNum/I");
+  data->Branch("iEvtSeedIndex",&iEvtSeedIndex,"iEvtSeedIndex/I");
+  data->Branch("iEvtSeed1",&iEvtSeed1,"iEvtSeed1/L");
+  data->Branch("iEvtSeed2",&iEvtSeed2,"iEvtSeed2/L");
   data->Branch("sOtherMaterials",&sOtherMaterials);
   data->Branch("bSSInXe",&bSSInXe,"bSSInXe/O");
   data->Branch("bTrueSSInXe",&bTrueSSInXe,"bTrueSSInXe/O");
@@ -610,6 +651,9 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
         eventsChain->GetEntry(i);
         sFileName = outfilename;
         iEvtNum = i;
+        iEvtSeedIndex = current_evt->iEventSeedIndex;
+        iEvtSeed1 = current_evt->iEventSeed1;
+        iEvtSeed2 = current_evt->iEventSeed2;
         dTotEDepXe_keV = 0.;
         dTotEDepXe_ER_keV = 0.;
         dTotEDepXe_NR_keV = 0.;
@@ -625,6 +669,20 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
         dSecondXeScatterEDep_keV = 0.;
         sXeProcessNames.clear();
         sOtherMaterials.clear();
+        dEDepXe_NR_keV.clear();
+        dEDepXe_ER_keV.clear();
+        dTXe_NR_ns.clear();
+        dTXe_ER_ns.clear();
+        dPosXe_NR_mm.clear();
+        dPosXe_ER_mm.clear();
+        dEDepXeBelowCathode_NR_keV.clear();
+        dEDepXeBelowCathode_ER_keV.clear();
+        dTXeBelowCathode_NR_ns.clear();
+        dTXeBelowCathode_ER_ns.clear();
+        dEDepXeAboveEG_NR_keV.clear();
+        dEDepXeAboveEG_ER_keV.clear();
+        dTXeAboveEG_NR_ns.clear();
+        dTXeAboveEG_ER_ns.clear();
         bSSInXe = true;
         bTrueSSInXe = false;
         bMSOtherMat = false;
@@ -652,10 +710,11 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
         creationPos_y = -1000.;
         creationPos_z = -1000.;
 
-	if( current_evt->primaryParticles.size() == 0 ) continue;
+	    if( current_evt->primaryParticles.size() == 0 ) continue;
  
         vector<stepInfo> steps;
         vector<trackInfo> tracks = current_evt->tracks;
+        vector<volumeInfo> volumes = current_evt->volumes;
         primaryParticleInfo primaryParticle = current_evt->primaryParticles[0];
         primaryEmissionAngle_deg = TMath::ACos(primaryParticle.dDirection[0])*180./TMath::Pi(); // r = 1
         primaryAbsorptionVolumeID = primaryParticle.iAbsorptionVolumeID;
@@ -685,8 +744,9 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
                 }
 
                 //printf("Volume: %s\n",steps[st].sVolumeName.c_str());
-                if( steps[st].sVolumeName == "liquid_xenon_target" || steps[st].sVolumeName == "liquid_xenon_above_eg" || 
-                  steps[st].sVolumeName == "xe_target" ) {
+                if( steps[st].sVolumeName == "liquid_xenon_target" || 
+                        steps[st].sVolumeName == "liquid_xenon_above_eg" || 
+                        steps[st].sVolumeName == "xe_target" ) {
                     energy += steps[st].dEnergyDep_keV;
                     //printf("Energy: %f \t X: %f \t Y: %f \t Z: %f \n",
                     //        steps[st].dEnergyDep_keV,steps[st].dPosition_mm[0],
@@ -731,18 +791,53 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
                     if( tracks[tr].iParticleID == 11 || tracks[tr].iParticleID == 22 ){ 
                         bGammaInXe = true;
                         dTotEDepXe_ER_keV += steps[st].dEnergyDep_keV;
+                        if (steps[st].sVolumeName == "liquid_xenon_target" ||
+                            steps[st].sVolumeName == "xe_target") {
+                            dEDepXe_ER_keV.push_back( steps[st].dEnergyDep_keV );
+                            dTXe_ER_ns.push_back( steps[st].dTime_ns);
+                            vector<double> position_temp;
+                            position_temp.push_back(steps[st].dPosition_mm[0]);
+                            position_temp.push_back(steps[st].dPosition_mm[1]);
+                            position_temp.push_back(steps[st].dPosition_mm[2]);
+                            dPosXe_ER_mm.push_back(position_temp);
+                        } else if(steps[st].sVolumeName == "liquid_xenon_above_eg") {
+                            dEDepXeAboveEG_ER_keV.push_back( steps[st].dEnergyDep_keV );
+                            dTXeAboveEG_ER_ns.push_back( steps[st].dTime_ns );
+                            bEventAboveEG = true;
+                        }
                     } else {
                         dTotEDepXe_NR_keV += steps[st].dEnergyDep_keV;
+                        if (steps[st].sVolumeName == "liquid_xenon_target" ||
+                            steps[st].sVolumeName == "xe_target") {
+                            dEDepXe_NR_keV.push_back( steps[st].dEnergyDep_keV );
+                            dTXe_NR_ns.push_back( steps[st].dTime_ns);
+                            vector<double> position_temp;
+                            position_temp.push_back(steps[st].dPosition_mm[0]);
+                            position_temp.push_back(steps[st].dPosition_mm[1]);
+                            position_temp.push_back(steps[st].dPosition_mm[2]);
+                            dPosXe_NR_mm.push_back(position_temp);
+                        } else if(steps[st].sVolumeName == "liquid_xenon_above_eg") {
+                            dEDepXeAboveEG_NR_keV.push_back( steps[st].dEnergyDep_keV );
+                            dTXeAboveEG_NR_ns.push_back( steps[st].dTime_ns );
+                            bEventAboveEG = true;
+                        }
                     }
                     creationVolumeID = tracks[tr].iCreationVolumeID;
                     creationPos_x = tracks[tr].dCreationPosition[0];
                     creationPos_y = tracks[tr].dCreationPosition[1];
                     creationPos_z = tracks[tr].dCreationPosition[2];
                     
-                    if( steps[st].sVolumeName == "liquid_xenon_above_eg" )
-                        bEventAboveEG = true;
                     hitXeAlready = true;
                 } else // end if( volume == LXetarget )
+                if( steps[st].sVolumeName == "liquid_xenon_below_cathode"){
+                    if( tracks[tr].iParticleID == 11 || tracks[tr].iParticleID == 22 ){
+                        dEDepXeBelowCathode_ER_keV.push_back( steps[st].dEnergyDep_keV );
+                        dTXeBelowCathode_ER_ns.push_back( steps[st].dTime_ns );
+                    } else {
+                        dEDepXeBelowCathode_NR_keV.push_back( steps[st].dEnergyDep_keV );
+                        dTXeBelowCathode_NR_ns.push_back( steps[st].dTime_ns );
+                    }
+                } else
                 if( steps[st].sVolumeName == "migdal_neutron_tagging_detector" ){
                     //printf("tracks[tr].iParticleID: %d\n",tracks[tr].iParticleID);
                     dTotEDepAnticoincidenceDetector_keV += steps[st].dEnergyDep_keV;
@@ -948,6 +1043,27 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
                         bGammaInLS = true;
                     else if( tracks[tr].iParticleID == 2212 || tracks[tr].iParticleID > 1000020040 )
                         bNuclearRecoilInLS = true;
+                } else if( steps[st].sVolumeName == "ls_target_0" ) {
+                    dTotEDepLS_keV += steps[st].dEnergyDep_keV;
+                    if( !hitLSAlready ) {
+                        tLS = steps[st].dTime_ns;
+                        dTLS_ns = tLS;
+                        if(hitXeAlready)
+                           dDeltaTXeLS_ns = tLS;
+                        hitLSAlready = true;
+                        bd_id = 0;
+                        bd_ch = 0;
+                        firstLSScatterPos_x = steps[st].dPosition_mm[0];
+                        firstLSScatterPos_y = steps[st].dPosition_mm[1];
+                        firstLSScatterPos_z = steps[st].dPosition_mm[2];
+                    } else {
+                        if( steps[st].dTime_ns < dTLS_ns )
+                            dTLS_ns = steps[st].dTime_ns;
+                    }
+                    if( tracks[tr].iParticleID == 11 || tracks[tr].iParticleID == 22 ) 
+                        bGammaInLS = true;
+                    else if( tracks[tr].iParticleID == 2212 || tracks[tr].iParticleID > 1000020040 )
+                        bNuclearRecoilInLS = true;
                 } else if( steps[st].sVolumeName == "ls_target_1" ) {
                     dTotEDepLS_keV += steps[st].dEnergyDep_keV;
                     if( !hitLSAlready ) {
@@ -1116,10 +1232,116 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
                         bGammaInLS = true;
                     else if( tracks[tr].iParticleID == 2212 || tracks[tr].iParticleID > 1000020040 )
                         bNuclearRecoilInLS = true;
+                } else if( steps[st].sVolumeName == "ls_target_9" ) {
+                    dTotEDepLS_keV += steps[st].dEnergyDep_keV;
+                    if( !hitLSAlready ) {
+                        tLS = steps[st].dTime_ns;
+                        dTLS_ns = tLS;
+                        if(hitXeAlready)
+                           dDeltaTXeLS_ns = tLS;
+                        hitLSAlready = true;
+                        bd_id = 9;
+                        bd_ch = 9;
+                        firstLSScatterPos_x = steps[st].dPosition_mm[0];
+                        firstLSScatterPos_y = steps[st].dPosition_mm[1];
+                        firstLSScatterPos_z = steps[st].dPosition_mm[2];
+                    } else {
+                        if( steps[st].dTime_ns < dTLS_ns )
+                            dTLS_ns = steps[st].dTime_ns;
+                    }
+                    if( tracks[tr].iParticleID == 11 || tracks[tr].iParticleID == 22 ) 
+                        bGammaInLS = true;
+                    else if( tracks[tr].iParticleID == 2212 || tracks[tr].iParticleID > 1000020040 )
+                        bNuclearRecoilInLS = true;
+                } else if( steps[st].sVolumeName == "ls_target_10" ) {
+                    dTotEDepLS_keV += steps[st].dEnergyDep_keV;
+                    if( !hitLSAlready ) {
+                        tLS = steps[st].dTime_ns;
+                        dTLS_ns = tLS;
+                        if(hitXeAlready)
+                           dDeltaTXeLS_ns = tLS;
+                        hitLSAlready = true;
+                        bd_id = 10;
+                        bd_ch = 10;
+                        firstLSScatterPos_x = steps[st].dPosition_mm[0];
+                        firstLSScatterPos_y = steps[st].dPosition_mm[1];
+                        firstLSScatterPos_z = steps[st].dPosition_mm[2];
+                    } else {
+                        if( steps[st].dTime_ns < dTLS_ns )
+                            dTLS_ns = steps[st].dTime_ns;
+                    }
+                    if( tracks[tr].iParticleID == 11 || tracks[tr].iParticleID == 22 ) 
+                        bGammaInLS = true;
+                    else if( tracks[tr].iParticleID == 2212 || tracks[tr].iParticleID > 1000020040 )
+                        bNuclearRecoilInLS = true;
+                } else if( steps[st].sVolumeName == "ls_target_11" ) {
+                    dTotEDepLS_keV += steps[st].dEnergyDep_keV;
+                    if( !hitLSAlready ) {
+                        tLS = steps[st].dTime_ns;
+                        dTLS_ns = tLS;
+                        if(hitXeAlready)
+                           dDeltaTXeLS_ns = tLS;
+                        hitLSAlready = true;
+                        bd_id = 11;
+                        bd_ch = 11;
+                        firstLSScatterPos_x = steps[st].dPosition_mm[0];
+                        firstLSScatterPos_y = steps[st].dPosition_mm[1];
+                        firstLSScatterPos_z = steps[st].dPosition_mm[2];
+                    } else {
+                        if( steps[st].dTime_ns < dTLS_ns )
+                            dTLS_ns = steps[st].dTime_ns;
+                    }
+                    if( tracks[tr].iParticleID == 11 || tracks[tr].iParticleID == 22 ) 
+                        bGammaInLS = true;
+                    else if( tracks[tr].iParticleID == 2212 || tracks[tr].iParticleID > 1000020040 )
+                        bNuclearRecoilInLS = true;
+                } else if( steps[st].sVolumeName == "ls_target_12" ) {
+                    dTotEDepLS_keV += steps[st].dEnergyDep_keV;
+                    if( !hitLSAlready ) {
+                        tLS = steps[st].dTime_ns;
+                        dTLS_ns = tLS;
+                        if(hitXeAlready)
+                           dDeltaTXeLS_ns = tLS;
+                        hitLSAlready = true;
+                        bd_id = 12;
+                        bd_ch = 12;
+                        firstLSScatterPos_x = steps[st].dPosition_mm[0];
+                        firstLSScatterPos_y = steps[st].dPosition_mm[1];
+                        firstLSScatterPos_z = steps[st].dPosition_mm[2];
+                    } else {
+                        if( steps[st].dTime_ns < dTLS_ns )
+                            dTLS_ns = steps[st].dTime_ns;
+                    }
+                    if( tracks[tr].iParticleID == 11 || tracks[tr].iParticleID == 22 ) 
+                        bGammaInLS = true;
+                    else if( tracks[tr].iParticleID == 2212 || tracks[tr].iParticleID > 1000020040 )
+                        bNuclearRecoilInLS = true;
+                } else if( steps[st].sVolumeName == "ls_target_13" ) {
+                    dTotEDepLS_keV += steps[st].dEnergyDep_keV;
+                    if( !hitLSAlready ) {
+                        tLS = steps[st].dTime_ns;
+                        dTLS_ns = tLS;
+                        if(hitXeAlready)
+                           dDeltaTXeLS_ns = tLS;
+                        hitLSAlready = true;
+                        bd_id = 13;
+                        bd_ch = 13;
+                        firstLSScatterPos_x = steps[st].dPosition_mm[0];
+                        firstLSScatterPos_y = steps[st].dPosition_mm[1];
+                        firstLSScatterPos_z = steps[st].dPosition_mm[2];
+                    } else {
+                        if( steps[st].dTime_ns < dTLS_ns )
+                            dTLS_ns = steps[st].dTime_ns;
+                    }
+                    if( tracks[tr].iParticleID == 11 || tracks[tr].iParticleID == 22 ) 
+                        bGammaInLS = true;
+                    else if( tracks[tr].iParticleID == 2212 || tracks[tr].iParticleID > 1000020040 )
+                        bNuclearRecoilInLS = true;                                                                
                 } else { // end if volume = ls_target
                     //std::cout << steps[st].sVolumeName << std::endl;
                     if( steps[st].dEnergyDep_keV > 0. ) {
-                        if( (!hitLSAlready || steps[st].dTime_ns < tLS) ) {
+                        if( (!hitLSAlready || steps[st].dTime_ns < tLS) && 
+                                    (steps[st].sVolumeName.find("ls_detector_shell") == std::string::npos) ) {
                             bMSOtherMat = true;
                             sOtherMaterials.push_back( steps[st].iVolumeID );
                         }
@@ -1127,6 +1349,21 @@ int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {
                } // end else statement
             } // end steps loop         
         } // end tracks loop
+
+        for(size_t vol=0; vol<volumes.size(); vol++) {
+            if( (volumes[vol].sName == "BPEShielding_object" || 
+                volumes[vol].sName == "Collimator_object" ||
+                volumes[vol].sName == "Lead_Collimator_object" ||
+                volumes[vol].sName == "Lead_Box_object" ||
+                volumes[vol].sName == "LeadOutside_Right_object" ||
+                volumes[vol].sName == "LeadOutside_Left_object" ||
+                volumes[vol].sName == "DT_Tube_obj" ||
+                volumes[vol].sName == "Water_Tank_obj") && 
+                volumes[vol].dTotalEnergyDep_keV > 0. ){
+                    bMSOtherMat = true;
+                    sOtherMaterials.push_back( volumes[vol].iVolumeID ); 
+            }
+        }
 
         // Loop through event positions and calculate size variables
         double mean = 0., meansquared = 0.;
@@ -1349,6 +1586,7 @@ int XeNeuSimsAnalysisEnvironment::AddReducedEventsFile( std::string reducedFileN
 int XeNeuSimsAnalysisEnvironment::GetIndFromChannelNum( int ch_num ){
     for( std::map<int,int>::iterator it = ch_map.begin(); it != ch_map.end(); it++ )
        if( it->second == ch_num ) return it->first;
+    return -1;
 }
 //-------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------

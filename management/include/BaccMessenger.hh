@@ -57,6 +57,10 @@ class BaccMessenger : public G4UImessenger
 		G4UIdirectory				*BaccDir;
 		G4UIcmdWithAnInteger		*BaccBeamOnCommand;
 		G4UIcmdWithAnInteger		*BaccRandomSeedCommand;
+		G4UIcmdWithABool		*BaccInputEventSeedCommand;
+		G4UIcmdWithAnInteger		*BaccEventSeedIndexCommand;
+		G4UIcmdWithADouble		*BaccEventSeed1Command;
+		G4UIcmdWithADouble		*BaccEventSeed2Command;
 		
 		//	Input/output commands
 		G4UIdirectory				*BaccFileDir;
