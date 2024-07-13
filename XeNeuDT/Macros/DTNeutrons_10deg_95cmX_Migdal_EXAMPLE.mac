@@ -1,0 +1,116 @@
+####################################################################################################
+# example macro for the LUXSim package                                                             #
+#                                                                                                  #
+# Change log:                                                                                      #
+# 19 Aug 2013 - Initial submission (Vic)                                                           #
+#                                                                                                  #
+####################################################################################################
+/run/verbose 1
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+/process/verbose 0
+
+
+# This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+# Set the output directory
+/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/XeNeu_DT_20220403_10deg_14det_95cmXdistance_01/
+
+# Set the name of the output files. There is a large ~10 digit random number that gets
+# appended to this string to uniquely identify files.
+/Bacc/io/outputName DT_14det_95cmXDistance_10degOpening_Migdal_
+
+
+# This just defines how often the code prints its progress to the screen while it runs.
+/Bacc/io/updateFrequency 5000
+
+
+# Set the random seed. If this is commented out, it will randomly generate a seed.
+#/Bacc/randomSeed 0
+
+ 
+
+# Select which geometry to use. This is always in the format <project name>Detector
+# due to the class structure.
+/Bacc/detector/select XeNeuDTDetector
+
+# add any project-specific macro commands. This particualar one is defined in 
+# line 50 of XeNeuDT/src/XeNeuDTMessenger.cc
+/XeNeu/dtShieldingOn true
+
+# Update geometry (otherwise it doesn't load the geometry specified above)
+/Bacc/detector/update
+
+
+# Set the recordLevels. This defines how much information to save for
+# the specified volumes. I'll document what each recordLevel means in the 
+# gitHub's README; for now, just know that "recordLevel 2" means that 
+# the code saves every step that deposits energy in the volume.
+# The volume names used here are the ones defined when the "BaccDetectorComponent"
+# for that volume is defined (see e.g. Line 193 of XeNeuDT/src/XeNeuDT_XeDetector.cc)
+/Bacc/detector/recordLevel liquid_xenon 2 # For "GNARRLIDetector"
+/Bacc/detector/recordLevel outer_can 2 
+/Bacc/detector/recordLevel vacuum_space 2
+/Bacc/detector/recordLevel inner_can 2 
+/Bacc/detector/recordLevel detector 2
+/Bacc/detector/recordLevel dt_shield 2
+/Bacc/detector/recordLevel Teflon 2
+/Bacc/detector/recordLevel DT_Tube 1
+/Bacc/detector/recordLevel Lead 1
+/Bacc/detector/recordLevel BPEShielding 1
+/Bacc/detector/recordLevel Collimator 1
+/Bacc/detector/recordLevel Water 1
+/Bacc/detector/recordLevel concrete 1 
+/Bacc/detector/recordLevel PhotocathodeBottom 2
+
+/Bacc/detector/recordLevel cathode_ring 2
+/Bacc/detector/recordLevel field_ring 2
+/Bacc/detector/recordLevel weir 2
+/Bacc/detector/recordLevel extraction_grid 2 
+/Bacc/detector/recordLevel peek_rod 2
+/Bacc/detector/recordLevel teflon 2
+/Bacc/detector/recordLevel gas_xenon 2
+/Bacc/detector/recordLevel bottom_pmt 2
+/Bacc/detector/recordLevel pmt_al_box 2
+/Bacc/detector/recordLevel glass_slide 2
+/Bacc/detector/recordLevel pmt_teflon_casing 2
+/Bacc/detector/recordLevel anode_holder 2
+/Bacc/detector/recordLevel pmtCage 2 
+/Bacc/detector/recordLevel ls_target 2
+/Bacc/detector/recordLevel ls_detector_shell 2
+/Bacc/detector/recordLevel pb 2
+/Bacc/detector/recordLevel al_detector_support 2
+/Bacc/detector/recordLevel al_baseplate 2
+/Bacc/detector/recordLevel steel 2
+/Bacc/detector/recordLevel vacuum 2
+
+
+
+# This code defines the source of particles. I typically use Geant4's "general particle source" (gps)
+# to generate stuff. Below I generate a beam of perfectly monoenergetic neutrons from a single point at
+# (x,y,z) = (1.52m,0.,0.), which in this particular experiment was the center of the DT shielding. 
+# (Note that typically the coordinate system is centered on the middle of the liquid xenon detector). 
+# The source is isotropic, but I constrain it to a cone in the negative x-direction (just so I'm not 
+# wasting CPU time on generating lots of neutrons that will never make it to the xenon detector)
+
+/gps/particle neutron
+/gps/energy 14.1 MeV
+/gps/ene/type Mono
+/gps/position 1.52 0. 0. m
+/gps/ang/type iso
+/gps/ang/mintheta 0. deg
+/gps/ang/maxtheta 10. deg
+/gps/ang/rot1 0 0 1
+/gps/ang/rot2 0 -1 0
+
+# This turns on/off the NEST that's built into the G4 simulation. Always turn this off,
+# since the built-in NEST is way outdated and doesn't work properly.
+/Bacc/physicsList/useOpticalProcesses 0
+
+
+# Finally, tell the code how many primary particles to generate in this simulation.
+/Bacc/beamOn 1000000
+
+exit

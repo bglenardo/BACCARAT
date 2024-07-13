@@ -104,6 +104,6 @@
 #/gps/ang/maxtheta 90.01 deg
 #/gps/ang/rot1 1 0 0
 #/gps/ang/rot2 0 1 0
-/Bacc/beamOn 100000
+/Bacc/beamOn 1000000
 
 exit

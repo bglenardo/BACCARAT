@@ -129,8 +129,8 @@ void KTonXeDetector::BuildDetector(){
   logicalVolume  = new G4LogicalVolume(lab_space, BACCmaterials->Vacuum(), "lab_space");
   logicalVolume->SetVisAttributes(BACCmaterials->VacuumVis());
 
-  //double radius = 3.7 * m; // Liquid @ 3.1 g/cm3
-  double radius = 12.0 * m; // Gas @ 0.09 g/cm3 (~15 bar)
+  double radius = 3.7 * m; // Liquid @ 3.1 g/cm3
+  //double radius = 12.0 * m; // Gas @ 0.09 g/cm3 (~15 bar)
   //double radius = 7.1 * m; // Gas @ 0.42 g/cm3 (~50 bar)
 
   G4Tubs * shell_tubs = new G4Tubs("detector_shell_tubs",
@@ -151,9 +151,9 @@ void KTonXeDetector::BuildDetector(){
                                        0., radius,
                                        radius,
                                        0.*deg, 360.*deg);
-  G4LogicalVolume * xe_target_log = new G4LogicalVolume(xe_target_tubs, BACCmaterials->GasXe15bar(), "xe_target_log");
+  //G4LogicalVolume * xe_target_log = new G4LogicalVolume(xe_target_tubs, BACCmaterials->GasXe15bar(), "xe_target_log");
   //G4LogicalVolume * xe_target_log = new G4LogicalVolume(xe_target_tubs, BACCmaterials->GasXe50bar(), "xe_target_log");
-  //G4LogicalVolume * xe_target_log = new G4LogicalVolume(xe_target_tubs, BACCmaterials->LiquidXe(), "xe_target_log");
+  G4LogicalVolume * xe_target_log = new G4LogicalVolume(xe_target_tubs, BACCmaterials->LiquidXe(), "xe_target_log");
   xe_target_log->SetVisAttributes( BACCmaterials->TestBlueVis() );
   BaccDetectorComponent * xe_target = new BaccDetectorComponent(0,
                                                                 G4ThreeVector(0.,0.,0.),
