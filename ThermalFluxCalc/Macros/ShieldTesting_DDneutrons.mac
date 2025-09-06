@@ -7,22 +7,18 @@
 ####################################################################################################
 /run/verbose 1
 /control/verbose 0
-/tracking/verbose 1
+/tracking/verbose 0
 /grdm/verbose 0
 /process/verbose 0
 
 # Set up visualization - Comment this stuff out if you want to skip visualization
 #/vis/open OGLSQt 1200x1200-0+0
 #/vis/open VRML2FILE
-/vis/open HepRepFile
-/vis/drawVolume
-/vis/scene/add/trajectories
-/vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
-
-/vis/scene/endOfEventAction accumulate
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/scene/endOfEventAction accumulate
 #/tracking/storeTrajectory 1
-#/vis/viewer/set/viewpointVector 0.5 0.75 1
+##/vis/viewer/set/viewpointVector 0.5 0.75 1
 #/vis/viewer/set/upVector 0 0 1
 #/vis/viewer/zoom 0 
 #/vis/viewer/set/viewpointThetaPhi 45 45             
@@ -51,11 +47,9 @@
 /run/initialize
 
 # Set the output directory
-/Bacc/io/outputDir ./ # /p/lscratchh/lenardo1/simulations/XeNeu_TUNL_579keV_pm10keV_03/batch_7/
-/Bacc/io/outputName XeNeu_TUNLNeutrons_5degAng_579keV_pm10keV_02_
-/Bacc/io/updateFrequency 10000
-
-
+/Bacc/io/outputDir ./
+/Bacc/io/outputName Thermalization_sim_DD_neutrons_20cm_standoff_
+/Bacc/io/updateFrequency 1000
 # Set the random seed
 #/Bacc/randomSeed 0
 
@@ -63,74 +57,53 @@
 #/Bacc/detector/select simpleExample
 #/Bacc/detector/select complexExample
 #/Bacc/detector/select LLNLSinglePhase
-/Bacc/detector/select XeNeuDetector
+/Bacc/detector/select ThermalFluxCalcDetector
+#/TestShield/shieldingRadius 22.86 cm
+#/TestShield/shieldingRadius 30.48 cm
+#/TestShield/shieldingRadius 38.1 cm
+#/TestShield/shieldingRadius 45.72 cm
+#/TestShield/shieldingRadius 53.34 cm
 #/XeNeu/ddShieldingOn true
-
 # Update geometry
 /Bacc/detector/update
 
 # Set the record level for one of the volumes to write some information about it
 #/Bacc/detector/recordLevel LiquidXeTarget 2 # For "simpleExample" or "complexExample"
 #/Bacc/detector/recordLevel activeVolume 2 # For "LLNLSinglePhase"
-#/Bacc/detector/recordLevel liquid_xenon 2 # For "GNARRLIDetector"
-/Bacc/detector/recordLevel outer_can 2 
-/Bacc/detector/recordLevel vacuum_space 2 
-/Bacc/detector/recordLevel inner_can 2 
-/Bacc/detector/recordLevel liquid_xenon 2 
-/Bacc/detector/recordLevel cathode_ring 2 
-/Bacc/detector/recordLevel field_ring_1 2 
-/Bacc/detector/recordLevel field_ring_2 2 
-/Bacc/detector/recordLevel field_ring_3 2 
-/Bacc/detector/recordLevel extraction_grid 2 
-/Bacc/detector/recordLevel weir 2 
-/Bacc/detector/recordLevel teflon_block_minus_weir 2 
-/Bacc/detector/recordLevel gas_xenon_in_weir 2 
-/Bacc/detector/recordLevel peek_rod_1 2 
-/Bacc/detector/recordLevel peek_rod_2 2 
-/Bacc/detector/recordLevel peek_rod_3 2 
-/Bacc/detector/recordLevel gas_xenon 2 
-/Bacc/detector/recordLevel bottom_pmt 2 
-/Bacc/detector/recordLevel pmt_al_box 2 
-/Bacc/detector/recordLevel glass_slide 2 
-/Bacc/detector/recordLevel pmt_teflon_casing 2 
-/Bacc/detector/recordLevel anode_holder 2 
-/Bacc/detector/recordLevel pmtCage 2 
-/Bacc/detector/recordLevel detector 2 
-/Bacc/detector/recordLevel ls_detector_shell 2 
-/Bacc/detector/recordLevel ls_target 2
-/Bacc/detector/recordLevel tof_target 2
-/Bacc/detector/recordLevel tof_detector_shell 2
-/Bacc/detector/recordLevel ls_detector_1 2 
-/Bacc/detector/recordLevel ls_detector_2 2 
-/Bacc/detector/recordLevel bpe_outer_shield 2 
-/Bacc/detector/recordLevel hdpe 2 
-/Bacc/detector/recordLevel collimator_block 2 
-/Bacc/detector/recordLevel lead_wall 2 
-/Bacc/detector/recordLevel lead_sheet 2 
-/Bacc/detector/recordLevel lead_brick 2 
-/Bacc/detector/recordLevel pb 2 
-/Bacc/detector/recordLevel steel 2
-/Bacc/detector/recordLevel al_detector_support 2
-/Bacc/detector/recordLevel al_baseplate 2
+#/Bacc/detector/recordLevel tms_ 2 # For "GNARRLIDetector"
+#/Bacc/detector/recordLevel box1 3
+/Bacc/detector/recordLevel box2 3
+#/Bacc/detector/recordLevel box3 3
+#/Bacc/detector/recordLevel box4 3
+#/Bacc/detector/recordLevel box5 3
+#/Bacc/detector/recordLevel box6 3
 
-
+# This can be used in place of the regular the event generators. Be sure you
+# know what you're doing if you're going to use commands like these.
+#/gps/particle e-
 /gps/particle neutron
-/gps/energy 0.579 MeV
-/gps/ene/type Gauss
-/gps/ene/sigma 0.01 MeV
-/gps/position -0.743 0. 0. m
-#/gps/direction 1 0 0
+/gps/position 0. 0. 0. m
 /gps/ang/type iso
-/gps/ang/mintheta 0. deg
-/gps/ang/maxtheta 7. deg
-/gps/ang/rot1 0 0 -1
-/gps/ang/rot2 0 -1 0
+/gps/energy 2.45 MeV
+#/gps/ene/type Lin
+#/gps/ene/gradient 0
+#/gps/ene/intercept 1
+#/gps/ene/min 0. MeV
+#/gps/ene/max 11. MeV
+#/gps/position 42*0.71. 42.*0.71 -1.01 cm
+#/gps/direction -1 -1 0
+#/gps/ang/type iso
 
 /Bacc/physicsList/useOpticalProcesses 0
 
-#/Bacc/beamOn 100000
-/Bacc/beamOn 1
 
-/vis/viewer/flush
+
+#/gps/position 0 0 0.022 m
+#/gps/direction 1 0 0
+#/gps/ang/mintheta 89.99 deg
+#/gps/ang/maxtheta 90.01 deg
+#/gps/ang/rot1 1 0 0
+#/gps/ang/rot2 0 1 0
+/Bacc/beamOn 100000
 
 exit

@@ -31,7 +31,7 @@
 ################################################################################
 
 CXX          = g++
-CCFLAGS		 += -std=c++17
+CCFLAGS		 += -std=c++14
 INCLUDE		 = -I$(ROOTSYS)/include
 
 ifeq ($(OSTYPE),darwin)
@@ -76,11 +76,11 @@ BaccRootConverter:  BaccRootConverter.cc BaccRootConverterEvent.cc BaccRootConve
 
 libBaccRootConverterEvent.so: BaccRootConverterEvent.cc BaccRootConverterEvent.hh BaccRootConverterEvent_dict.cc BaccRootConverterEvent_LinkDef.h
 			@echo
-			$(LD) -std=c++17 $(SOFLAGS) $(LDFLAGS) $(INCLUDE) $(ALLLIBS) -fPIC BaccRootConverterEvent.cc BaccRootConverterEvent_dict.cc -o libBaccRootConverterEvent.so
+			$(LD) -std=c++14 $(SOFLAGS) $(LDFLAGS) $(INCLUDE) $(ALLLIBS) -fPIC BaccRootConverterEvent.cc BaccRootConverterEvent_dict.cc -o libBaccRootConverterEvent.so
 
 #libBaccMCTruthEvent.so: BaccMCTruthEvent.cc BaccMCTruthEvent.hh BaccMCTruthEvent_dict.cc BaccMCTruthEvent_LinkDef.h
 #			@echo
-#			$(LD) -std=c++17 $(SOFLAGS) $(LDFLAGS) $(INCLUDE) $(ALLLIBS) -fPIC BaccMCTruthEvent.cc BaccMCTruthEvent_dict.cc -o libBaccMCTruthEvent.so
+#			$(LD) -std=c++14 $(SOFLAGS) $(LDFLAGS) $(INCLUDE) $(ALLLIBS) -fPIC BaccMCTruthEvent.cc BaccMCTruthEvent_dict.cc -o libBaccMCTruthEvent.so
 			
 #BaccPMTStream:	        BaccPMTStream.cc BaccRootConverterEvent.hh BaccRootConverterEvent_dict.cc BaccRootConverterEvent_LinkDef.h
 #			@echo

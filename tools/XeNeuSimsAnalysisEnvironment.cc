@@ -489,6 +489,77 @@ double XeNeuSimsAnalysisEnvironment::ComputeDistance( double x1[3], double x2[3]
   return r;
 }
 
+
+//-------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------
+int XeNeuSimsAnalysisEnvironment::SimpleReduceSteps( string outfilename ){
+
+
+   if( !eventsChain || eventsChain->IsZombie() || eventsChainVec.size() == 0 ) {
+      cout << "No files loaded into TChain! Nothing to reduce." << endl;
+      return -1;
+   }
+
+   //int nentries = eventsChain->GetEntries();
+   //printf("%d entries in chain.\n",nentries);
+
+   TFile * outfile = new TFile(outfilename.c_str(),"RECREATE");
+   TTree * data = new TTree();
+   data->SetName("data");
+
+
+    // Set up variables
+    vector<double> stepX;
+    vector<double> stepY;
+    vector<double> stepZ;
+    vector<double> stepEnergy_keV;
+    vector<double> stepTime_ns;
+
+    data->Branch("stepX",&stepX);
+    data->Branch("stepY",&stepY);
+    data->Branch("stepZ",&stepZ);
+    data->Branch("stepEnergy_keV",&stepEnergy_keV);
+    data->Branch("stepTime_ns",&stepTime_ns);
+
+    for( int chidx =0; chidx < (int)eventsChainVec.size(); chidx++ ){
+       
+        eventsChain = eventsChainVec[chidx];
+
+        for(int i=0; i<eventsChainEntriesVec[chidx]; i++){
+            stepX.clear();
+            stepY.clear();
+            stepZ.clear();
+            stepEnergy_keV.clear();       
+            stepTime_ns.clear(); 
+
+            //for(int i=0; i<10; i++) { 
+            if( i % 10000 == 0 ) printf("i = %d\n",i);
+            eventsChain->GetEntry(i);
+            vector<stepInfo> steps;
+            vector<trackInfo> tracks = current_evt->tracks;
+            vector<volumeInfo> volumes = current_evt->volumes;
+
+            for(size_t tr=0; tr<tracks.size(); tr++) {
+                steps = tracks[tr].steps;
+                for(size_t st=0; st<steps.size(); st++) {
+                    stepX.push_back(steps[st].dPosition_mm[0]);
+                    stepY.push_back(steps[st].dPosition_mm[1]);
+                    stepZ.push_back(steps[st].dPosition_mm[2]);
+                    stepEnergy_keV.push_back(steps[st].dEnergyDep_keV);
+                    stepTime_ns.push_back(steps[st].dTime_ns);
+                }
+            }
+            data->Fill();
+        }      
+     }
+     data->Write();
+     outfile->Close();
+     return 0;
+
+}
+
+
+
 //-------------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------------
 int XeNeuSimsAnalysisEnvironment::ReduceSimulatedData( string outfilename ) {

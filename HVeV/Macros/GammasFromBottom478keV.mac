@@ -1,0 +1,49 @@
+####################################################################################################
+# example macro for the LUXSim package                                                             #
+#                                                                                                  #
+# Change log:                                                                                      #
+# 19 Aug 2013 - Initial submission (Vic)                                                           #
+#                                                                                                  #
+####################################################################################################
+/run/verbose 1
+/control/verbose 0
+/tracking/verbose 0
+/grdm/verbose 0
+/process/verbose 0
+
+
+# This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+# Set the output directory
+/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/HVeV/
+/Bacc/io/outputName HVeV_7Be_gammas_two_detectors_
+/Bacc/io/updateFrequency 100000
+
+# Set the random seed
+#/Bacc/randomSeed 0
+
+# Select the kind of detector to use
+/Bacc/detector/select HVeVDetector
+/Bacc/detector/update
+
+/Bacc/detector/recordLevel HVeV 2
+
+# This can be used in place of the regular the event generators. Be sure you
+# know what you're doing if you're going to use commands like these.
+
+/gps/particle gamma
+/gps/energy 478. keV
+
+/gps/position 0 0 0
+/gps/pos/type Point
+/gps/ang/type iso
+
+
+/Bacc/physicsList/useOpticalProcesses 0
+
+
+
+/Bacc/beamOn 1000000
+
+exit

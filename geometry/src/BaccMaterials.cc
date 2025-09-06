@@ -1770,6 +1770,9 @@ void BaccMaterials::CreateMaterials()
     
     copper = new G4Material( "copper", 8.920*g/cm3, 1 );
     copper->AddElement( natCu, 1 );
+
+    silicon = new G4Material( "silicon", 2.329*g/cm3, 1);
+    silicon->AddElement( natSi, 1);
     
     gadolinium = new G4Material( "gadolinium", 157.25*g/mole, 1 );
     gadolinium->AddElement( natGd, 1 );

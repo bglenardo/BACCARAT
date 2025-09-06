@@ -1,0 +1,61 @@
+####################################################################################################
+# example macro for the LUXSim package                                                             #
+#                                                                                                  #
+# Change log:                                                                                      #
+# 19 Aug 2013 - Initial submission (Vic)                                                           #
+#                                                                                                  #
+####################################################################################################
+/run/verbose 1
+/control/verbose 0
+/tracking/verbose 1
+/grdm/verbose 0
+/process/verbose 0
+
+# Set up visualization - Comment this stuff out if you want to skip visualization
+#/vis/open OGLSQt 1200x1200-0+0
+/vis/open HepRepFile
+/vis/drawVolume
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
+/vis/scene/endOfEventAction accumulate
+
+
+# This next set of lines is to, as it appears, initialize the simulation
+/run/initialize
+
+# Set the output directory
+/Bacc/io/outputDir ./
+/Bacc/io/outputName BaccTest
+
+# Set the random seed
+#/Bacc/randomSeed 0
+
+# Select the kind of detector to use
+/Bacc/detector/select HVeVDetector
+/Bacc/detector/update
+
+# Set the record level for one of the volumes to write some information about it
+#/Bacc/detector/recordLevel LiquidXeTarget 2 # For "simpleExample" or "complexExample"
+#/Bacc/detector/recordLevel activeVolume 2 # For "LLNLSinglePhase"
+#/Bacc/detector/recordLevel shield 2 # For "GNARRLIDetector"
+/Bacc/detector/recordLevel scintillator 2
+
+# This can be used in place of the regular the event generators. Be sure you
+# know what you're doing if you're going to use commands like these.
+#/gps/particle e-
+
+/gps/particle gamma
+/gps/energy 478. keV
+
+/gps/position 0 0 0
+/gps/pos/shape Circle
+/gps/pos/radius 0.635 cm
+/gps/ang/type iso
+
+/Bacc/physicsList/useOpticalProcesses 0
+
+
+
+/Bacc/beamOn 1
+
+exit

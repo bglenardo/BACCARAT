@@ -5,22 +5,18 @@
 # 19 Aug 2013 - Initial submission (Vic)                                                           #
 #                                                                                                  #
 ####################################################################################################
-/run/verbose 1
+/run/verbose 0
 /control/verbose 0
-/tracking/verbose 1
+/tracking/verbose 0
 /grdm/verbose 0
 /process/verbose 0
 
 # Set up visualization - Comment this stuff out if you want to skip visualization
 #/vis/open OGLSQt 1200x1200-0+0
 #/vis/open VRML2FILE
-/vis/open HepRepFile
-/vis/drawVolume
-/vis/scene/add/trajectories
-/vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
-
-/vis/scene/endOfEventAction accumulate
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/scene/endOfEventAction accumulate
 #/tracking/storeTrajectory 1
 #/vis/viewer/set/viewpointVector 0.5 0.75 1
 #/vis/viewer/set/upVector 0 0 1
@@ -51,9 +47,11 @@
 /run/initialize
 
 # Set the output directory
-/Bacc/io/outputDir ./ # /p/lscratchh/lenardo1/simulations/XeNeu_TUNL_579keV_pm10keV_03/batch_7/
-/Bacc/io/outputName XeNeu_TUNLNeutrons_5degAng_579keV_pm10keV_02_
-/Bacc/io/updateFrequency 10000
+#/Bacc/io/outputDir /usr/workspace/wsb/lenardo1/simulations/TMS_ScherzingerAmBeSpecNeutrons_Conical_CylindricalSource/
+/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/
+
+/Bacc/io/outputName KTonXe_liquidXe_Bi214gammas_1e4evts_SHORTCUTS_
+/Bacc/io/updateFrequency 5000
 
 
 # Set the random seed
@@ -63,7 +61,7 @@
 #/Bacc/detector/select simpleExample
 #/Bacc/detector/select complexExample
 #/Bacc/detector/select LLNLSinglePhase
-/Bacc/detector/select XeNeuDetector
+/Bacc/detector/select KTonXeDetector
 #/XeNeu/ddShieldingOn true
 
 # Update geometry
@@ -72,65 +70,20 @@
 # Set the record level for one of the volumes to write some information about it
 #/Bacc/detector/recordLevel LiquidXeTarget 2 # For "simpleExample" or "complexExample"
 #/Bacc/detector/recordLevel activeVolume 2 # For "LLNLSinglePhase"
-#/Bacc/detector/recordLevel liquid_xenon 2 # For "GNARRLIDetector"
-/Bacc/detector/recordLevel outer_can 2 
-/Bacc/detector/recordLevel vacuum_space 2 
-/Bacc/detector/recordLevel inner_can 2 
-/Bacc/detector/recordLevel liquid_xenon 2 
-/Bacc/detector/recordLevel cathode_ring 2 
-/Bacc/detector/recordLevel field_ring_1 2 
-/Bacc/detector/recordLevel field_ring_2 2 
-/Bacc/detector/recordLevel field_ring_3 2 
-/Bacc/detector/recordLevel extraction_grid 2 
-/Bacc/detector/recordLevel weir 2 
-/Bacc/detector/recordLevel teflon_block_minus_weir 2 
-/Bacc/detector/recordLevel gas_xenon_in_weir 2 
-/Bacc/detector/recordLevel peek_rod_1 2 
-/Bacc/detector/recordLevel peek_rod_2 2 
-/Bacc/detector/recordLevel peek_rod_3 2 
-/Bacc/detector/recordLevel gas_xenon 2 
-/Bacc/detector/recordLevel bottom_pmt 2 
-/Bacc/detector/recordLevel pmt_al_box 2 
-/Bacc/detector/recordLevel glass_slide 2 
-/Bacc/detector/recordLevel pmt_teflon_casing 2 
-/Bacc/detector/recordLevel anode_holder 2 
-/Bacc/detector/recordLevel pmtCage 2 
-/Bacc/detector/recordLevel detector 2 
-/Bacc/detector/recordLevel ls_detector_shell 2 
-/Bacc/detector/recordLevel ls_target 2
-/Bacc/detector/recordLevel tof_target 2
-/Bacc/detector/recordLevel tof_detector_shell 2
-/Bacc/detector/recordLevel ls_detector_1 2 
-/Bacc/detector/recordLevel ls_detector_2 2 
-/Bacc/detector/recordLevel bpe_outer_shield 2 
-/Bacc/detector/recordLevel hdpe 2 
-/Bacc/detector/recordLevel collimator_block 2 
-/Bacc/detector/recordLevel lead_wall 2 
-/Bacc/detector/recordLevel lead_sheet 2 
-/Bacc/detector/recordLevel lead_brick 2 
-/Bacc/detector/recordLevel pb 2 
-/Bacc/detector/recordLevel steel 2
-/Bacc/detector/recordLevel al_detector_support 2
-/Bacc/detector/recordLevel al_baseplate 2
+/Bacc/detector/recordLevel xe_target 2
 
 
-/gps/particle neutron
-/gps/energy 0.579 MeV
-/gps/ene/type Gauss
-/gps/ene/sigma 0.01 MeV
-/gps/position -0.743 0. 0. m
-#/gps/direction 1 0 0
+/gps/particle gamma
+/gps/pos/type Point
+/gps/position 0. 0. 0. m
 /gps/ang/type iso
-/gps/ang/mintheta 0. deg
-/gps/ang/maxtheta 7. deg
-/gps/ang/rot1 0 0 -1
-/gps/ang/rot2 0 -1 0
+/gps/energy 2.4477 MeV
+
+
 
 /Bacc/physicsList/useOpticalProcesses 0
 
-#/Bacc/beamOn 100000
-/Bacc/beamOn 1
-
-/vis/viewer/flush
+#/Bacc/beamOn 1
+/Bacc/beamOn 10000
 
 exit

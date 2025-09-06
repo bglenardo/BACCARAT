@@ -30,7 +30,7 @@
 //#include "G4Ellipsoid.hh"
 //#include "G4Polyhedra.hh"
 //#include "G4Cons.hh"
-//#include "G4SubtractionSolid.hh"
+#include "G4SubtractionSolid.hh"
 //#include "G4UnionSolid.hh"
 //#include "G4IntersectionSolid.hh"
 //#include "G4OpticalSurface.hh"
@@ -125,11 +125,77 @@ void HVeVDetector::BuildDetector(){
   //build your detector here    
   
   //example box -- make it into a minimal working example
-  G4Box * example_box = new G4Box("example_box", 1,1,1);
-  logicalVolume  = new G4LogicalVolume(example_box, HVeVmaterials->GetMaterialByName("liquidXe"), "example_log");
-  logicalVolume->SetVisAttributes(HVeVmaterials->GetVisAttributesByName("liquidXe"));
+  G4Box * example_box = new G4Box("example_box", 1*m,1*m,1*m);
+  logicalVolume  = new G4LogicalVolume(example_box, BACCmaterials->Vacuum(), "example_log");
+  logicalVolume->SetVisAttributes(BACCmaterials->VacuumVis());
 
-  // All components need to go into the mother logicalVolume
+  // All components need to go into the mother logicalVolume.
+
+  // create a new volume for the 10mm x 10mm x 4mm detector.
+  G4Box * HVeV_si_box = new G4Box("HVeV_si_box", 5*mm, 5*mm, 2*mm);
+  G4LogicalVolume * HVeV_si_log = new G4LogicalVolume( HVeV_si_box, 
+                                                      BACCmaterials->Silicon(), 
+                                                      "HVeV_si_log");
+  BaccDetectorComponent * HVeV_si = new BaccDetectorComponent(0,
+                                              G4ThreeVector(0,0,0),
+                                              HVeV_si_log,
+                                              "HVeV_detector_1",
+                                              logicalVolume,
+                                              0,0,true);
+
+  // The copper housing is a bit complicated. It can be found at https://github.com/DMQIS/Housings
+  // I will create a copper box, then subtract volumes one by one to model the stepped void in the middle.
+  G4Box * CopperHousing_box = new G4Box("CopperHousing_box", 22.5*mm, 22.5*mm, 5.6*mm);
+
+  // Make the z-depths all the same as the overall box, that way the offsets will be easy.
+  G4Box * CopperHousing_SmallestVoid = new G4Box("CopperHousing_SmallestVoid", 5.13*mm, 5.23*mm, 5.6*mm);
+  // Offset 0mm
+
+  G4Box * CopperHousing_MediumVoid = new G4Box("CopperHousing_MediumVoid", 7.63*mm, 7.63*mm, 5.6*mm);
+  // Offset 3.3mm
+
+  G4Box * CopperHousing_NextMediumVoid = new G4Box("CopperHousing_NextMediumVoid", 14*mm, 14*mm, 5.6*mm);
+  // Offset 5.4mm
+
+  G4Box * CopperHousing_LargestVoid = new G4Box("CopperHousing_LargestVoid", 16.5*mm, 16.5*mm, 5.6*mm);
+  // Offset 7.9mm
+
+  G4Box * CopperHousing_BottomVoid = new G4Box("CopperHousing_BottomVoid", 18.5*mm, 18.5*mm, 5.6*mm);
+  //Offset -8.9mm
+
+  // Overall offset from bottom surface: 2.3mm
+
+  G4SubtractionSolid * CopperHousing_FirstHole = new G4SubtractionSolid("FirstHole", CopperHousing_box, CopperHousing_SmallestVoid, 0, G4ThreeVector(0.,0.,0.));
+  G4SubtractionSolid * CopperHousing_SecondHole = new G4SubtractionSolid("SecondHole", CopperHousing_FirstHole, CopperHousing_MediumVoid, 0, G4ThreeVector(0.,0.,3.3*mm));
+  G4SubtractionSolid * CopperHousing_ThirdHole = new G4SubtractionSolid("ThirdHole", CopperHousing_SecondHole, CopperHousing_NextMediumVoid, 0, G4ThreeVector(0.,0.,5.4*mm));
+  G4SubtractionSolid * CopperHousing_FourthHole = new G4SubtractionSolid("FourthHole", CopperHousing_ThirdHole, CopperHousing_LargestVoid, 0, G4ThreeVector(0.,0.,7.9*mm));
+  G4SubtractionSolid * CopperHousing_Complete = new G4SubtractionSolid("FifthHole", CopperHousing_FourthHole, CopperHousing_BottomVoid, 0, G4ThreeVector(0.,0.,-8.9*mm));
+
+  G4LogicalVolume * CopperHousing_log = new G4LogicalVolume( CopperHousing_Complete,
+                                                            BACCmaterials->Copper(),
+                                                            "CopperHousing_log"); 
+  CopperHousing_log->SetVisAttributes( BACCmaterials->CopperVis() );
+  BaccDetectorComponent * CopperHousing = new BaccDetectorComponent(0,
+                                                                    G4ThreeVector(0.,0.,0.3*mm),
+                                                                  CopperHousing_log,
+                                                                "CopperHousing_1",
+                                                              logicalVolume,
+                                                            0,0,true);
+
+  // Add a second one to the stack                                                           
+  BaccDetectorComponent * HVeV_si_2 = new BaccDetectorComponent(0,
+                                              G4ThreeVector(0,0,-11.2*mm),
+                                              HVeV_si_log,
+                                              "HVeV_detector_2",
+                                              logicalVolume,
+                                              0,0,true);                                                            
+  BaccDetectorComponent * CopperHousing_2 = new BaccDetectorComponent(0,
+                                                                    G4ThreeVector(0.,0.,-10.9*mm),
+                                                                  CopperHousing_log,
+                                                                "CopperHousing_2",
+                                                              logicalVolume,
+                                                            0,0,true);                                                          
+
 
 
 }
