@@ -50,7 +50,7 @@
 #/Bacc/io/outputDir /usr/workspace/wsb/lenardo1/simulations/TMS_ScherzingerAmBeSpecNeutrons_Conical_CylindricalSource/
 /Bacc/io/outputDir /p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/
 #/Bacc/io/outputDir ./
-/Bacc/io/outputName KTonXe_liquidXe_TwoElectrons_Qbb_over_2__1e4evts_SHORTCUTS_
+/Bacc/io/outputName KTonXe_liquidXe_TwoElectrons_Qbb_over_2__1e4evts_0p1umCuts_
 /Bacc/io/updateFrequency 10000
 
 

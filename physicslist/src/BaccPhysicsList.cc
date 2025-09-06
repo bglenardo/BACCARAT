@@ -75,8 +75,8 @@ BaccPhysicsList::BaccPhysicsList() : G4VModularPhysicsList()
 
 	//	Set default cut values
 
-	defaultCutValue = 0.001*mm;
-	longCutValue = 0.001*mm;
+	defaultCutValue = 0.0001*mm;
+	longCutValue = 0.0001*mm;
 	shortCutValue = 1*nm;
         //longCutValue = 1.*mm;
         //shortCutValue = 1.*mm;

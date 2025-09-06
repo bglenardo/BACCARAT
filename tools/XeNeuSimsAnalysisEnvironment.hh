@@ -1,3 +1,7 @@
+#ifndef XENEU_SIMS_ANALYSIS_ENVIRONMENT_HH
+#define XENEU_SIMS_ANALYSIS_ENVIRONMENT_HH
+
+
 #include "TFile.h"
 #include "TTree.h"
 #include "TChain.h"
@@ -161,3 +165,5 @@ class XeNeuSimsAnalysisEnvironment
    
 
 };
+
+#endif
