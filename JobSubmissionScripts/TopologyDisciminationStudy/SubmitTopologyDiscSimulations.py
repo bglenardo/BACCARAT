@@ -5,12 +5,12 @@ geant4 = "geant4.10.02"
 root = "root_v5.34.03"
 execdir = "/g/g20/lenardo1/Simulations/BACCARAT/"
 
-macro = "/g/g20/lenardo1/Simulations/BACCARAT/KTonXe/Macros/LiquidXe_Gammas_214Bi_energy_pointlike.mac"
+macro = "/g/g20/lenardo1/Simulations/BACCARAT/KTonXe/Macros/LiquidXe_Electrons_Qbb_over_2.mac"
 
-datadir = '/p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/HighStats_20250928/'
-base = "KTonXe_dbd_gamma_study_"
+datadir = '/p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/HighStats_20250928_DBD/'
+base = "KTonXe_dbd_signal_study_"
 
-for num in range(0,53):
+for num in range(0,200):
 	#if num > 0: break
 	basename = base + str(num)
 

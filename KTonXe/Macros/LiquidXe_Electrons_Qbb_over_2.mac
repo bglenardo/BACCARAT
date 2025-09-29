@@ -48,9 +48,9 @@
 
 # Set the output directory
 #/Bacc/io/outputDir /usr/workspace/wsb/lenardo1/simulations/TMS_ScherzingerAmBeSpecNeutrons_Conical_CylindricalSource/
-/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/
+/Bacc/io/outputDir /p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/HighStats_20250928_DBD/
 #/Bacc/io/outputDir ./
-/Bacc/io/outputName KTonXe_liquidXe_TwoElectrons_Qbb_over_2__1e5evts_SHORTCUTS_
+/Bacc/io/outputName KTonXe_liquidXe_TwoElectrons_Qbb_over_2__2p5e4evts_SHORTCUTS_
 /Bacc/io/updateFrequency 10000
 
 
@@ -85,6 +85,6 @@
 /Bacc/physicsList/useOpticalProcesses 0
 
 #/Bacc/beamOn 100000
-/Bacc/beamOn 100000
+/Bacc/beamOn 25000
 
 exit

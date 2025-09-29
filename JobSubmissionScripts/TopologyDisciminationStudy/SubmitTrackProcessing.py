@@ -2,7 +2,7 @@
 
 import os
 
-datadir = '/p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/HighStats_20250928/'
+datadir = '/p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/HighStats_20250928_DBD/'
 
 execdir = "/g/g20/lenardo1/Simulations/BACCARAT/tools/"
 macro = "/g/g20/lenardo1/Simulations/BACCARAT/tools/XeNeuSimpleTrackAnalysisTemplate.C"

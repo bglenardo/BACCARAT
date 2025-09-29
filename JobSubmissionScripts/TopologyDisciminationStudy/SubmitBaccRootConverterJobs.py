@@ -2,7 +2,7 @@
 
 import os
 execdir = "/g/g20/lenardo1/Simulations/BACCARAT/tools"
-datadir = "/p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/HighStats_20250928/"
+datadir = "/p/lustre1/lenardo1/simulations/KTonXe/ElectronGammaPositionDiscrimination/HighStats_20250928_DBD/"
 executable = "/g/g20/lenardo1/Simulations/BACCARAT/tools/BaccRootConverter"
 base = "XeNu_DT_rootified_"
 
