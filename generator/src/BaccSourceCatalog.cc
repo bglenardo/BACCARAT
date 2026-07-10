@@ -53,6 +53,7 @@ Change log
 #include "BaccGeneratorLZbkgNeutrons.hh"
 #include "BaccGeneratorLZbkgGammas.hh"
 #include "BaccGeneratorMUSUN.hh"
+#include "BaccGeneratorbb0n.hh"
 
 //------++++++------++++++------++++++------++++++------++++++------++++++------
 //					BaccSourceCatalog()
@@ -93,6 +94,7 @@ BaccSourceCatalog::BaccSourceCatalog()
     sources.push_back( new BaccGeneratorLZbkgGammas );
 	sources.push_back( new BaccGeneratorG4Decay );
     sources.push_back( new BaccGeneratorMUSUN );
+	sources.push_back( new BaccGeneratorbb0n );
 }
 
 //------++++++------++++++------++++++------++++++------++++++------++++++------

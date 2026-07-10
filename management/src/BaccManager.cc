@@ -1258,6 +1258,17 @@ void BaccManager::SetSource( G4String spec )
 
 
     G4bool volumeFound = false;
+    // Point-source syntax uses an implicit "universe" tag, but many detectors
+    // do not define a component with that name. In that case, attach the
+    // source to the first registered component and keep the explicit position.
+    if( posDefined && volName == "universe" ) {
+        if( (G4int)BaccComponents.size() > 0 ) {
+            G4cout << "  Point-source requested without volume; attaching to "
+                   << "component \"" << BaccComponents[0]->GetName()
+                   << "\" with fixed position " << posSource << G4endl;
+            volName = BaccComponents[0]->GetName();
+        }
+    }
     // the following variable is identical to activity, 
     // but allows for the case of multiply named
     // volumes set with activity-per-mass to be scale
