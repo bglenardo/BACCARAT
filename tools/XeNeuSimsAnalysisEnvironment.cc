@@ -513,13 +513,20 @@ int XeNeuSimsAnalysisEnvironment::SimpleReduceSteps( string outfilename ){
     vector<double> stepY;
     vector<double> stepZ;
     vector<double> stepEnergy_keV;
+    vector<double> particleEnergy_keV;
     vector<double> stepTime_ns;
+    vector<int> trackID;
+    vector<int> parentID;
 
     data->Branch("stepX",&stepX);
     data->Branch("stepY",&stepY);
     data->Branch("stepZ",&stepZ);
     data->Branch("stepEnergy_keV",&stepEnergy_keV);
+    data->Branch("particleEnergy_keV",&particleEnergy_keV);
     data->Branch("stepTime_ns",&stepTime_ns);
+    data->Branch("trackID",&trackID);
+    data->Branch("parentID",&parentID);
+
 
     for( int chidx =0; chidx < (int)eventsChainVec.size(); chidx++ ){
        
@@ -529,9 +536,11 @@ int XeNeuSimsAnalysisEnvironment::SimpleReduceSteps( string outfilename ){
             stepX.clear();
             stepY.clear();
             stepZ.clear();
-            stepEnergy_keV.clear();       
+            stepEnergy_keV.clear();
+            particleEnergy_keV.clear();       
             stepTime_ns.clear(); 
-
+            trackID.clear();
+            parentID.clear();
             //for(int i=0; i<10; i++) { 
             if( i % 10000 == 0 ) printf("i = %d\n",i);
             eventsChain->GetEntry(i);
@@ -546,7 +555,10 @@ int XeNeuSimsAnalysisEnvironment::SimpleReduceSteps( string outfilename ){
                     stepY.push_back(steps[st].dPosition_mm[1]);
                     stepZ.push_back(steps[st].dPosition_mm[2]);
                     stepEnergy_keV.push_back(steps[st].dEnergyDep_keV);
+                    particleEnergy_keV.push_back(steps[st].dParticleEnergy_keV);
                     stepTime_ns.push_back(steps[st].dTime_ns);
+                    trackID.push_back(tracks[tr].iTrackID);
+                    parentID.push_back(tracks[tr].iParentID);
                 }
             }
             data->Fill();
